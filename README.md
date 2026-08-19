@@ -46,6 +46,7 @@ npm run build
 npm run db:verify
 npm run db:backup
 npm run db:restore -- backups\<backup-file>.sqlite
+npm run ai:verify
 npm run https:setup
 ```
 

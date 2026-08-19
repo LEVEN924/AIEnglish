@@ -13,6 +13,7 @@
     "db:verify": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs verify",
     "db:backup": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs backup",
     "db:restore": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs restore",
+    "ai:verify": "node scripts/verify-deepseek.mjs",
     "https:setup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local-https.ps1",
     "content:generate": "node scripts/crawl-vital-content.mjs",
     "content:generate:seed": "node scripts/expand-content.mjs",

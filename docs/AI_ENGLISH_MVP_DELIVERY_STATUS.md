@@ -27,7 +27,7 @@ AIEnglish 1.0 已按照产品与 UI 方案完成连续开发并实际运行。�
 | 内容质量流水线 | 完成 | 1000/1000 通过字段、长度、去重、来源和分级校验 |
 | 跨电脑/手机保存进度 | 完成 | 服务端 SQLite 为运行时主库，不依赖浏览器 localStorage |
 | 真实作答与反馈 | 完成 | 每次提交保存版本、分项量表、评分器与改进建议 |
-| AI 能力与稳定降级 | 完成代码；待密钥实调 | 默认 DeepSeek V4 Flash JSON 批改；浏览器转写/TTS 和本地量表作为降级 |
+| AI 能力与稳定降级 | 完成并实调 | DeepSeek V4 Flash JSON 批改真实调用通过；浏览器转写/TTS 和本地量表作为降级 |
 | 复习闭环 | 完成 | 低分生成错题，主动回忆后按 1/3/7 天推进，3 次掌握归档 |
 | 生词与周报 | 完成 | 课程词汇一键收藏；七日课程/复习统计写入并读取数据库 |
 | 安全与运维 | 完成 | 登录限速、同源校验、CSP、HttpOnly 会话、迁移、完整性检查、备份恢复 |
@@ -106,7 +106,7 @@ DEEPSEEK_BASE_URL=https://api.deepseek.com
 - 服务端对返回 JSON 再做量表字段、分数范围、维度标签和权重校验。
 - 录音优先使用浏览器 Speech Recognition；朗读使用 Web Speech TTS；不可用时保留手动文本。
 
-DeepSeek 密钥未填写时，应用自动回退到本地可解释量表，不中断学习。文本转写和量表不能替代真正的音素级声学发音评测；若需要音素、重音和时间段定位，仍需另外配置支持该能力的外部服务。
+DeepSeek V4 Flash 已完成真实计费调用验收，返回结构化五维评分。密钥缺失或接口异常时，应用自动回退到本地可解释量表，不中断学习。文本转写和量表不能替代真正的音素级声学发音评测；若需要音素、重音和时间段定位，仍需另外配置支持该能力的外部服务。
 
 ## 6. 一键运行、手机和 HTTPS
 
@@ -131,6 +131,7 @@ DeepSeek 密钥未填写时，应用自动回退到本地可解释量表，不�
 npm run db:verify
 npm run db:backup
 npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
+npm run ai:verify
 ```
 
 - 当前 schema version：3。
@@ -149,6 +150,7 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 | `npm test` | API 集成测试通过 |
 | `npm run test:ui` | 桌面与手机 Edge/Playwright 测试通过 |
 | `npm run build` | TypeScript 与 Vite 生产构建通过 |
+| `npm run ai:verify` | DeepSeek V4 Flash 真实结构化批改通过，5 个评分维度 |
 | 横向溢出、框架错误层、console error | 桌面和手机均无 |
 | 一键关闭/启动、HTTP 健康检查 | 实际执行通过 |
 | HTTPS 证书生成、4174 监听 | 实际执行并验证 |
@@ -157,10 +159,9 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 
 ## 9. 当前问题与外部依赖
 
-1. `DEEPSEEK_API_KEY` 仍需在被 Git 忽略的 `.env.local` 中填写，之后才能完成真实计费调用验收。
-2. 未配置音素级发音评测供应商；系统明确标注当前口语为转写文本和节奏线索评分，不声称听到了发音。
-3. 本地 CA 不能远程替用户修改手机信任设置；需要在真实手机上手动安装证书并最终验收麦克风和“添加到主屏幕”。
-4. 内容抓取结果保留原始 URL、来源说明和许可元数据。个人使用也建议保留这些记录，并在来源变化时重新检查。
+1. 未配置音素级发音评测供应商；系统明确标注当前口语为转写文本和节奏线索评分，不声称听到了发音。
+2. 本地 CA 不能远程替用户修改手机信任设置；需要在真实手机上手动安装证书并最终验收麦克风和“添加到主屏幕”。
+3. 内容抓取结果保留原始 URL、来源说明和许可元数据。个人使用也建议保留这些记录，并在来源变化时重新检查。
 
 以上均为外部凭据或设备操作，不阻塞当前本地 1.0 的使用。
 
@@ -169,7 +170,7 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 - 每周运行一次 `content:refresh`，对失败来源复查并重采集。
 - 每次结构变更新增迁移，不直接手工改运行数据库。
 - 每次发布执行内容校验、API 测试、UI 测试、生产构建和恢复演练。
-- 配置 API 密钥后补跑真实 DeepSeek 文本批改验收，并记录模型与费用。
+- 更换 DeepSeek 密钥或模型后运行 `npm run ai:verify`，确认没有回退本地量表。
 - 若需要音素级发音反馈，选定供应商后接入 `pronunciation_assessments`，保留当前诚实降级路径。
 - 在实际手机安装本地 CA、测试麦克风、PWA 安装和网络切换。
 
@@ -186,6 +187,7 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 | `scripts/content-pipeline.mjs` | 内容结构、质量、重复和来源校验 |
 | `scripts/database-maintenance.mjs` | 验证、在线备份和恢复 |
 | `scripts/setup-local-https.ps1` | 本地 CA 与局域网 SAN 证书生成 |
+| `scripts/verify-deepseek.mjs` | 不输出密钥的 DeepSeek 真实调用验收 |
 | `src/App.tsx` | 档案馆学习 UI、生词本、复习和周报 |
 | `tests/api.test.mjs` | 数据库、认证、安全、音频降级、评分、复习 API 测试 |
 | `tests/ui.test.mjs` | 桌面与手机端交互和视觉烟雾测试 |
