@@ -7,6 +7,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const catalogPath = join(root, 'content', 'lessons.json')
 const reportPath = join(root, 'content', 'ingestion-report.json')
 const shouldFetch = process.argv.includes('--fetch')
+const quiet = process.argv.includes('--quiet')
 const catalog = JSON.parse(await readFile(catalogPath, 'utf8'))
 
 function wordCount(text) {
@@ -105,14 +106,13 @@ if (shouldFetch) {
 }
 
 console.log(`Validated ${report.currentSize}/${report.targetSize} lessons.`)
-for (const lesson of lessons) {
-  console.log(`${lesson.errors.length ? 'FAIL' : 'PASS'} ${lesson.id} (${lesson.words} words)`)
-}
+if (!quiet) for (const lesson of lessons) console.log(`${lesson.errors.length ? 'FAIL' : 'PASS'} ${lesson.id} (${lesson.words} words)`)
 if (shouldFetch) {
-  for (const check of report.sourceChecks) {
+  for (const check of report.sourceChecks.filter((item) => !quiet || !item.ok)) {
     console.log(`${check.ok ? 'PASS' : 'FAIL'} ${check.url}${check.status ? ` [${check.status}]` : ''}`)
   }
 }
+console.log(`Result: ${lessons.filter((lesson) => lesson.errors.length === 0).length}/${lessons.length} lesson records passed; ${errors.length} validation errors.`)
 
 if (!report.passed) {
   for (const error of report.errors) console.error(error)

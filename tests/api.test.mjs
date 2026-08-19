@@ -80,6 +80,7 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
       APP_PASSWORD_SALT: salt.toString('hex'),
       APP_PASSWORD_HASH: passwordHash.toString('hex'),
       COOKIE_SECURE: 'false',
+      HTTPS_ENABLED: 'false',
       AI_ENGLISH_DB_PATH: join(root, '.runtime', `api-test-${port}.sqlite`),
     },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -94,7 +95,7 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
 
   const healthResponse = await fetch(`${baseUrl}/api/health`)
   assert.equal(healthResponse.status, 200)
-  assert.deepEqual(await healthResponse.json(), { ok: true, mode: 'production' })
+  assert.deepEqual(await healthResponse.json(), { ok: true, mode: 'production', schemaVersion: 3 })
 
   const anonymousSession = await fetch(`${baseUrl}/api/session`)
   assert.equal(anonymousSession.status, 200)
@@ -131,11 +132,38 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
   assert.equal(bootstrapResponse.status, 200)
   const bootstrap = await bootstrapResponse.json()
   assert.equal(bootstrap.database.engine, 'SQLite')
-  assert.equal(bootstrap.database.lessonCount, 50)
-  assert.equal(bootstrap.lessons.length, 50)
+  assert.equal(bootstrap.database.lessonCount, 1000)
+  assert.equal(bootstrap.lessons.length, 1000)
+  assert.deepEqual(
+    Object.fromEntries(['L1', 'L2', 'L3'].map((level) => [level, bootstrap.lessons.filter((lesson) => lesson.difficulty.level === level).length])),
+    { L1: 350, L2: 400, L3: 250 },
+  )
+  assert.equal(bootstrap.vocabularyBook.length, 0)
+  assert.equal(bootstrap.weeklyReport.completedLessons, 0)
   assert.deepEqual(new Set(bootstrap.lessons.map((lesson) => lesson.difficulty.level)), new Set(['L1', 'L2', 'L3']))
 
   const lesson = bootstrap.lessons[0]
+  const vocabularyResponse = await fetch(`${baseUrl}/api/vocabulary/toggle`, {
+    method: 'POST',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lessonId: lesson.id, term: lesson.vocabulary[0].term }),
+  })
+  assert.equal(vocabularyResponse.status, 200)
+  const vocabulary = await vocabularyResponse.json()
+  assert.equal(vocabulary.saved, true)
+  assert.equal(vocabulary.vocabularyBook.length, 1)
+
+  const capabilitiesResponse = await fetch(`${baseUrl}/api/capabilities`, { headers: { Cookie: cookie } })
+  const capabilities = await capabilitiesResponse.json()
+  assert.equal(capabilities.cloudTranscription, false)
+  assert.equal(capabilities.aiGrading, false)
+
+  const unavailableTranscription = await fetch(`${baseUrl}/api/audio/transcribe`, {
+    method: 'POST',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ dataUrl: 'data:audio/webm;base64,AA==' }),
+  })
+  assert.equal(unavailableTranscription.status, 503)
   const translationResponse = await fetch(`${baseUrl}/api/grade/translation`, {
     method: 'POST',
     headers: { Cookie: cookie, 'Content-Type': 'application/json' },
@@ -187,20 +215,26 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
   const reviewBootstrap = await reviewBootstrapResponse.json()
   assert.equal(reviewBootstrap.reviewItems.length, 1)
   assert.ok(reviewBootstrap.reviewItems[0].reviewTaskId)
-  const reviewResponse = await fetch(`${baseUrl}/api/review/${reviewBootstrap.reviewItems[0].reviewTaskId}/complete`, {
-    method: 'POST',
-    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
-    body: '{}',
-  })
-  assert.equal(reviewResponse.status, 200)
-  assert.deepEqual(await reviewResponse.json(), { ok: true })
+  for (let mastery = 1; mastery <= 3; mastery += 1) {
+    const nextBootstrap = await fetch(`${baseUrl}/api/bootstrap`, { headers: { Cookie: cookie } }).then((response) => response.json())
+    const currentReview = nextBootstrap.reviewItems[0]
+    const reviewResponse = await fetch(`${baseUrl}/api/review/${currentReview.reviewTaskId}/attempt`, {
+      method: 'POST',
+      headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answer: currentReview.correction }),
+    })
+    assert.equal(reviewResponse.status, 200)
+    const result = await reviewResponse.json()
+    assert.equal(result.correct, true)
+    assert.equal(result.mastery, mastery)
+  }
   const completedReviewBootstrap = await fetch(`${baseUrl}/api/bootstrap`, { headers: { Cookie: cookie } }).then((response) => response.json())
   assert.equal(completedReviewBootstrap.reviewItems.length, 0)
 
   const statsResponse = await fetch(`${baseUrl}/api/content/stats`, { headers: { Cookie: cookie } })
   const stats = await statsResponse.json()
-  assert.equal(stats.lessons, 50)
-  assert.equal(stats.sources, 50)
+  assert.equal(stats.lessons, 1000)
+  assert.equal(stats.sources, 1000)
   assert.equal(stats.submissions, 2)
 
   const logoutResponse = await fetch(`${baseUrl}/api/logout`, {

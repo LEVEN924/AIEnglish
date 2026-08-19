@@ -11,6 +11,9 @@ $pidFile = Join-Path $runtimeDir 'ai-english.pid'
 $stdoutLog = Join-Path $runtimeDir 'server.out.log'
 $stderrLog = Join-Path $runtimeDir 'server.err.log'
 $serverEntry = Join-Path $projectRoot 'server\app.mjs'
+$databasePath = Join-Path $projectRoot 'data\ai-english.sqlite'
+$databaseMaintenance = Join-Path $projectRoot 'scripts\database-maintenance.mjs'
+$httpsCertificate = Join-Path $runtimeDir 'https\server-cert.pem'
 $vitePackage = Join-Path $projectRoot 'node_modules\vite\package.json'
 $appUrl = 'http://127.0.0.1:4173/'
 $healthUrl = 'http://127.0.0.1:4173/api/health'
@@ -77,6 +80,9 @@ function Get-LanAppUrls {
 
 function Write-AccessUrls {
     Write-Host "Desktop: $appUrl" -ForegroundColor Cyan
+    if (Test-Path -LiteralPath $httpsCertificate -PathType Leaf) {
+        Write-Host 'Desktop secure: https://127.0.0.1:4174/' -ForegroundColor Cyan
+    }
     $lanUrls = @(Get-LanAppUrls)
     if ($lanUrls.Count -eq 0) {
         Write-Host 'No LAN address detected. Connect the computer to Wi-Fi before mobile access.' -ForegroundColor Yellow
@@ -85,6 +91,10 @@ function Write-AccessUrls {
 
     foreach ($lanUrl in $lanUrls) {
         Write-Host "Mobile: $lanUrl (same Wi-Fi required)" -ForegroundColor Cyan
+        if (Test-Path -LiteralPath $httpsCertificate -PathType Leaf) {
+            $secureLanUrl = $lanUrl.Replace('http://', 'https://').Replace(':4173/', ':4174/')
+            Write-Host "Mobile secure: $secureLanUrl (install the local root certificate first)" -ForegroundColor Cyan
+        }
     }
 }
 
@@ -117,6 +127,14 @@ if ($null -eq $nodeCommand) {
 $npmCommand = Get-Command npm.cmd -ErrorAction SilentlyContinue
 if ($null -eq $npmCommand) {
     Write-Error 'npm was not found. Reinstall Node.js with npm enabled.'
+}
+
+if (Test-Path -LiteralPath $databasePath -PathType Leaf) {
+    Write-Host 'Creating a verified database backup...' -ForegroundColor DarkCyan
+    & $nodeCommand.Source '--disable-warning=ExperimentalWarning' $databaseMaintenance backup
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error 'Database backup failed. Startup was stopped to protect learning data.'
+    }
 }
 
 Write-Host 'Building the production application...' -ForegroundColor DarkCyan

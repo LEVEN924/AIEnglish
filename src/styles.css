@@ -9,6 +9,47 @@
   img, svg { display: block; }
 }
 
+@layer feature-completion {
+  .vocabulary-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .vocabulary-heading button { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); background: transparent; color: var(--wine); }
+  .transcription-status { margin: 0; padding: 9px 11px; border-left: 2px solid var(--gold); background: rgb(184 137 58 / 8%); color: var(--muted); font-family: var(--sans); font-size: 11px; line-height: 1.55; }
+  .review-tabs { display: flex; gap: 8px; margin-bottom: 22px; border-bottom: 1px solid var(--line-dark); }
+  .review-tabs button { padding: 11px 15px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); font-family: var(--sans); font-size: 12px; }
+  .review-tabs button.active { border-bottom-color: var(--wine); color: var(--ink); }
+  .review-answer { grid-column: 1 / -1; display: grid; gap: 7px; }
+  .review-answer span { color: var(--muted); font-family: var(--sans); font-size: 10px; }
+  .review-answer textarea { width: 100%; padding: 10px; border: 1px solid var(--line-dark); background: var(--paper-light); resize: vertical; }
+  .review-result { grid-column: 1 / -1; padding: 12px; border-left: 3px solid var(--green); background: rgb(35 83 67 / 7%); }
+  .review-result.retry { border-left-color: var(--wine); background: rgb(135 42 45 / 7%); }
+  .review-result p { margin: 6px 0 !important; }
+  .vocabulary-ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .vocabulary-ledger article { display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; padding: 16px; border: 1px solid var(--line-dark); background: rgb(250 247 239 / 55%); }
+  .vocabulary-ledger article div { display: grid; gap: 3px; }
+  .vocabulary-ledger span, .vocabulary-ledger small { color: var(--muted); font-family: var(--sans); font-size: 10px; }
+  .vocabulary-ledger p { margin: 4px 0 0; font-size: 12px; }
+  .weekly-report { padding: 24px; border: 3px double var(--line-dark); background: rgb(250 247 239 / 55%); }
+  .weekly-report > header { display: flex; flex-direction: column; gap: 6px; }
+  .weekly-report > header span { color: var(--muted); font-family: var(--sans); font-size: 10px; letter-spacing: .08em; }
+  .weekly-report > header strong { font-size: 25px; font-weight: 500; }
+  .weekly-report dl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 22px 0; background: var(--line); }
+  .weekly-report dl div { padding: 16px; background: var(--paper-light); }
+  .weekly-report dt { color: var(--muted); font-size: 11px; }
+  .weekly-report dd { margin: 7px 0 0; font-size: 26px; }
+  .weekly-days { height: 160px; display: flex; align-items: end; gap: 14px; padding: 18px; border-top: 1px solid var(--line); }
+  .weekly-days div { height: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: end; gap: 5px; }
+  .weekly-days i { width: min(38px, 70%); min-height: 8px; background: var(--green); }
+  .weekly-days span, .weekly-days strong { font-family: var(--sans); font-size: 9px; }
+}
+
+@media (max-width: 639px) {
+  .review-tabs { overflow-x: auto; }
+  .review-tabs button { flex: 0 0 auto; }
+  .vocabulary-ledger { grid-template-columns: 1fr; }
+  .weekly-report { padding: 16px; }
+  .weekly-report dl { grid-template-columns: repeat(2, 1fr); }
+  .weekly-days { gap: 6px; padding-inline: 4px; }
+}
+
 @layer tokens {
   :root {
     color-scheme: light;

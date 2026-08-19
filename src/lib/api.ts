@@ -1,4 +1,4 @@
-import type { BootstrapData, GradingFeedback, LearningProfile, LearningState, Session } from '../types'
+import type { AppCapabilities, BootstrapData, GradingFeedback, LearningProfile, LearningState, SavedVocabulary, Session, WeeklyReport } from '../types'
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
@@ -50,11 +50,41 @@ export function gradeAnswer(
   type: 'translation' | 'speaking' | 'writing',
   lessonId: string,
   answer: string,
+  audioMetadata?: Record<string, unknown>,
 ): Promise<GradingFeedback & { score: number; correct: boolean }> {
   return request(`/api/grade/${type}`, {
     method: 'POST',
-    body: JSON.stringify({ lessonId, answer }),
+    body: JSON.stringify({ lessonId, answer, audioMetadata }),
   })
+}
+
+export function getCapabilities(): Promise<AppCapabilities> {
+  return request<AppCapabilities>('/api/capabilities')
+}
+
+export function transcribeRecording(dataUrl: string): Promise<{ transcript: string; provider: string; model: string }> {
+  return request('/api/audio/transcribe', {
+    method: 'POST',
+    body: JSON.stringify({ dataUrl, language: 'en' }),
+  })
+}
+
+export function toggleVocabulary(lessonId: string, term: string): Promise<{ saved: boolean; vocabularyBook: SavedVocabulary[] }> {
+  return request('/api/vocabulary/toggle', {
+    method: 'POST',
+    body: JSON.stringify({ lessonId, term }),
+  })
+}
+
+export function attemptReview(reviewTaskId: number, answer: string): Promise<{ correct: boolean; score: number; mastery: number; nextDueAt: string | null; reference: string }> {
+  return request(`/api/review/${reviewTaskId}/attempt`, {
+    method: 'POST',
+    body: JSON.stringify({ answer }),
+  })
+}
+
+export function getWeeklyReport(): Promise<WeeklyReport> {
+  return request<WeeklyReport>('/api/report/weekly')
 }
 
 export function completeReview(reviewTaskId: number): Promise<{ ok: boolean }> {

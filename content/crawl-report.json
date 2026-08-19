@@ -1,0 +1,96 @@
+{
+  "generatedAt": "2026-08-19T07:01:19.886Z",
+  "selection": "Wikipedia community-curated Level-4 vital articles by topic",
+  "license": "CC BY-SA; attribution and source revision retained per lesson",
+  "existingLessons": 50,
+  "crawledLessons": 950,
+  "totalLessons": 1000,
+  "levels": {
+    "L1": 350,
+    "L2": 400,
+    "L3": 250
+  },
+  "categories": [
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Arts",
+      "topic": "文化与艺术",
+      "quota": 87,
+      "candidatePages": 499,
+      "accepted": 87
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Biology and health sciences",
+      "topic": "健康与生命",
+      "quota": 87,
+      "candidatePages": 500,
+      "accepted": 87
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Everyday life",
+      "topic": "日常与生活",
+      "quota": 87,
+      "candidatePages": 424,
+      "accepted": 87
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Geography",
+      "topic": "地理与旅行",
+      "quota": 87,
+      "candidatePages": 500,
+      "accepted": 87
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in History",
+      "topic": "历史与文明",
+      "quota": 86,
+      "candidatePages": 500,
+      "accepted": 86
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Mathematics",
+      "topic": "数学与逻辑",
+      "quota": 86,
+      "candidatePages": 256,
+      "accepted": 86
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in People",
+      "topic": "人物与社会",
+      "quota": 86,
+      "candidatePages": 500,
+      "accepted": 86
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Philosophy and religion",
+      "topic": "思想与文化",
+      "quota": 86,
+      "candidatePages": 388,
+      "accepted": 86
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Physical sciences",
+      "topic": "科学与自然",
+      "quota": 86,
+      "candidatePages": 500,
+      "accepted": 86
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Society and social sciences",
+      "topic": "社会与世界",
+      "quota": 86,
+      "candidatePages": 500,
+      "accepted": 86
+    },
+    {
+      "category": "Category:Wikipedia level-4 vital articles in Technology",
+      "topic": "科技与未来",
+      "quota": 86,
+      "candidatePages": 500,
+      "accepted": 86
+    }
+  ],
+  "wordRange": {
+    "minimum": 120,
+    "maximum": 179
+  }
+}

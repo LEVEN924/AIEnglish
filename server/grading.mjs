@@ -113,7 +113,7 @@ function gradeWritingLocally(lesson, answer) {
   }
 }
 
-function gradeSpeakingLocally(lesson, transcript) {
+function gradeSpeakingLocally(lesson, transcript, audioMetadata = null) {
   const normalized = normalizeEnglish(transcript)
   const words = normalized.split(' ').filter(Boolean)
   const promptKeywords = normalizeEnglish(`${lesson.speakingPrompt} ${lesson.keyIdeaZh}`)
@@ -125,12 +125,15 @@ function gradeSpeakingLocally(lesson, transcript) {
   const diversity = words.length ? new Set(words).size / words.length : 0
   const fillerCount = words.filter((word) => ['um', 'uh', 'like', 'actually'].includes(word)).length
   const fillerRatio = words.length ? fillerCount / words.length : 1
-  const pronunciation = round(clamp(4.5 + keywordCoverage * 4 + lengthScore, 0, 10), 1)
-  const fluency = round(clamp(3.8 + lengthScore * 4.5 + (1 - fillerRatio) * 1.2, 0, 10), 1)
-  const intonation = round(clamp(4.8 + lengthScore * 3.2, 0, 10), 1)
+  const durationSeconds = Math.max(0, Number(audioMetadata?.durationSeconds) || 0)
+  const wordsPerMinute = durationSeconds ? words.length / durationSeconds * 60 : 0
+  const paceFit = wordsPerMinute ? clamp(1 - Math.abs(wordsPerMinute - 125) / 125, 0, 1) : lengthScore
+  const content = round(clamp(4.5 + keywordCoverage * 4 + lengthScore, 0, 10), 1)
+  const fluency = round(clamp(3.8 + lengthScore * 3.5 + paceFit * 1.2 + (1 - fillerRatio) * 1.2, 0, 10), 1)
+  const structure = round(clamp(4.8 + lengthScore * 3.2, 0, 10), 1)
   const grammar = round(clamp(4.2 + diversity * 3 + lengthScore * 1.5, 0, 10), 1)
   const vocabulary = round(clamp(4 + diversity * 4 + keywordCoverage * 1.5, 0, 10), 1)
-  const score = round(pronunciation * 0.3 + fluency * 0.25 + intonation * 0.15 + grammar * 0.15 + vocabulary * 0.15, 1)
+  const score = round(content * 0.3 + fluency * 0.25 + structure * 0.15 + grammar * 0.15 + vocabulary * 0.15, 1)
   return {
     score,
     correct: score >= 6,
@@ -138,15 +141,17 @@ function gradeSpeakingLocally(lesson, transcript) {
     strengths: [words.length >= 20 ? '回答具有可评估的完整长度。' : '已经开始围绕题目组织表达。'],
     improvements: words.length < 20 ? ['至少说出 3–4 个完整句子，并加入一个理由或例子。'] : ['减少填充词，用连接词组织观点。'],
     dimensions: [
-      { label: '内容与发音线索', score: pronunciation, weight: 30 },
+      { label: '内容覆盖', score: content, weight: 30 },
       { label: '流利度和停顿', score: fluency, weight: 25 },
-      { label: '重音与语调', score: intonation, weight: 15 },
+      { label: '表达结构', score: structure, weight: 15 },
       { label: '语法准确度', score: grammar, weight: 15 },
       { label: '词汇与表达', score: vocabulary, weight: 15 },
     ],
     reference: lesson.speakingPrompt,
     graderType: 'local',
     modelVersion: 'local-rubric-2',
+    acousticAssessment: false,
+    ...(wordsPerMinute ? { wordsPerMinute: round(wordsPerMinute) } : {}),
   }
 }
 
@@ -205,7 +210,7 @@ async function gradeWithOpenAI(type, lesson, answer, localResult) {
   return { ...result, graderType: 'openai', modelVersion: model }
 }
 
-export async function gradeSubmission(type, lesson, answer) {
+export async function gradeSubmission(type, lesson, answer, audioMetadata = null) {
   const value = String(answer ?? '').trim()
   if (!value) throw new Error('请先填写或生成可评分的答案')
   if (value.length > 8_000) throw new Error('答案过长，请精简后再提交')
@@ -213,7 +218,7 @@ export async function gradeSubmission(type, lesson, answer) {
     ? gradeTranslationLocally(lesson, value)
     : type === 'writing'
       ? gradeWritingLocally(lesson, value)
-      : gradeSpeakingLocally(lesson, value)
+      : gradeSpeakingLocally(lesson, value, audioMetadata)
   try {
     return await gradeWithOpenAI(type, lesson, value, localResult) ?? localResult
   } catch (error) {

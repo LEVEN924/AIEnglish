@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
+import { runMigrations } from './migrations.mjs'
 
 const STEP_IDS = new Set(['guide', 'listening', 'translation', 'speaking', 'writing', 'summary'])
 
@@ -23,6 +24,27 @@ function parseJson(value, fallback) {
 
 function toBoolean(value) {
   return value === true || value === 1
+}
+
+function normalizedTokens(value) {
+  return String(value ?? '').toLowerCase().replace(/[^a-z0-9'\s]/gu, ' ').split(/\s+/u).filter(Boolean)
+}
+
+function answerSimilarity(left, right) {
+  const a = normalizedTokens(left)
+  const b = normalizedTokens(right)
+  if (!a.length || !b.length) return 0
+  const counts = new Map()
+  for (const token of b) counts.set(token, (counts.get(token) ?? 0) + 1)
+  let matches = 0
+  for (const token of a) {
+    const remaining = counts.get(token) ?? 0
+    if (remaining > 0) {
+      matches += 1
+      counts.set(token, remaining - 1)
+    }
+  }
+  return (2 * matches) / (a.length + b.length)
 }
 
 function defaultRecord(timestamp = isoNow()) {
@@ -265,7 +287,7 @@ function createSchema(database) {
 
   database.prepare(`
     INSERT INTO app_metadata(key, value) VALUES('schema_version', '1')
-    ON CONFLICT(key) DO UPDATE SET value = excluded.value
+    ON CONFLICT(key) DO NOTHING
   `).run()
 }
 
@@ -408,6 +430,7 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
   mkdirSync(dirname(databasePath), { recursive: true })
   const database = new DatabaseSync(databasePath)
   createSchema(database)
+  runMigrations(database)
   seedLessons(database, catalog)
 
   if (configuredUser && configuredSalt && configuredHash) {
@@ -646,8 +669,13 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
       FROM error_items
       JOIN lesson_segments ON lesson_segments.id = error_items.lesson_id
       LEFT JOIN review_tasks ON review_tasks.error_item_id = error_items.id AND review_tasks.completed_at IS NULL
-      WHERE error_items.user_id = ? AND error_items.mastery = 0
+      WHERE error_items.user_id = ? AND error_items.mastery < 3
       ORDER BY COALESCE(review_tasks.due_at, error_items.created_at), error_items.id DESC
+    `).all(userId)
+    const vocabularyBook = database.prepare(`
+      SELECT lesson_id AS lessonId, term, ipa, part, meaning, example, mastery,
+        review_due_at AS reviewDueAt, created_at AS createdAt
+      FROM vocabulary_book WHERE user_id = ? ORDER BY updated_at DESC
     `).all(userId)
     return {
       lessons: getLessons(),
@@ -660,10 +688,90 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
         reminderTime: profile.reminder_time,
       } : null,
       reviewItems,
+      vocabularyBook,
+      weeklyReport: getWeeklyReport(userId),
       database: {
         engine: 'SQLite',
         lessonCount: database.prepare('SELECT COUNT(*) AS count FROM lesson_segments WHERE active = 1').get().count,
       },
+    }
+  }
+
+  function toggleVocabulary(userId, lessonId, term) {
+    const lessonRow = database.prepare('SELECT lesson_json AS lessonJson FROM lesson_segments WHERE id = ? AND active = 1').get(lessonId)
+    if (!lessonRow) throw new Error('Lesson not found')
+    const lesson = JSON.parse(lessonRow.lessonJson)
+    const item = lesson.vocabulary.find((candidate) => candidate.term.toLowerCase() === String(term).toLowerCase())
+    if (!item) throw new Error('Vocabulary item not found')
+    const existing = database.prepare(`
+      SELECT 1 FROM vocabulary_book WHERE user_id = ? AND lesson_id = ? AND term = ? COLLATE NOCASE
+    `).get(userId, lessonId, item.term)
+    if (existing) {
+      database.prepare(`DELETE FROM vocabulary_book WHERE user_id = ? AND lesson_id = ? AND term = ? COLLATE NOCASE`).run(userId, lessonId, item.term)
+    } else {
+      const now = isoNow()
+      database.prepare(`
+        INSERT INTO vocabulary_book(user_id, lesson_id, term, ipa, part, meaning, example, review_due_at, created_at, updated_at)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(userId, lessonId, item.term, item.ipa, item.part, item.meaning, item.example ?? null, now, now, now)
+    }
+    return { saved: !existing, vocabularyBook: getBootstrap(userId).vocabularyBook }
+  }
+
+  function attemptReview(userId, reviewId, answer) {
+    const task = database.prepare(`
+      SELECT review_tasks.id, review_tasks.error_item_id AS errorItemId,
+        error_items.correction, error_items.mastery
+      FROM review_tasks JOIN error_items ON error_items.id = review_tasks.error_item_id
+      WHERE review_tasks.id = ? AND review_tasks.user_id = ? AND review_tasks.completed_at IS NULL
+    `).get(reviewId, userId)
+    if (!task) throw new Error('Review task not found')
+    const value = String(answer ?? '').trim()
+    if (!value) throw new Error('请先写下复习答案')
+    const score = Math.round(Math.min(100, answerSimilarity(value, task.correction) * 112))
+    const correct = score >= 72
+    const now = isoNow()
+    return withTransaction(database, () => {
+      database.prepare(`
+        INSERT INTO review_attempts(review_task_id, user_id, answer_text, correct, score, created_at)
+        VALUES(?, ?, ?, ?, ?, ?)
+      `).run(task.id, userId, value, correct ? 1 : 0, score, now)
+      database.prepare(`UPDATE review_tasks SET completed_at = ?, result = ? WHERE id = ?`).run(now, correct ? 'correct' : 'retry', task.id)
+      const mastery = correct ? Math.min(3, Number(task.mastery) + 1) : Math.max(0, Number(task.mastery) - 1)
+      database.prepare('UPDATE error_items SET mastery = ?, updated_at = ? WHERE id = ?').run(mastery, now, task.errorItemId)
+      let nextDueAt = null
+      if (mastery < 3) {
+        const intervals = [1, 3, 7]
+        const intervalDays = correct ? intervals[Math.min(mastery, intervals.length - 1)] : 1
+        nextDueAt = new Date(Date.now() + intervalDays * 86_400_000).toISOString()
+        database.prepare(`
+          INSERT INTO review_tasks(user_id, error_item_id, interval_days, due_at, created_at)
+          VALUES(?, ?, ?, ?, ?)
+        `).run(userId, task.errorItemId, intervalDays, nextDueAt, now)
+      }
+      return { correct, score, mastery, nextDueAt, reference: task.correction }
+    })
+  }
+
+  function getWeeklyReport(userId) {
+    const since = new Date(Date.now() - 6 * 86_400_000).toISOString().slice(0, 10)
+    const days = database.prepare(`
+      SELECT learning_date AS learningDate, total_score AS totalScore,
+        translation_score AS translationScore, speaking_score AS speakingScore, writing_score AS writingScore
+      FROM daily_summaries WHERE user_id = ? AND learning_date >= ? ORDER BY learning_date
+    `).all(userId, since)
+    const attempts = database.prepare(`
+      SELECT COUNT(*) AS count, COALESCE(AVG(score), 0) AS averageScore
+      FROM review_attempts WHERE user_id = ? AND created_at >= ?
+    `).get(userId, `${since}T00:00:00.000Z`)
+    return {
+      periodStart: since,
+      periodEnd: isoNow().slice(0, 10),
+      completedLessons: days.length,
+      averageScore: days.length ? Math.round(days.reduce((sum, day) => sum + day.totalScore, 0) / days.length) : 0,
+      reviewAttempts: Number(attempts.count),
+      reviewAverage: Math.round(Number(attempts.averageScore)),
+      days,
     }
   }
 
@@ -687,7 +795,7 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
     return getBootstrap(userId).profile
   }
 
-  function recordGrading(userId, lessonId, stepType, answer, result) {
+  function recordGrading(userId, lessonId, stepType, answer, result, audioMetadata = null) {
     if (!['translation', 'speaking', 'writing'].includes(stepType)) throw new Error('Invalid grading step')
     const lessonRow = database.prepare('SELECT lesson_json AS lessonJson FROM lesson_segments WHERE id = ? AND active = 1').get(lessonId)
     if (!lessonRow) throw new Error('Lesson not found')
@@ -699,9 +807,9 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
         WHERE user_id = ? AND lesson_id = ? AND step_type = ?
       `).get(userId, lessonId, stepType).version
       const submission = database.prepare(`
-        INSERT INTO submissions(user_id, lesson_id, step_type, version, answer_text, created_at)
-        VALUES(?, ?, ?, ?, ?, ?)
-      `).run(userId, lessonId, stepType, version, String(answer), now)
+        INSERT INTO submissions(user_id, lesson_id, step_type, version, answer_text, audio_metadata_json, created_at)
+        VALUES(?, ?, ?, ?, ?, ?, ?)
+      `).run(userId, lessonId, stepType, version, String(answer), audioMetadata ? JSON.stringify(audioMetadata) : null, now)
       database.prepare(`
         INSERT INTO grading_results(
           submission_id, total_score, dimensions_json, feedback_json,
@@ -716,6 +824,20 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
         result.modelVersion ?? null,
         now,
       )
+
+      if (stepType === 'speaking') {
+        database.prepare(`
+          INSERT INTO pronunciation_assessments(submission_id, transcript, provider, score, details_json, created_at)
+          VALUES(?, ?, ?, ?, ?, ?)
+        `).run(
+          submission.lastInsertRowid,
+          String(answer),
+          audioMetadata?.transcriptionProvider ?? 'transcript-rubric',
+          result.score,
+          JSON.stringify({ acousticAssessment: false, ...audioMetadata, dimensions: result.dimensions }),
+          now,
+        )
+      }
 
       let reviewItem = null
       if (!result.correct) {
@@ -785,9 +907,13 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
     getSession,
     deleteSession,
     getBootstrap,
+    getSchemaVersion: () => Number(database.prepare("SELECT value FROM app_metadata WHERE key = 'schema_version'").get()?.value ?? 1),
     saveLearningState,
     saveProfile,
     recordGrading,
+    toggleVocabulary,
+    attemptReview,
+    getWeeklyReport,
     completeReview,
     getStats,
     getLessons,

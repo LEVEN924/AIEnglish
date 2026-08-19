@@ -1,182 +1,198 @@
-# AIEnglish MVP 交付与当前状态说明
+# AIEnglish 1.0 交付与运行手册
 
 > 更新时间：2026-08-19<br>
-> 当前版本：0.2.0（50 篇数据库版）<br>
-> 交付状态：已完成并实际运行的个人局域网 MVP<br>
-> 产品与 UI 基线：[AI_ENGLISH_APP_PRODUCT_UI_PLAN.md](./AI_ENGLISH_APP_PRODUCT_UI_PLAN.md)
+> 当前版本：1.0.0<br>
+> 产品基线：[AI_ENGLISH_APP_PRODUCT_UI_PLAN.md](./AI_ENGLISH_APP_PRODUCT_UI_PLAN.md)
 
 ## 1. 交付结论
 
-本轮已按既定产品与 UI 方案完成一次完整升级：内容库由 5 篇扩充为 50 篇，并在启动时写入 SQLite；内容、学习进度、草稿、账号会话、提交版本、评分、错题、复习任务和每日总结均以数据库为运行时主数据。电脑与手机访问同一个服务时共享进度。
+AIEnglish 1.0 已按照产品与 UI 方案完成连续开发并实际运行。系统采用“档案馆编辑”视觉风格，“今日学习”标题下方固定展示导读、听力、翻译、口语、写作、总结六步进度；用户可跳过本篇或从 1000 篇内容库打开任意课程。
 
-应用继续使用已确认的“档案馆编辑风格”，六步进度位于“今日学习”下方。翻译、口语文本和写作不再返回固定演示分，而是经过可解释量表评分；配置 OpenAI 后可自动切换为结构化 AI 批改，服务异常时回退本地评分。低分答案会进入错题与复习任务。
+内容、账号、会话、学习状态、作答版本、评分、错题、生词、复习尝试和周报数据均持久化到 SQLite。电脑和同一 Wi-Fi 下的手机访问同一服务，学习数据实时共享。
 
-当前服务已实际启动：
+当前访问地址：
 
-- 电脑：`http://127.0.0.1:4173/`
-- 手机：`http://192.168.150.17:4173/`（同一 Wi-Fi；地址随网络变化）
+- 电脑 HTTP：`http://127.0.0.1:4173/`
+- 电脑 HTTPS：`https://127.0.0.1:4174/`
+- 手机：以一键启动窗口实时显示的局域网地址为准
 - 登录用户：`LEVEN`
-- 密码：只由本机环境配置核验，不写入代码、文档或 Git
+- 密码只保存在本机环境的单向哈希配置中，不写入代码、文档或 Git
 
-## 2. 本轮任务目标与结果
+## 2. 任务目标与完成情况
 
-| 目标 | 结果 |
-| --- | --- |
-| 按产品方案连续完成开发 | 已完成本轮 50 篇数据库 MVP，不再停留在静态原型 |
-| 内容扩充到 50 篇 | 已完成，50/50 均通过结构、质量、重复和来源校验 |
-| 内容存入数据库 | 已完成，SQLite 中有 50 篇课文、50 个来源、150 个重点词条 |
-| 跨电脑/手机保存进度 | 已完成，同一账号通过服务端 SQLite 共享状态 |
-| 完整六步学习 | 已完成导读、听力、翻译、口语、写作、总结 |
-| 真实提交与评分记录 | 已完成，每次作答单独保存版本、量表分项和评分器版本 |
-| 错题闭环 | 已完成，低分生成错题及次日复习任务，可标记掌握 |
-| 一键启停 | 已修复旧版 Windows PowerShell 编码问题，并改为生产构建后启动 |
-| 手机/PWA | 已完成响应式布局、底部导航、安装清单和离线应用壳 |
+| 目标 | 状态 | 实际结果 |
+| --- | --- | --- |
+| 按既定产品方案完成 1.0 | 完成 | 档案馆 UI、六步学习、内容档案、复盘簿和个人档案均已落地 |
+| 内容扩充并存入数据库 | 完成 | 1000 篇、1000 个唯一来源；L1/L2/L3 为 350/400/250 |
+| 内容质量流水线 | 完成 | 1000/1000 通过字段、长度、去重、来源和分级校验 |
+| 跨电脑/手机保存进度 | 完成 | 服务端 SQLite 为运行时主库，不依赖浏览器 localStorage |
+| 真实作答与反馈 | 完成 | 每次提交保存版本、分项量表、评分器与改进建议 |
+| AI 能力与稳定降级 | 完成代码；待密钥实调 | Responses 结构化批改、语音转写、TTS 已接线；无密钥时自动使用本地能力 |
+| 复习闭环 | 完成 | 低分生成错题，主动回忆后按 1/3/7 天推进，3 次掌握归档 |
+| 生词与周报 | 完成 | 课程词汇一键收藏；七日课程/复习统计写入并读取数据库 |
+| 安全与运维 | 完成 | 登录限速、同源校验、CSP、HttpOnly 会话、迁移、完整性检查、备份恢复 |
+| 局域网 HTTPS | 完成服务与证书 | 已生成本地 CA 和服务证书；手机需手动信任本地 CA |
+| 桌面/手机验证 | 完成 | API、构建、Edge/Playwright 桌面及 390px 手机视口全部通过 |
 
-## 3. 当前系统能力
+## 3. 内容库
 
-### 3.1 学习端
+- `content/lessons.json`：1000 篇可审查内容基线，catalog version 3。
+- 原有 50 篇权威机构课程继续保留；新增 950 篇来自英文 Wikipedia Level 4 Vital Articles 的 11 个主题分类。
+- 每篇正文 120–179 词，包含中英文标题、中文导读、核心观点、翻译/口语/写作任务、至少 3 个重点词、来源和质量评分。
+- 采集器具有重试、限速、持久缓存、URL/正文去重、分级排序和固定配额功能。
+- `content/crawl-report.json`：批次、分类、难度和字数统计。
+- `content/ingestion-report.json`：逐篇校验、来源检查和错误列表。
 
-- 登录、持久化 HttpOnly 会话和退出。
-- “今日学习”连续对话流，以及标题下方六步票据式进度。
-- 支持跳过本篇、打开 50 篇内容、按标题/主题/来源检索和按 L1/L2/L3 筛选。
-- 听力使用系统美式英语语音，支持 `0.75×`、`1×`、`1.25×`、上一句、下一句、重置和点击原文句子朗读。
-- 翻译按准确度、完整度、逻辑、语境和中文自然度评分。
-- 口语支持录音与本机回听；评分基于用户提交的口述文本，低于 6 分必须重做。
-- 写作支持两次提交、同义相似度判定、提示和参考表达。
-- 总结按翻译 40%、口语 35%、写作 25% 生成综合分，并保存每日总结。
-- 复盘页展示数据库错题、用户答案、参考表达和改进说明，可标记已掌握。
-- “我的”可保存目标、默认难度和每日学习分钟数。
+常用命令：
 
-### 3.2 内容库
+```powershell
+npm run content:generate
+npm run content:validate
+npm run content:refresh
+```
 
-- 当前 50 篇，覆盖空间、海洋、环境、健康、数字安全、计量与自然科学等主题。
-- 难度包含 L1、L2、L3；正文均为 120–169 词。
-- 每篇含来源元数据、中英文标题、导读、核心观点、翻译题、口语题、写作题、至少 3 个重点词和质量评分。
-- 来源主要来自 NASA、NOAA、EPA、CDC、NIST、USGS 和 NPS 等权威机构。
-- 最近一次联网刷新中 50/50 来源 URL 返回 HTTP 200。
-- `content/ingestion-report.json` 保存逐篇校验结果；`npm run content:refresh` 可重新联网检查。
+## 4. 数据保存位置
 
-### 3.3 数据库
-
-运行数据库位于：
+运行主库：
 
 ```text
 C:\Users\张作明\Documents\AiEnglish\data\ai-english.sqlite
 ```
 
-主要表：
+自动备份：
 
-- `users`、`learning_profiles`、`sessions`
-- `content_sources`、`source_articles`、`lesson_segments`
-- `lesson_sentences`、`lesson_vocabulary`
-- `conversations`、`lesson_progress`
-- `submissions`、`grading_results`
-- `error_items`、`review_tasks`、`daily_summaries`
+```text
+C:\Users\张作明\Documents\AiEnglish\backups\
+```
 
-数据职责：
+运行日志、PID、联网采集缓存和本地 HTTPS 私钥：
 
-- `content/lessons.json` 是可审查、可重建的内容种子和版本基线。
-- `data/ai-english.sqlite` 是运行时主库，启动时自动建表并同步内容种子。
-- 学习进度不再依赖浏览器 `localStorage`；电脑和手机使用同一服务即可共享数据。
-- SQLite 文件被 `.gitignore` 排除，避免私人学习记录、账号和会话进入 Git。
+```text
+C:\Users\张作明\Documents\AiEnglish\.runtime\
+```
 
-建议备份时先关闭应用，然后使用 SQLite 在线备份命令或复制关闭状态下的数据库文件。不要只提交数据库到 Git。
+主要数据表包括：
 
-### 3.4 评分策略
+- 内容：`content_sources`、`source_articles`、`lesson_segments`、`lesson_sentences`、`lesson_vocabulary`
+- 学习：`learning_profiles`、`lesson_progress`、`conversations`、`daily_summaries`
+- 作答：`submissions`、`grading_results`、`pronunciation_assessments`
+- 复习：`error_items`、`review_tasks`、`review_attempts`、`vocabulary_book`
+- 运维：`schema_migrations`、`learning_state_revisions`、`source_health_checks`、`audit_log`
 
-默认评分器是项目内置的可解释量表评分器，能够离线运行并保持稳定降级能力。若在 `.env.local` 同时配置：
+私人数据库、备份、`.env.local`、运行缓存和证书私钥均被 `.gitignore` 排除。内容 JSON、迁移代码和测试可以进入 Git。
+
+## 5. 学习与 AI 能力
+
+### 默认可用
+
+- 浏览器美式英文朗读、三档语速、逐句控制。
+- 翻译、写作和口述文本的可解释本地量表评分。
+- 录音、本机回听；支持浏览器 Speech Recognition 自动填入文本。
+- 自动转写不可用时保留手工校对/输入路径。
+- 口语记录录音时长、语速线索、文本维度和评分版本。
+
+### 配置 OpenAI 后启用
+
+在 `.env.local` 中配置：
 
 ```text
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
+OPENAI_TRANSCRIBE_MODEL=gpt-4o-transcribe
+OPENAI_TTS_MODEL=tts-1
+OPENAI_TTS_VOICE=alloy
 ```
 
-服务会使用 Responses API 的结构化输出完成批改；未配置、超时或接口失败时回退本地评分。每条评分记录保存 `grader_type`、`model_version` 和 `rubric_version`，便于追踪。
+- 翻译、写作、口语文本通过 Responses API JSON Schema 结构化批改。
+- 录音通过 Audio Transcriptions 自动转写。
+- `/api/audio/speech` 提供云端 TTS，浏览器朗读始终作为降级能力。
 
-口语当前只对录音对应的口述文本评估内容覆盖、语法、词汇和流畅度线索，不宣称从音频中判断真实发音。真实声学发音评分仍需后续接入语音识别/发音评测服务。
+当前机器没有配置 OpenAI API 密钥，因此已验证的是“未配置能力状态 + 本地降级链路”，未伪造云端调用结果。文本转写和量表不能替代真正的音素级声学发音评测；若需要音素、重音和时间段定位，仍需另外配置支持该能力的外部服务。
 
-## 4. 运行方式
+## 6. 一键运行、手机和 HTTPS
 
-### Windows 一键运行
+1. 双击 `一键打开AIEnglish.cmd`。启动过程会先做在线 SQLite 备份，再生产构建、后台启动和健康检查。
+2. 关闭时双击 `一键关闭AIEnglish.cmd`。
+3. 手机与电脑连接同一 Wi-Fi，打开启动窗口显示的 Mobile 地址。
+4. HTTP 4173 可直接访问；手机麦克风通常要求安全上下文，建议使用 HTTPS 4174。
 
-1. 双击根目录 `一键打开AIEnglish.cmd`。
-2. 脚本执行生产构建、后台启动、健康检查并显示电脑与手机地址。
-3. 关闭时双击 `一键关闭AIEnglish.cmd`。
+本地 HTTPS 已通过 `npm run https:setup` 生成：
 
-一键脚本兼容 Windows PowerShell 5.1 和 PowerShell 7，PID 与日志保存在被忽略的 `.runtime` 目录。
+```text
+.runtime\https\local-root-ca.crt
+.runtime\https\server-cert.pem
+.runtime\https\server-key.pem
+```
 
-### 命令行
+首次在手机使用 HTTPS 时，把 `local-root-ca.crt` 安装为受信任证书，然后访问启动窗口显示的 `https://局域网IP:4174/`。Wi-Fi 地址变化后重新执行 `npm run https:setup` 并重启。安装受信任证书属于设备安全设置，必须由设备所有者手动确认。
+
+## 7. 数据库维护
 
 ```powershell
-npm install
-npm run dev
+npm run db:verify
+npm run db:backup
+npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 ```
 
-生产模式：
+- 当前 schema version：3。
+- 启动自动保留最近 14 份备份。
+- 恢复前会验证备份完整性；若托管服务仍在运行，脚本拒绝覆盖主库。
+- 本轮已实际完成“主库在线备份 → 恢复到临时库 → 完整性与 1000 篇行数验证”。
 
-```powershell
-npm run build
-npm start
-```
+## 8. 已执行验收
 
-### 手机访问
-
-- 手机与电脑连接同一 Wi-Fi。
-- 打开启动脚本显示的 `http://局域网IP:4173/`。
-- PWA 安装需要浏览器满足安装条件；局域网 HTTP 下，部分手机浏览器会限制麦克风权限，此时可在口语环节填写口述文本完成学习。
-
-## 5. 已执行验证
-
-| 检查 | 结果 | 证据 |
-| --- | --- | --- |
-| TypeScript + Vite 生产构建 | 通过 | `npm run build` |
-| 内容结构与质量 | 通过 | 50/50，`npm run content:validate` |
-| 来源联网检查 | 通过 | 50/50 HTTP 200，`npm run content:refresh` |
-| API 集成测试 | 通过 | 登录、SQLite 内容、进度、档案、评分、错题、复习、退出 |
-| 实际数据库行数 | 通过 | 50 课文、50 来源、1 用户、150 重点词 |
-| 一键关闭/启动 | 通过 | Windows PowerShell 5.1 实际执行 |
-| 服务健康检查 | 通过 | `/api/health` 返回 `ok: true` |
-| 桌面 UI | 通过 | Edge/Playwright，1440×1000，无溢出、无控制台错误 |
-| 手机 UI | 通过 | Edge/Playwright，390×844，底部导航和内容库可操作 |
-| 错误登录反馈 | 通过 | 页面显示“用户名或密码不正确” |
-| 内容检索交互 | 通过 | 搜索 `Mars` 后从 50 篇缩小到 2 篇 |
-
-应用内 Browser 插件因自身受信任路径配置错误无法建立连接，已按测试规范回退到本机 Edge + Playwright。回退测试无框架错误覆盖层、无控制台 warning/error、无页面横向溢出。
-
-可重复执行桌面与手机烟雾测试：`npm run test:ui`（需要本机安装 Microsoft Edge 或 Google Chrome）。
-
-## 6. 当前限制与真实风险
-
-1. 首期总目标仍是 1000 篇；本轮按要求完成 50 篇，剩余 950 篇需要继续通过相同流水线扩充和抽检。
-2. 目前是个人局域网部署，不适合直接暴露到公网；公网使用需要 HTTPS、反向代理、登录限速和备份策略。
-3. 手机局域网 HTTP 可能被浏览器视为非安全上下文，从而禁止麦克风；口述文本输入是当前可用降级路径。
-4. 口语没有声学发音评分，不能定位音素或音频时间段；现阶段评分明确限定为转写文本层面。
-5. PWA 可安装并缓存应用壳，但学习数据和内容仍需要本机服务在线，暂不支持完全离线学习。
-6. 自动化已覆盖桌面与手机模拟视口，但尚未在用户的真实手机硬件上完成麦克风与“添加到主屏幕”验收。
-
-## 7. 下一步计划
-
-在当前 50 篇稳定基线上，下一工作目标是：继续扩充至 200/1000 篇、增加可信局域网 HTTPS、接入语音识别和真实声学发音评测、增加数据库自动备份与恢复、完成真实手机验收。所有新增内容继续要求来源可追溯、难度配额平衡、质量分达标且进入 SQLite。
-
-## 8. 主要交付文件
-
-| 文件或目录 | 用途 |
+| 检查 | 结果 |
 | --- | --- |
-| `server/database.mjs` | SQLite 架构、内容同步、学习状态、评分与复习持久化 |
-| `server/grading.mjs` | 本地量表与可选 OpenAI 结构化批改 |
-| `server/app.mjs` | 登录、内容、学习、评分、复习 API 和前端服务 |
-| `content/lessons.json` | 50 篇可重建内容种子 |
-| `content/seeds/` | 45 篇扩展内容的可维护主题种子 |
-| `scripts/expand-content.mjs` | 生成 50 篇内容库 |
-| `scripts/content-pipeline.mjs` | 结构、质量、去重和来源校验 |
-| `src/App.tsx` | 数据库驱动的完整学习界面 |
-| `public/manifest.webmanifest`、`public/sw.js` | PWA 清单与离线壳 |
-| `tests/api.test.mjs` | 数据库、评分和学习闭环集成测试 |
-| `一键打开AIEnglish.cmd`、`一键关闭AIEnglish.cmd` | Windows 双击启停入口 |
+| `npm run content:validate` | 1000/1000，通过，0 错误 |
+| SQLite 内容与来源 | 1000 篇、1000 个唯一来源 |
+| `PRAGMA integrity_check` | `ok` |
+| 数据库备份与恢复演练 | 通过，恢复库 schema 3、1000 篇 |
+| `npm test` | API 集成测试通过 |
+| `npm run test:ui` | 桌面与手机 Edge/Playwright 测试通过 |
+| `npm run build` | TypeScript 与 Vite 生产构建通过 |
+| 横向溢出、框架错误层、console error | 桌面和手机均无 |
+| 一键关闭/启动、HTTP 健康检查 | 实际执行通过 |
+| HTTPS 证书生成、4174 监听 | 实际执行并验证 |
 
-## 9. 状态维护规则
+应用内 Browser 插件因其受信任运行时路径解析错误无法连接，UI 验收按测试工作流回退到项目内 Playwright + 系统 Edge；截图位于系统临时 QA 目录，不进入 Git。
+
+## 9. 当前问题与外部依赖
+
+1. 未提供 OpenAI API 密钥，云端结构化批改、转写和 TTS 只能完成代码/API/降级测试，不能进行真实计费调用验收。
+2. 未配置音素级发音评测供应商；系统明确标注当前口语为转写文本和节奏线索评分，不声称听到了发音。
+3. 本地 CA 不能远程替用户修改手机信任设置；需要在真实手机上手动安装证书并最终验收麦克风和“添加到主屏幕”。
+4. 内容抓取结果保留原始 URL、来源说明和许可元数据。个人使用也建议保留这些记录，并在来源变化时重新检查。
+
+以上均为外部凭据或设备操作，不阻塞当前本地 1.0 的使用。
+
+## 10. 后续维护计划
+
+- 每周运行一次 `content:refresh`，对失败来源复查并重采集。
+- 每次结构变更新增迁移，不直接手工改运行数据库。
+- 每次发布执行内容校验、API 测试、UI 测试、生产构建和恢复演练。
+- 配置 API 密钥后补跑真实 OpenAI 批改/转写/TTS 验收，并记录模型与费用。
+- 若需要音素级发音反馈，选定供应商后接入 `pronunciation_assessments`，保留当前诚实降级路径。
+- 在实际手机安装本地 CA、测试麦克风、PWA 安装和网络切换。
+
+## 11. 主要交付文件
+
+| 文件 | 用途 |
+| --- | --- |
+| `server/app.mjs` | 登录、安全、学习、内容、音频、复习和报告 API；HTTP/HTTPS 服务 |
+| `server/database.mjs` | SQLite 主模型、内容同步、进度、评分、生词、复习、周报 |
+| `server/migrations.mjs` | schema 1→3 可重复迁移 |
+| `server/grading.mjs` | 本地量表与可选 OpenAI Responses 结构化批改 |
+| `server/audio.mjs` | 可选 OpenAI 转写和 TTS |
+| `scripts/crawl-vital-content.mjs` | 1000 篇联网采集、去重、分级与报告生成 |
+| `scripts/content-pipeline.mjs` | 内容结构、质量、重复和来源校验 |
+| `scripts/database-maintenance.mjs` | 验证、在线备份和恢复 |
+| `scripts/setup-local-https.ps1` | 本地 CA 与局域网 SAN 证书生成 |
+| `src/App.tsx` | 档案馆学习 UI、生词本、复习和周报 |
+| `tests/api.test.mjs` | 数据库、认证、安全、音频降级、评分、复习 API 测试 |
+| `tests/ui.test.mjs` | 桌面与手机端交互和视觉烟雾测试 |
+
+## 12. 状态维护规则
 
 - 功能、内容批次、数据库结构或测试结论变化后同步更新本文。
-- 只有实际运行过的项目才标记为通过。
-- 不在文档、代码或 Git 历史中保存明文密码、API 密钥和会话令牌。
-- 内容 JSON 可进入 Git；私人 SQLite 数据库和 `.env.local` 永远保持忽略。
+- 只有实际执行过的项目才标记“通过”。
+- 不在代码、文档或 Git 中保存明文密码、API 密钥、会话、SQLite 主库、备份或证书私钥。

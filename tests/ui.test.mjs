@@ -82,6 +82,7 @@ test('desktop and mobile learning surfaces render and respond', { timeout: 30_00
       APP_PASSWORD_SALT: salt.toString('hex'),
       APP_PASSWORD_HASH: scryptSync(password, salt, 64).toString('hex'),
       COOKIE_SECURE: 'false',
+      HTTPS_ENABLED: 'false',
       AI_ENGLISH_DB_PATH: databasePath,
     },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -114,9 +115,11 @@ test('desktop and mobile learning surfaces render and respond', { timeout: 30_00
   await desktop.screenshot({ path: join(screenshotDir, 'desktop.png'), fullPage: false })
 
   await desktop.locator('.app-sidebar nav button').filter({ hasText: '对话' }).click()
-  await desktop.getByPlaceholder('标题、主题或来源').fill('Mars')
-  assert.equal(await desktop.locator('.archive-row:not(.archive-head)').count(), 2)
-  assert.equal(await desktop.locator('.archive-toolbar > span').textContent(), '2 篇')
+  await desktop.getByPlaceholder('标题、主题或来源').fill('A Short Walk Can Change Your Day')
+  assert.equal(await desktop.locator('.archive-row:not(.archive-head)').count(), 1)
+  assert.equal(await desktop.locator('.archive-toolbar > span').textContent(), '1 篇')
+  await desktop.locator('.app-sidebar nav button').filter({ hasText: '复盘' }).click()
+  assert.equal(await desktop.locator('.review-tabs button').count(), 3)
   await desktopContext.close()
 
   const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 } })

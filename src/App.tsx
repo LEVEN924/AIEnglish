@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   BookOpen,
+  Bookmark,
+  BookmarkCheck,
   Check,
   ChevronDown,
   ChevronUp,
@@ -36,7 +38,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from 'react'
-import { completeReview as completeReviewTask, gradeAnswer, getBootstrap, getSession, login, logout, saveLearningProfile, saveLearningState } from './lib/api'
+import { attemptReview, gradeAnswer, getBootstrap, getSession, login, logout, saveLearningProfile, saveLearningState, toggleVocabulary, transcribeRecording } from './lib/api'
 import {
   completeStep,
   createLessonRecord,
@@ -52,8 +54,10 @@ import {
   type LessonRecord,
   type PrimaryView,
   type ReviewItem,
+  type SavedVocabulary,
   type Session,
   type StepId,
+  type WeeklyReport,
 } from './types'
 
 const STEP_META: Array<{ id: StepId; label: string; icon: LucideIcon }> = [
@@ -75,6 +79,25 @@ const NAV_ITEMS: Array<{ id: PrimaryView; label: string; icon: LucideIcon }> = [
 const WAVEFORM_BARS = Array.from({ length: 56 }, (_, index) =>
   Math.round(18 + Math.abs(Math.sin(index * 1.47) * 32) + (index % 5) * 4),
 )
+
+interface BrowserSpeechRecognition {
+  continuous: boolean
+  interimResults: boolean
+  lang: string
+  onresult: ((event: { results: ArrayLike<{ 0: { transcript: string }; isFinal: boolean }> }) => void) | null
+  onerror: (() => void) | null
+  start: () => void
+  stop: () => void
+}
+
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(String(reader.result))
+    reader.onerror = () => reject(reader.error)
+    reader.readAsDataURL(blob)
+  })
+}
 
 function App() {
   const [session, setSession] = useState<Session | null | undefined>(undefined)
@@ -245,6 +268,8 @@ function LearningWorkspace({
   const [profile, setProfile] = useState<LearningProfile>(bootstrap.profile)
   const [state, setState] = useState<LearningState>(bootstrap.learningState)
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>(bootstrap.reviewItems)
+  const [vocabularyBook, setVocabularyBook] = useState<SavedVocabulary[]>(bootstrap.vocabularyBook)
+  const [weeklyReport, setWeeklyReport] = useState<WeeklyReport>(bootstrap.weeklyReport)
   const lessons = bootstrap.lessons
   const lesson = lessons.find((candidate) => candidate.id === state.currentLessonId) ?? lessons[0]
   const record = state.records[lesson.id] ?? createLessonRecord()
@@ -293,7 +318,11 @@ function LearningWorkspace({
     setView(nextView)
     setMobileNavOpen(false)
     if (nextView === 'review') {
-      getBootstrap().then((data) => setReviewItems(data.reviewItems)).catch(() => undefined)
+      getBootstrap().then((data) => {
+        setReviewItems(data.reviewItems)
+        setVocabularyBook(data.vocabularyBook)
+        setWeeklyReport(data.weeklyReport)
+      }).catch(() => undefined)
     }
   }
 
@@ -322,6 +351,12 @@ function LearningWorkspace({
               onRecordChange={updateCurrentRecord}
               onCompleteStep={finishStep}
               onSkip={skipCurrentLesson}
+              savedVocabulary={vocabularyBook}
+              onToggleVocabulary={async (term) => {
+                const result = await toggleVocabulary(lesson.id, term)
+                setVocabularyBook(result.vocabularyBook)
+                setNotice(result.saved ? `“${term}”已收入生词本。` : `“${term}”已移出生词本。`)
+              }}
             />
           ) : null}
           {view === 'conversations' ? (
@@ -346,11 +381,16 @@ function LearningWorkspace({
               lessons={lessons}
               state={state}
               reviewItems={reviewItems}
-              onComplete={async (item) => {
-                if (!item.reviewTaskId) return
-                await completeReviewTask(item.reviewTaskId)
-                setReviewItems((current) => current.filter((candidate) => candidate.id !== item.id))
-                setNotice('本条错题已标记为掌握。')
+              vocabularyBook={vocabularyBook}
+              weeklyReport={weeklyReport}
+              onAttempt={async (item, answer) => {
+                if (!item.reviewTaskId) throw new Error('本条复习任务不可用')
+                const result = await attemptReview(item.reviewTaskId, answer)
+                const refreshed = await getBootstrap()
+                setReviewItems(refreshed.reviewItems)
+                setWeeklyReport(refreshed.weeklyReport)
+                setNotice(result.correct ? `复习正确：${result.score} 分，熟练度 ${result.mastery}/3。` : `本次 ${result.score} 分，系统已安排明日重试。`)
+                return result
               }}
             />
           ) : null}
@@ -497,6 +537,8 @@ function TodayView({
   onRecordChange,
   onCompleteStep,
   onSkip,
+  savedVocabulary,
+  onToggleVocabulary,
 }: {
   lesson: Lesson
   lessonNumber: number
@@ -504,6 +546,8 @@ function TodayView({
   onRecordChange: (updater: (record: LessonRecord) => LessonRecord) => void
   onCompleteStep: (step: StepId) => void
   onSkip: () => void
+  savedVocabulary: SavedVocabulary[]
+  onToggleVocabulary: (term: string) => Promise<void>
 }) {
   const [dialogueOpen, setDialogueOpen] = useState(false)
   const completedCount = record.completedSteps.length
@@ -658,7 +702,7 @@ function TodayView({
           ) : null}
         </div>
 
-        <LessonMarginalia lesson={lesson} />
+        <LessonMarginalia lesson={lesson} savedVocabulary={savedVocabulary} onToggleVocabulary={onToggleVocabulary} />
       </div>
     </div>
   )
@@ -893,10 +937,16 @@ function SpeakingSection({
   const [recording, setRecording] = useState(false)
   const [audioUrl, setAudioUrl] = useState('')
   const [error, setError] = useState('')
+  const [transcriptionStatus, setTranscriptionStatus] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const recorderRef = useRef<MediaRecorder | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const chunksRef = useRef<Blob[]>([])
+  const audioBlobRef = useRef<Blob | null>(null)
+  const recordingStartedAtRef = useRef(0)
+  const durationSecondsRef = useRef(0)
+  const recognitionRef = useRef<BrowserSpeechRecognition | null>(null)
+  const recognizedTextRef = useRef('')
 
   useEffect(() => () => {
     streamRef.current?.getTracks().forEach((track) => track.stop())
@@ -916,12 +966,48 @@ function SpeakingSection({
       }
       recorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: recorder.mimeType || 'audio/webm' })
+        audioBlobRef.current = blob
+        durationSecondsRef.current = Math.max(1, (Date.now() - recordingStartedAtRef.current) / 1_000)
         setAudioUrl((previous) => {
           if (previous) URL.revokeObjectURL(previous)
           return URL.createObjectURL(blob)
         })
         stream.getTracks().forEach((track) => track.stop())
+        recognitionRef.current?.stop()
+        if (recognizedTextRef.current.trim()) {
+          onRecordChange((current) => ({ ...current, speakingTranscript: recognizedTextRef.current.trim() }))
+          setTranscriptionStatus('已用浏览器语音识别生成文本，请校对后提交。')
+          return
+        }
+        setTranscriptionStatus('正在尝试云端转写…')
+        void blobToDataUrl(blob)
+          .then((dataUrl) => transcribeRecording(dataUrl))
+          .then((result) => {
+            onRecordChange((current) => ({ ...current, speakingTranscript: result.transcript }))
+            setTranscriptionStatus(`已由 ${result.model} 自动转写，请校对后提交。`)
+          })
+          .catch((requestError) => setTranscriptionStatus(requestError instanceof Error ? requestError.message : '自动转写不可用，请手动填写口述文本。'))
       }
+      const SpeechRecognitionConstructor = (window as typeof window & {
+        SpeechRecognition?: new () => BrowserSpeechRecognition
+        webkitSpeechRecognition?: new () => BrowserSpeechRecognition
+      }).SpeechRecognition ?? (window as typeof window & { webkitSpeechRecognition?: new () => BrowserSpeechRecognition }).webkitSpeechRecognition
+      recognizedTextRef.current = ''
+      if (SpeechRecognitionConstructor) {
+        const recognition = new SpeechRecognitionConstructor()
+        recognition.continuous = true
+        recognition.interimResults = true
+        recognition.lang = 'en-US'
+        recognition.onresult = (event) => {
+          const text = Array.from(event.results).map((result) => result[0].transcript).join(' ')
+          recognizedTextRef.current = text
+          onRecordChange((current) => ({ ...current, speakingTranscript: text }))
+        }
+        recognition.onerror = () => { recognitionRef.current = null }
+        recognitionRef.current = recognition
+        try { recognition.start() } catch { recognitionRef.current = null }
+      }
+      recordingStartedAtRef.current = Date.now()
       recorder.start()
       setRecording(true)
     } catch {
@@ -938,7 +1024,12 @@ function SpeakingSection({
     setSubmitting(true)
     setError('')
     try {
-      const result = await gradeAnswer('speaking', lesson.id, record.speakingTranscript ?? '')
+      const result = await gradeAnswer('speaking', lesson.id, record.speakingTranscript ?? '', {
+        durationSeconds: durationSecondsRef.current || undefined,
+        mimeType: audioBlobRef.current?.type,
+        audioCaptured: Boolean(audioBlobRef.current),
+        transcriptionProvider: recognizedTextRef.current ? 'browser-speech-recognition' : 'manual-or-openai',
+      })
       onRecordChange((current) => ({ ...current, speakingScore: result.score, speakingFeedback: result }))
       if (result.correct) onComplete()
       else setError('本次低于 6 分，请根据反馈补充表达后重新提交。')
@@ -964,6 +1055,7 @@ function SpeakingSection({
             {recording ? '结束录音' : '开始录音'}
           </button>
           {audioUrl ? <audio className="recording-playback" src={audioUrl} controls /> : null}
+          {transcriptionStatus ? <p className="transcription-status" role="status">{transcriptionStatus}</p> : null}
           <label className="field-block transcript-field">
             <span>口述文本 · 用于内容、语法与流畅度线索评分</span>
             <textarea
@@ -1118,7 +1210,16 @@ function GradingDetails({
   )
 }
 
-function LessonMarginalia({ lesson }: { lesson: Lesson }) {
+function LessonMarginalia({
+  lesson,
+  savedVocabulary,
+  onToggleVocabulary,
+}: {
+  lesson: Lesson
+  savedVocabulary: SavedVocabulary[]
+  onToggleVocabulary: (term: string) => Promise<void>
+}) {
+  const savedTerms = new Set(savedVocabulary.filter((item) => item.lessonId === lesson.id).map((item) => item.term.toLowerCase()))
   return (
     <aside className="marginalia" aria-label="词汇与来源">
       <section>
@@ -1126,7 +1227,16 @@ function LessonMarginalia({ lesson }: { lesson: Lesson }) {
         <div className="vocabulary-list">
           {lesson.vocabulary.map((item) => (
             <article key={item.term}>
-              <strong>{item.term}</strong>
+              <div className="vocabulary-heading">
+                <strong>{item.term}</strong>
+                <button
+                  type="button"
+                  aria-label={savedTerms.has(item.term.toLowerCase()) ? `移出生词本 ${item.term}` : `加入生词本 ${item.term}`}
+                  onClick={() => void onToggleVocabulary(item.term)}
+                >
+                  {savedTerms.has(item.term.toLowerCase()) ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+                </button>
+              </div>
               <span>{item.ipa}</span>
               <p>{item.part} {item.meaning}</p>
             </article>
@@ -1219,50 +1329,64 @@ function ConversationsView({
   )
 }
 
-function ReviewView({ lessons, state, reviewItems, onComplete }: { lessons: Lesson[]; state: LearningState; reviewItems: ReviewItem[]; onComplete: (item: ReviewItem) => Promise<void> }) {
-  const activeRecords = Object.entries(state.records).filter(([, record]) => record.completedSteps.length > 0)
-  const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]))
+function ReviewView({ reviewItems, vocabularyBook, weeklyReport, onAttempt }: {
+  lessons: Lesson[]
+  state: LearningState
+  reviewItems: ReviewItem[]
+  vocabularyBook: SavedVocabulary[]
+  weeklyReport: WeeklyReport
+  onAttempt: (item: ReviewItem, answer: string) => Promise<{ correct: boolean; score: number; mastery: number; reference: string }>
+}) {
+  const [tab, setTab] = useState<'errors' | 'vocabulary' | 'weekly'>('errors')
   return (
-    <ArchivePage title="复盘簿" english="REVIEW LEDGER" description="从已经发生的翻译、写作和口语练习中提取复盘线索。">
-      {reviewItems.length ? (
+    <ArchivePage title="复盘簿" english="REVIEW LEDGER" description="错题主动回忆、生词归档和最近七天学习报告都保存在数据库中。">
+      <div className="review-tabs" role="tablist" aria-label="复盘分类">
+        <button className={tab === 'errors' ? 'active' : ''} type="button" onClick={() => setTab('errors')}>错题复习 · {reviewItems.length}</button>
+        <button className={tab === 'vocabulary' ? 'active' : ''} type="button" onClick={() => setTab('vocabulary')}>生词本 · {vocabularyBook.length}</button>
+        <button className={tab === 'weekly' ? 'active' : ''} type="button" onClick={() => setTab('weekly')}>本周报告</button>
+      </div>
+      {tab === 'errors' && reviewItems.length ? (
         <section className="review-errors" aria-label="数据库错题">
           <header><strong>待复习错题</strong><span>{reviewItems.length} 项</span></header>
-          {reviewItems.map((item) => (
-            <article key={item.id}>
-              <span>{item.errorType} · {item.titleZh}</span>
-              <p>{item.prompt}</p>
-              <del>{item.userAnswer}</del>
-              <ins>{item.correction}</ins>
-              <small>{item.explanation}</small>
-              {item.reviewTaskId ? <button type="button" onClick={() => void onComplete(item)}><Check size={14} /> 标记已掌握</button> : null}
-            </article>
-          ))}
+          {reviewItems.map((item) => <ReviewAttemptCard key={`${item.id}-${item.reviewTaskId}`} item={item} onAttempt={onAttempt} />)}
         </section>
+      ) : tab === 'errors' ? <EmptyArchive icon={NotebookText} title="还没有复盘记录" copy="提交一次未达标的翻译、口语或写作后，系统会自动安排复习。" /> : null}
+      {tab === 'vocabulary' ? (
+        vocabularyBook.length ? <div className="vocabulary-ledger">
+          {vocabularyBook.map((item) => <article key={`${item.lessonId}-${item.term}`}><BookmarkCheck size={17} /><div><strong>{item.term}</strong><span>{item.ipa} · {item.part}</span><p>{item.meaning}</p></div><small>熟练度 {item.mastery}/3</small></article>)}
+        </div> : <EmptyArchive icon={Bookmark} title="生词本还是空的" copy="在今日文章右侧点击书签图标，词汇会同步到这里。" />
       ) : null}
-      {activeRecords.length ? (
-        <div className="review-grid">
-          {activeRecords.map(([lessonId, record]) => {
-            const lesson = lessonById.get(lessonId)
-            if (!lesson) return null
-            return (
-              <article key={lessonId} className="review-sheet">
-                <span>{lesson.difficulty.level} · {lesson.topic}</span>
-                <h2>{lesson.title}</h2>
-                <dl>
-                  <div><dt>翻译</dt><dd>{record.translationScore ? `${record.translationScore} 分` : '待完成'}</dd></div>
-                  <div><dt>口语</dt><dd>{record.speakingScore ? `${record.speakingScore.toFixed(1)} 分` : '待完成'}</dd></div>
-                  <div><dt>写作</dt><dd>{record.writingAttempts ? `${record.writingAttempts} 次作答` : '待完成'}</dd></div>
-                </dl>
-                <p>{lesson.vocabulary.map((word) => word.term).join(' · ')}</p>
-              </article>
-            )
-          })}
-        </div>
-      ) : (
-        <EmptyArchive icon={NotebookText} title="还没有复盘记录" copy="完成第一篇的翻译、口语或写作后，错误与重点词会出现在这里。" />
-      )}
+      {tab === 'weekly' ? <section className="weekly-report">
+        <header><span>{weeklyReport.periodStart} — {weeklyReport.periodEnd}</span><strong>七日学习报告</strong></header>
+        <dl>
+          <div><dt>完成课程</dt><dd>{weeklyReport.completedLessons}</dd></div>
+          <div><dt>课程均分</dt><dd>{weeklyReport.averageScore || '—'}</dd></div>
+          <div><dt>复习次数</dt><dd>{weeklyReport.reviewAttempts}</dd></div>
+          <div><dt>复习均分</dt><dd>{weeklyReport.reviewAverage || '—'}</dd></div>
+        </dl>
+        {weeklyReport.days.length ? <div className="weekly-days">{weeklyReport.days.map((day) => <div key={day.learningDate}><span>{day.learningDate.slice(5)}</span><i style={{ height: `${Math.max(8, day.totalScore)}%` }} /><strong>{day.totalScore}</strong></div>)}</div> : <p>本周完成课程后，这里会生成趋势档案。</p>}
+      </section> : null}
     </ArchivePage>
   )
+}
+
+function ReviewAttemptCard({ item, onAttempt }: { item: ReviewItem; onAttempt: (item: ReviewItem, answer: string) => Promise<{ correct: boolean; score: number; mastery: number; reference: string }> }) {
+  const [answer, setAnswer] = useState('')
+  const [result, setResult] = useState<{ correct: boolean; score: number; mastery: number; reference: string } | null>(null)
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  return <article>
+    <span>{item.errorType} · {item.titleZh} · 熟练度 {item.mastery}/3</span>
+    <p>{item.prompt}</p>
+    <label className="review-answer"><span>不看答案，重新作答</span><textarea rows={3} value={answer} onChange={(event) => setAnswer(event.target.value)} /></label>
+    {!result && item.reviewTaskId ? <button type="button" disabled={!answer.trim() || submitting} onClick={() => {
+      setSubmitting(true)
+      setError('')
+      void onAttempt(item, answer).then(setResult).catch((requestError) => setError(requestError instanceof Error ? requestError.message : '提交失败')).finally(() => setSubmitting(false))
+    }}><Check size={14} /> {submitting ? '正在核对…' : '提交复习'}</button> : null}
+    {result ? <div className={`review-result ${result.correct ? 'correct' : 'retry'}`}><strong>{result.score} 分 · {result.correct ? '回答正确' : '需要重试'}</strong><p>参考：{result.reference}</p><small>当前熟练度 {result.mastery}/3</small></div> : null}
+    {error ? <p className="form-error" role="alert">{error}</p> : null}
+  </article>
 }
 
 function ProfileView({

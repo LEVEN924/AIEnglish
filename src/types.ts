@@ -93,6 +93,8 @@ export interface GradingFeedback {
   reference?: string
   graderType?: 'local' | 'openai'
   submissionVersion?: number
+  acousticAssessment?: boolean
+  wordsPerMinute?: number
 }
 
 export interface LearningProfile {
@@ -118,11 +120,46 @@ export interface ReviewItem {
   titleZh: string
 }
 
+export interface SavedVocabulary extends VocabularyItem {
+  lessonId: string
+  example?: string | null
+  mastery: number
+  reviewDueAt?: string | null
+  createdAt: string
+}
+
+export interface WeeklyReport {
+  periodStart: string
+  periodEnd: string
+  completedLessons: number
+  averageScore: number
+  reviewAttempts: number
+  reviewAverage: number
+  days: Array<{
+    learningDate: string
+    totalScore: number
+    translationScore: number
+    speakingScore: number
+    writingScore: number
+  }>
+}
+
+export interface AppCapabilities {
+  cloudTranscription: boolean
+  cloudSpeech: boolean
+  aiGrading: boolean
+  transcriptionModel: string
+  speechModel: string
+  speechVoice: string
+}
+
 export interface BootstrapData {
   lessons: Lesson[]
   learningState: LearningState
   profile: LearningProfile
   reviewItems: ReviewItem[]
+  vocabularyBook: SavedVocabulary[]
+  weeklyReport: WeeklyReport
   database: {
     engine: string
     lessonCount: number

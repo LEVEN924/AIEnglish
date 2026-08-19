@@ -1,6 +1,6 @@
 {
   "name": "ai-english",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,9 +10,14 @@
     "test": "node --test tests/api.test.mjs",
     "test:api": "node --test tests/api.test.mjs",
     "test:ui": "node --test tests/ui.test.mjs",
-    "content:generate": "node scripts/expand-content.mjs",
-    "content:validate": "node scripts/content-pipeline.mjs",
-    "content:refresh": "node scripts/content-pipeline.mjs --fetch"
+    "db:verify": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs verify",
+    "db:backup": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs backup",
+    "db:restore": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs restore",
+    "https:setup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local-https.ps1",
+    "content:generate": "node scripts/crawl-vital-content.mjs",
+    "content:generate:seed": "node scripts/expand-content.mjs",
+    "content:validate": "node scripts/content-pipeline.mjs --quiet",
+    "content:refresh": "node scripts/content-pipeline.mjs --fetch --quiet"
   },
   "engines": {
     "node": ">=22.13.0"
