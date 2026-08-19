@@ -7,7 +7,7 @@
     "dev": "node --disable-warning=ExperimentalWarning server/app.mjs --dev",
     "build": "tsc --noEmit && vite build",
     "start": "node --disable-warning=ExperimentalWarning server/app.mjs",
-    "test": "node --test tests/api.test.mjs",
+    "test": "node --test tests/api.test.mjs tests/grading.test.mjs",
     "test:api": "node --test tests/api.test.mjs",
     "test:ui": "node --test tests/ui.test.mjs",
     "db:verify": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs verify",

@@ -5,7 +5,7 @@ import { extname, join, normalize, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto'
 import { openAppDatabase } from './database.mjs'
-import { gradeSubmission } from './grading.mjs'
+import { gradeSubmission, gradingCapabilities } from './grading.mjs'
 import { audioCapabilities, synthesizeSpeech, transcribeAudio } from './audio.mjs'
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
@@ -200,7 +200,8 @@ async function handleApi(request, response) {
   if (request.method === 'GET' && url.pathname === '/api/capabilities') {
     const session = requireSession(request, response)
     if (!session) return true
-    sendJson(response, 200, { ...audioCapabilities(), aiGrading: Boolean(process.env.OPENAI_API_KEY && process.env.OPENAI_MODEL) })
+    const grading = gradingCapabilities()
+    sendJson(response, 200, { ...audioCapabilities(), aiGrading: grading.enabled, gradingProvider: grading.provider, gradingModel: grading.model })
     return true
   }
 

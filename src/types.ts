@@ -91,7 +91,7 @@ export interface GradingFeedback {
   improvements: string[]
   dimensions: Array<{ label: string; score: number; weight: number }>
   reference?: string
-  graderType?: 'local' | 'openai'
+  graderType?: 'local' | 'openai' | 'deepseek'
   submissionVersion?: number
   acousticAssessment?: boolean
   wordsPerMinute?: number
@@ -148,6 +148,8 @@ export interface AppCapabilities {
   cloudTranscription: boolean
   cloudSpeech: boolean
   aiGrading: boolean
+  gradingProvider: string
+  gradingModel: string
   transcriptionModel: string
   speechModel: string
   speechVoice: string

@@ -1194,7 +1194,7 @@ function GradingDetails({
 }) {
   return (
     <div className="grading-details">
-      <span className="grading-label">{feedback?.graderType === 'openai' ? 'AI 结构化批改' : '量表批改'}{feedback?.submissionVersion ? ` · 第 ${feedback.submissionVersion} 版` : ''}</span>
+      <span className="grading-label">{feedback?.graderType === 'deepseek' ? 'DeepSeek 结构化批改' : feedback?.graderType === 'openai' ? 'OpenAI 结构化批改' : '量表批改'}{feedback?.submissionVersion ? ` · 第 ${feedback.submissionVersion} 版` : ''}</span>
       <p>{feedback?.summary ?? '已按本课量表完成批改。'}</p>
       {feedback?.dimensions?.length ? (
         <dl className="grading-dimensions">

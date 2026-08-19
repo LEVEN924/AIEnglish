@@ -178,6 +178,35 @@ const outputSchema = {
   required: ['score', 'correct', 'summary', 'strengths', 'improvements', 'dimensions', 'reference'],
 }
 
+function normalizeStructuredResult(candidate, localResult, type) {
+  if (!candidate || typeof candidate !== 'object') throw new Error('AI grader returned an invalid JSON object')
+  const maximum = type === 'speaking' ? 10 : 100
+  const score = round(clamp(Number(candidate.score), 0, maximum), type === 'speaking' ? 1 : 0)
+  if (!Number.isFinite(score)) throw new Error('AI grader returned an invalid score')
+  const dimensions = localResult.dimensions.map((baseline) => {
+    const proposed = Array.isArray(candidate.dimensions)
+      ? candidate.dimensions.find((item) => item?.label === baseline.label)
+      : null
+    return {
+      label: baseline.label,
+      score: round(clamp(Number(proposed?.score ?? baseline.score), 0, maximum), type === 'speaking' ? 1 : 0),
+      weight: baseline.weight,
+    }
+  })
+  const strings = (value, fallback) => Array.isArray(value)
+    ? value.map((item) => String(item).trim()).filter(Boolean).slice(0, 4)
+    : fallback
+  return {
+    score,
+    correct: typeof candidate.correct === 'boolean' ? candidate.correct : score >= (type === 'speaking' ? 6 : 75),
+    summary: String(candidate.summary ?? localResult.summary).trim().slice(0, 500),
+    strengths: strings(candidate.strengths, localResult.strengths),
+    improvements: strings(candidate.improvements, localResult.improvements),
+    dimensions,
+    reference: String(candidate.reference ?? localResult.reference).trim().slice(0, 4_000),
+  }
+}
+
 async function gradeWithOpenAI(type, lesson, answer, localResult) {
   const apiKey = process.env.OPENAI_API_KEY
   const model = process.env.OPENAI_MODEL
@@ -206,8 +235,77 @@ async function gradeWithOpenAI(type, lesson, answer, localResult) {
   const data = await response.json()
   const outputText = data.output?.flatMap((item) => item.content ?? []).find((item) => item.type === 'output_text')?.text
   if (!outputText) throw new Error('OpenAI grading returned no structured output')
-  const result = JSON.parse(outputText)
+  const result = normalizeStructuredResult(JSON.parse(outputText), localResult, type)
   return { ...result, graderType: 'openai', modelVersion: model }
+}
+
+async function gradeWithDeepSeek(type, lesson, answer, localResult) {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) return null
+  const model = process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash'
+  const baseUrl = String(process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/u, '')
+  const scale = type === 'speaking' ? '0-10' : '0-100'
+  const task = type === 'translation'
+    ? `Translate prompt: ${lesson.translation.prompt}\nReference: ${lesson.translation.referenceZh}`
+    : type === 'writing'
+      ? `Chinese prompt: ${lesson.writing.promptZh}\nAccepted references: ${lesson.writing.answers.join(' | ')}`
+      : `Speaking prompt: ${lesson.speakingPrompt}\nThis is a speech transcript. Never claim to assess acoustic pronunciation or phonemes.`
+  const formatExample = {
+    score: localResult.score,
+    correct: localResult.correct,
+    summary: '简体中文总结',
+    strengths: ['优点'],
+    improvements: ['改进建议'],
+    dimensions: localResult.dimensions,
+    reference: localResult.reference,
+  }
+
+  let lastError = new Error('DeepSeek grading returned no JSON content')
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model,
+        messages: [
+          {
+            role: 'system',
+            content: `You are an English learning grader. Grade on ${scale}. Return only valid JSON in Simplified Chinese. Keep exactly the supplied dimension labels and weights. For speech transcripts, assess content, fluency signals, grammar and vocabulary; never pretend to hear audio. Required JSON example: ${JSON.stringify(formatExample)}`,
+          },
+          { role: 'user', content: `${task}\nLearner answer: ${answer}\nDeterministic baseline: ${JSON.stringify(localResult)}\nReturn JSON.` },
+        ],
+        response_format: { type: 'json_object' },
+        thinking: { type: 'disabled' },
+        max_tokens: 1_200,
+        stream: false,
+      }),
+      signal: AbortSignal.timeout(30_000),
+    })
+    if (!response.ok) throw new Error(`DeepSeek grading failed with HTTP ${response.status}`)
+    const data = await response.json()
+    const outputText = data.choices?.[0]?.message?.content
+    if (!String(outputText ?? '').trim()) continue
+    try {
+      const result = normalizeStructuredResult(JSON.parse(outputText), localResult, type)
+      return { ...result, graderType: 'deepseek', modelVersion: model }
+    } catch (error) {
+      lastError = error
+    }
+  }
+  throw lastError
+}
+
+export function gradingCapabilities() {
+  const provider = String(process.env.AI_PROVIDER || (process.env.DEEPSEEK_API_KEY ? 'deepseek' : 'openai')).toLowerCase()
+  return {
+    provider,
+    enabled: provider === 'deepseek'
+      ? Boolean(process.env.DEEPSEEK_API_KEY)
+      : Boolean(process.env.OPENAI_API_KEY && process.env.OPENAI_MODEL),
+    model: provider === 'deepseek'
+      ? process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash'
+      : process.env.OPENAI_MODEL || '',
+  }
 }
 
 export async function gradeSubmission(type, lesson, answer, audioMetadata = null) {
@@ -220,7 +318,11 @@ export async function gradeSubmission(type, lesson, answer, audioMetadata = null
       ? gradeWritingLocally(lesson, value)
       : gradeSpeakingLocally(lesson, value, audioMetadata)
   try {
-    return await gradeWithOpenAI(type, lesson, value, localResult) ?? localResult
+    const provider = gradingCapabilities().provider
+    const result = provider === 'deepseek'
+      ? await gradeWithDeepSeek(type, lesson, value, localResult)
+      : await gradeWithOpenAI(type, lesson, value, localResult)
+    return result ?? localResult
   } catch (error) {
     console.warn(`[grading] ${error.message}; falling back to local rubric.`)
     return localResult

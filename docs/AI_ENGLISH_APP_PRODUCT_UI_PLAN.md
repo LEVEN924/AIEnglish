@@ -551,7 +551,7 @@ READY
 - [x] 完成 schema 1→3 迁移、在线备份、恢复演练、完整性检查和启动前自动备份。
 - [x] 完成生词本、主动回忆作答、1/3/7 天间隔复习和七日学习报告。
 - [x] 完成登录限速、同源校验、CSP、局域网 HTTP/HTTPS 双端口和本地 CA 证书生成。
-- [x] 接入可选 OpenAI Responses 结构化批改、Audio Transcriptions 和 TTS；当前机器无密钥，已验证本地降级链路。
+- [x] 默认接入 DeepSeek V4 Flash JSON 文本批改，保留浏览器转写/TTS 与本地量表降级；可选 OpenAI 音频接口继续保留。
 
 ### 2026-08-18
 

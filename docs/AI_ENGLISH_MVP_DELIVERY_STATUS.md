@@ -27,7 +27,7 @@ AIEnglish 1.0 已按照产品与 UI 方案完成连续开发并实际运行。�
 | 内容质量流水线 | 完成 | 1000/1000 通过字段、长度、去重、来源和分级校验 |
 | 跨电脑/手机保存进度 | 完成 | 服务端 SQLite 为运行时主库，不依赖浏览器 localStorage |
 | 真实作答与反馈 | 完成 | 每次提交保存版本、分项量表、评分器与改进建议 |
-| AI 能力与稳定降级 | 完成代码；待密钥实调 | Responses 结构化批改、语音转写、TTS 已接线；无密钥时自动使用本地能力 |
+| AI 能力与稳定降级 | 完成代码；待密钥实调 | 默认 DeepSeek V4 Flash JSON 批改；浏览器转写/TTS 和本地量表作为降级 |
 | 复习闭环 | 完成 | 低分生成错题，主动回忆后按 1/3/7 天推进，3 次掌握归档 |
 | 生词与周报 | 完成 | 课程词汇一键收藏；七日课程/复习统计写入并读取数据库 |
 | 安全与运维 | 完成 | 登录限速、同源校验、CSP、HttpOnly 会话、迁移、完整性检查、备份恢复 |
@@ -91,23 +91,22 @@ C:\Users\张作明\Documents\AiEnglish\.runtime\
 - 自动转写不可用时保留手工校对/输入路径。
 - 口语记录录音时长、语速线索、文本维度和评分版本。
 
-### 配置 OpenAI 后启用
+### 配置 DeepSeek 后启用
 
 在 `.env.local` 中配置：
 
 ```text
-OPENAI_API_KEY=...
-OPENAI_MODEL=...
-OPENAI_TRANSCRIBE_MODEL=gpt-4o-transcribe
-OPENAI_TTS_MODEL=tts-1
-OPENAI_TTS_VOICE=alloy
+AI_PROVIDER=deepseek
+DEEPSEEK_API_KEY=...
+DEEPSEEK_MODEL=deepseek-v4-flash
+DEEPSEEK_BASE_URL=https://api.deepseek.com
 ```
 
-- 翻译、写作、口语文本通过 Responses API JSON Schema 结构化批改。
-- 录音通过 Audio Transcriptions 自动转写。
-- `/api/audio/speech` 提供云端 TTS，浏览器朗读始终作为降级能力。
+- 翻译、写作和口语转写文本通过 DeepSeek Chat Completions JSON Output 批改。
+- 服务端对返回 JSON 再做量表字段、分数范围、维度标签和权重校验。
+- 录音优先使用浏览器 Speech Recognition；朗读使用 Web Speech TTS；不可用时保留手动文本。
 
-当前机器没有配置 OpenAI API 密钥，因此已验证的是“未配置能力状态 + 本地降级链路”，未伪造云端调用结果。文本转写和量表不能替代真正的音素级声学发音评测；若需要音素、重音和时间段定位，仍需另外配置支持该能力的外部服务。
+DeepSeek 密钥未填写时，应用自动回退到本地可解释量表，不中断学习。文本转写和量表不能替代真正的音素级声学发音评测；若需要音素、重音和时间段定位，仍需另外配置支持该能力的外部服务。
 
 ## 6. 一键运行、手机和 HTTPS
 
@@ -158,7 +157,7 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 
 ## 9. 当前问题与外部依赖
 
-1. 未提供 OpenAI API 密钥，云端结构化批改、转写和 TTS 只能完成代码/API/降级测试，不能进行真实计费调用验收。
+1. `DEEPSEEK_API_KEY` 仍需在被 Git 忽略的 `.env.local` 中填写，之后才能完成真实计费调用验收。
 2. 未配置音素级发音评测供应商；系统明确标注当前口语为转写文本和节奏线索评分，不声称听到了发音。
 3. 本地 CA 不能远程替用户修改手机信任设置；需要在真实手机上手动安装证书并最终验收麦克风和“添加到主屏幕”。
 4. 内容抓取结果保留原始 URL、来源说明和许可元数据。个人使用也建议保留这些记录，并在来源变化时重新检查。
@@ -170,7 +169,7 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 - 每周运行一次 `content:refresh`，对失败来源复查并重采集。
 - 每次结构变更新增迁移，不直接手工改运行数据库。
 - 每次发布执行内容校验、API 测试、UI 测试、生产构建和恢复演练。
-- 配置 API 密钥后补跑真实 OpenAI 批改/转写/TTS 验收，并记录模型与费用。
+- 配置 API 密钥后补跑真实 DeepSeek 文本批改验收，并记录模型与费用。
 - 若需要音素级发音反馈，选定供应商后接入 `pronunciation_assessments`，保留当前诚实降级路径。
 - 在实际手机安装本地 CA、测试麦克风、PWA 安装和网络切换。
 
@@ -181,7 +180,7 @@ npm run db:restore -- backups\ai-english_YYYY-MM-DD_HH-mm-ss.sqlite
 | `server/app.mjs` | 登录、安全、学习、内容、音频、复习和报告 API；HTTP/HTTPS 服务 |
 | `server/database.mjs` | SQLite 主模型、内容同步、进度、评分、生词、复习、周报 |
 | `server/migrations.mjs` | schema 1→3 可重复迁移 |
-| `server/grading.mjs` | 本地量表与可选 OpenAI Responses 结构化批改 |
+| `server/grading.mjs` | 本地量表、DeepSeek JSON 批改与可选 OpenAI Responses 批改 |
 | `server/audio.mjs` | 可选 OpenAI 转写和 TTS |
 | `scripts/crawl-vital-content.mjs` | 1000 篇联网采集、去重、分级与报告生成 |
 | `scripts/content-pipeline.mjs` | 内容结构、质量、重复和来源校验 |
