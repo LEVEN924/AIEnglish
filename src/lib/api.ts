@@ -1,4 +1,4 @@
-import type { Session } from '../types'
+import type { BootstrapData, GradingFeedback, LearningProfile, LearningState, Session } from '../types'
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
@@ -26,4 +26,37 @@ export function login(username: string, password: string): Promise<Session> {
 
 export function logout(): Promise<{ ok: boolean }> {
   return request<{ ok: boolean }>('/api/logout', { method: 'POST', body: '{}' })
+}
+
+export function getBootstrap(): Promise<BootstrapData> {
+  return request<BootstrapData>('/api/bootstrap')
+}
+
+export function saveLearningState(state: LearningState): Promise<LearningState> {
+  return request<LearningState>('/api/learning-state', {
+    method: 'PUT',
+    body: JSON.stringify(state),
+  })
+}
+
+export function saveLearningProfile(profile: LearningProfile): Promise<LearningProfile> {
+  return request<LearningProfile>('/api/profile', {
+    method: 'PUT',
+    body: JSON.stringify(profile),
+  })
+}
+
+export function gradeAnswer(
+  type: 'translation' | 'speaking' | 'writing',
+  lessonId: string,
+  answer: string,
+): Promise<GradingFeedback & { score: number; correct: boolean }> {
+  return request(`/api/grade/${type}`, {
+    method: 'POST',
+    body: JSON.stringify({ lessonId, answer }),
+  })
+}
+
+export function completeReview(reviewTaskId: number): Promise<{ ok: boolean }> {
+  return request(`/api/review/${reviewTaskId}/complete`, { method: 'POST', body: '{}' })
 }

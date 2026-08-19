@@ -1,19 +1,21 @@
 {
   "name": "ai-english",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server/app.mjs --dev",
+    "dev": "node --disable-warning=ExperimentalWarning server/app.mjs --dev",
     "build": "tsc --noEmit && vite build",
-    "start": "node server/app.mjs",
+    "start": "node --disable-warning=ExperimentalWarning server/app.mjs",
     "test": "node --test tests/api.test.mjs",
     "test:api": "node --test tests/api.test.mjs",
+    "test:ui": "node --test tests/ui.test.mjs",
+    "content:generate": "node scripts/expand-content.mjs",
     "content:validate": "node scripts/content-pipeline.mjs",
     "content:refresh": "node scripts/content-pipeline.mjs --fetch"
   },
   "engines": {
-    "node": ">=20.19.0"
+    "node": ">=22.13.0"
   },
   "dependencies": {
     "lucide-react": "^1.32.0",
@@ -24,6 +26,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
+    "playwright-core": "^1.62.1",
     "typescript": "^7.0.2",
     "vite": "^8.2.1"
   }

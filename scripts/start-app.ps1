@@ -76,24 +76,24 @@ function Get-LanAppUrls {
 }
 
 function Write-AccessUrls {
-    Write-Host "电脑访问：$appUrl" -ForegroundColor Cyan
+    Write-Host "Desktop: $appUrl" -ForegroundColor Cyan
     $lanUrls = @(Get-LanAppUrls)
     if ($lanUrls.Count -eq 0) {
-        Write-Host '未检测到可用的局域网地址；手机访问前请确认电脑已连接 Wi-Fi。' -ForegroundColor Yellow
+        Write-Host 'No LAN address detected. Connect the computer to Wi-Fi before mobile access.' -ForegroundColor Yellow
         return
     }
 
     foreach ($lanUrl in $lanUrls) {
-        Write-Host "手机访问：$lanUrl（需连接同一 Wi-Fi）" -ForegroundColor Cyan
+        Write-Host "Mobile: $lanUrl (same Wi-Fi required)" -ForegroundColor Cyan
     }
 }
 
 if (Test-AIEnglishHealth) {
     $message = if ($NoBrowser) {
-        'AIEnglish 已在运行。'
+        'AIEnglish is already running.'
     }
     else {
-        'AIEnglish 已在运行，正在打开浏览器…'
+        'AIEnglish is already running. Opening the browser...'
     }
     Write-Host $message -ForegroundColor Green
     Write-AccessUrls
@@ -102,16 +102,27 @@ if (Test-AIEnglishHealth) {
 }
 
 if (-not (Test-Path -LiteralPath $serverEntry -PathType Leaf)) {
-    Write-Error "找不到服务入口：$serverEntry"
+    Write-Error "Server entry not found: $serverEntry"
 }
 
 if (-not (Test-Path -LiteralPath $vitePackage -PathType Leaf)) {
-    Write-Error '依赖尚未安装。请先在项目目录运行 npm install。'
+    Write-Error 'Dependencies are missing. Run npm install in the project directory.'
 }
 
 $nodeCommand = Get-Command node.exe -ErrorAction SilentlyContinue
 if ($null -eq $nodeCommand) {
-    Write-Error '未找到 Node.js。请先安装 Node.js 20.19 或更高版本。'
+    Write-Error 'Node.js was not found. Install Node.js 22.13 or newer.'
+}
+
+$npmCommand = Get-Command npm.cmd -ErrorAction SilentlyContinue
+if ($null -eq $npmCommand) {
+    Write-Error 'npm was not found. Reinstall Node.js with npm enabled.'
+}
+
+Write-Host 'Building the production application...' -ForegroundColor DarkCyan
+& $npmCommand.Source run build
+if ($LASTEXITCODE -ne 0) {
+    Write-Error 'The production build failed. The server was not started.'
 }
 
 New-Item -ItemType Directory -Path $runtimeDir -Force | Out-Null
@@ -122,7 +133,7 @@ if (Test-Path -LiteralPath $pidFile -PathType Leaf) {
 
 $process = Start-Process `
     -FilePath $nodeCommand.Source `
-    -ArgumentList @($serverEntry, '--dev') `
+    -ArgumentList @('--disable-warning=ExperimentalWarning', $serverEntry) `
     -WorkingDirectory $projectRoot `
     -WindowStyle Hidden `
     -RedirectStandardOutput $stdoutLog `
@@ -152,12 +163,12 @@ if (-not $ready) {
         (Get-Content -LiteralPath $stderrLog -Tail 12) -join [Environment]::NewLine
     }
     else {
-        '没有可用的错误日志。'
+        'No error log is available.'
     }
-    Write-Error "AIEnglish 启动失败。错误日志：`n$errorTail"
+    Write-Error "AIEnglish failed to start. Error log:`n$errorTail"
 }
 
-Write-Host "AIEnglish 已启动：$appUrl" -ForegroundColor Green
+Write-Host "AIEnglish started: $appUrl" -ForegroundColor Green
 Write-AccessUrls
 Open-AIEnglish
 exit 0

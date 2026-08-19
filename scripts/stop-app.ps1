@@ -18,9 +18,9 @@ function Test-AIEnglishHealth {
 
 if (-not (Test-Path -LiteralPath $pidFile -PathType Leaf)) {
     if (Test-AIEnglishHealth) {
-        Write-Error 'AIEnglish 正在运行，但没有找到由一键脚本创建的 PID 文件。为避免误关其他 Node 进程，未执行关闭。'
+        Write-Error 'AIEnglish is running without a managed PID file. No process was stopped.'
     }
-    Write-Host 'AIEnglish 当前未运行。' -ForegroundColor Yellow
+    Write-Host 'AIEnglish is not running.' -ForegroundColor Yellow
     exit 0
 }
 
@@ -28,18 +28,18 @@ $pidText = (Get-Content -LiteralPath $pidFile -Raw).Trim()
 $processId = 0
 if (-not [int]::TryParse($pidText, [ref]$processId)) {
     Remove-Item -LiteralPath $pidFile -Force
-    Write-Error 'PID 文件无效，已清理。'
+    Write-Error 'The invalid PID file was removed.'
 }
 
 $process = Get-Process -Id $processId -ErrorAction SilentlyContinue
 if ($null -eq $process) {
     Remove-Item -LiteralPath $pidFile -Force
-    Write-Host 'AIEnglish 已经停止，残留状态已清理。' -ForegroundColor Yellow
+    Write-Host 'AIEnglish was already stopped; stale state was removed.' -ForegroundColor Yellow
     exit 0
 }
 
 if ($process.ProcessName -ne 'node') {
-    Write-Error "PID $processId 当前不是 Node.js 进程。为避免误关其他程序，未执行关闭。"
+    Write-Error "PID $processId is not a Node.js process. No process was stopped."
 }
 
 Stop-Process -Id $processId
@@ -47,8 +47,8 @@ Wait-Process -Id $processId -Timeout 8 -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $pidFile -Force -ErrorAction SilentlyContinue
 
 if (Test-AIEnglishHealth) {
-    Write-Error '进程已收到关闭命令，但端口仍在响应。请稍后再试。'
+    Write-Error 'The process was stopped, but the port still responds. Try again shortly.'
 }
 
-Write-Host 'AIEnglish 已关闭。' -ForegroundColor Green
+Write-Host 'AIEnglish stopped.' -ForegroundColor Green
 exit 0

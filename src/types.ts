@@ -67,16 +67,66 @@ export interface LessonRecord {
   listeningNotes: string
   translationDraft: string
   translationScore?: number
+  translationFeedback?: GradingFeedback
   speakingScore?: number
+  speakingTranscript?: string
+  speakingFeedback?: GradingFeedback
   writingDraft: string
   writingAttempts: number
   writingCorrect?: boolean
+  writingFeedback?: GradingFeedback
 }
 
 export interface LearningState {
-  version: 1
+  version: 2
   currentLessonId: string
   records: Record<string, LessonRecord>
+}
+
+export interface GradingFeedback {
+  score?: number
+  correct?: boolean
+  summary: string
+  strengths: string[]
+  improvements: string[]
+  dimensions: Array<{ label: string; score: number; weight: number }>
+  reference?: string
+  graderType?: 'local' | 'openai'
+  submissionVersion?: number
+}
+
+export interface LearningProfile {
+  targetExam: string
+  preferredLevel: DifficultyLevel
+  dailyGoalMinutes: number
+  interests: string[]
+  reminderTime: string | null
+}
+
+export interface ReviewItem {
+  id: number
+  reviewTaskId?: number
+  lessonId: string
+  errorType: string
+  prompt: string
+  userAnswer: string
+  correction: string
+  explanation: string
+  mastery: number
+  dueAt?: string
+  title: string
+  titleZh: string
+}
+
+export interface BootstrapData {
+  lessons: Lesson[]
+  learningState: LearningState
+  profile: LearningProfile
+  reviewItems: ReviewItem[]
+  database: {
+    engine: string
+    lessonCount: number
+  }
 }
 
 export interface Session {

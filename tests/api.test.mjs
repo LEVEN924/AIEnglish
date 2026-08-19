@@ -62,7 +62,7 @@ async function stopChild(child) {
   if (child.exitCode === null) child.kill('SIGKILL')
 }
 
-test('health, login, session, and logout APIs work together', { timeout: 20_000 }, async (context) => {
+test('database-backed learning and grading APIs work together', { timeout: 20_000 }, async (context) => {
   const port = await reservePort()
   const baseUrl = `http://127.0.0.1:${port}`
   const username = 'TEST_USER'
@@ -71,7 +71,7 @@ test('health, login, session, and logout APIs work together', { timeout: 20_000 
   const passwordHash = scryptSync(password, salt, 64)
   let logs = ''
 
-  const child = spawn(process.execPath, [serverEntry], {
+  const child = spawn(process.execPath, ['--disable-warning=ExperimentalWarning', serverEntry], {
     cwd: root,
     env: {
       ...process.env,
@@ -80,6 +80,7 @@ test('health, login, session, and logout APIs work together', { timeout: 20_000 
       APP_PASSWORD_SALT: salt.toString('hex'),
       APP_PASSWORD_HASH: passwordHash.toString('hex'),
       COOKIE_SECURE: 'false',
+      AI_ENGLISH_DB_PATH: join(root, '.runtime', `api-test-${port}.sqlite`),
     },
     stdio: ['ignore', 'pipe', 'pipe'],
     windowsHide: true,
@@ -125,6 +126,82 @@ test('health, login, session, and logout APIs work together', { timeout: 20_000 
   })
   assert.equal(authenticatedSession.status, 200)
   assert.deepEqual(await authenticatedSession.json(), { user: username })
+
+  const bootstrapResponse = await fetch(`${baseUrl}/api/bootstrap`, { headers: { Cookie: cookie } })
+  assert.equal(bootstrapResponse.status, 200)
+  const bootstrap = await bootstrapResponse.json()
+  assert.equal(bootstrap.database.engine, 'SQLite')
+  assert.equal(bootstrap.database.lessonCount, 50)
+  assert.equal(bootstrap.lessons.length, 50)
+  assert.deepEqual(new Set(bootstrap.lessons.map((lesson) => lesson.difficulty.level)), new Set(['L1', 'L2', 'L3']))
+
+  const lesson = bootstrap.lessons[0]
+  const translationResponse = await fetch(`${baseUrl}/api/grade/translation`, {
+    method: 'POST',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lessonId: lesson.id, answer: lesson.translation.referenceZh }),
+  })
+  assert.equal(translationResponse.status, 200)
+  const translation = await translationResponse.json()
+  assert.equal(translation.graderType, 'local')
+  assert.equal(translation.correct, true)
+  assert.equal(translation.submissionVersion, 1)
+  assert.ok(translation.score >= 80)
+
+  const nextState = bootstrap.learningState
+  nextState.records[lesson.id] = {
+    ...nextState.records[lesson.id],
+    completedSteps: ['guide', 'listening', 'translation'],
+    listeningNotes: '测试理解',
+    translationDraft: lesson.translation.referenceZh,
+    translationScore: translation.score,
+    translationFeedback: translation,
+  }
+  const stateResponse = await fetch(`${baseUrl}/api/learning-state`, {
+    method: 'PUT',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify(nextState),
+  })
+  assert.equal(stateResponse.status, 200)
+  const savedState = await stateResponse.json()
+  assert.equal(savedState.records[lesson.id].translationScore, translation.score)
+
+  const profileResponse = await fetch(`${baseUrl}/api/profile`, {
+    method: 'PUT',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...bootstrap.profile, targetExam: '雅思', preferredLevel: 'L3', dailyGoalMinutes: 30 }),
+  })
+  assert.equal(profileResponse.status, 200)
+  assert.deepEqual(await profileResponse.json(), { ...bootstrap.profile, targetExam: '雅思', preferredLevel: 'L3', dailyGoalMinutes: 30 })
+
+  const incorrectWritingResponse = await fetch(`${baseUrl}/api/grade/writing`, {
+    method: 'POST',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lessonId: lesson.id, answer: 'No.' }),
+  })
+  assert.equal(incorrectWritingResponse.status, 200)
+  const incorrectWriting = await incorrectWritingResponse.json()
+  assert.equal(incorrectWriting.correct, false)
+
+  const reviewBootstrapResponse = await fetch(`${baseUrl}/api/bootstrap`, { headers: { Cookie: cookie } })
+  const reviewBootstrap = await reviewBootstrapResponse.json()
+  assert.equal(reviewBootstrap.reviewItems.length, 1)
+  assert.ok(reviewBootstrap.reviewItems[0].reviewTaskId)
+  const reviewResponse = await fetch(`${baseUrl}/api/review/${reviewBootstrap.reviewItems[0].reviewTaskId}/complete`, {
+    method: 'POST',
+    headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+    body: '{}',
+  })
+  assert.equal(reviewResponse.status, 200)
+  assert.deepEqual(await reviewResponse.json(), { ok: true })
+  const completedReviewBootstrap = await fetch(`${baseUrl}/api/bootstrap`, { headers: { Cookie: cookie } }).then((response) => response.json())
+  assert.equal(completedReviewBootstrap.reviewItems.length, 0)
+
+  const statsResponse = await fetch(`${baseUrl}/api/content/stats`, { headers: { Cookie: cookie } })
+  const stats = await statsResponse.json()
+  assert.equal(stats.lessons, 50)
+  assert.equal(stats.sources, 50)
+  assert.equal(stats.submissions, 2)
 
   const logoutResponse = await fetch(`${baseUrl}/api/logout`, {
     method: 'POST',

@@ -1,0 +1,19 @@
+{
+  "name": "Ink & Air · AI English",
+  "short_name": "AI English",
+  "description": "每日一篇的私人英语学习档案馆",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f3efe5",
+  "theme_color": "#153b34",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

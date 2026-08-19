@@ -1,5 +1,4 @@
-import { LESSONS } from '../data/lessons'
-import type { LearningState, LessonRecord, StepId } from '../types'
+import type { LearningState, Lesson, LessonRecord, StepId } from '../types'
 
 function now() {
   return new Date().toISOString()
@@ -19,29 +18,13 @@ export function createLessonRecord(): LessonRecord {
   }
 }
 
-export function createLearningState(): LearningState {
+export function createLearningState(lessons: Lesson[]): LearningState {
+  const firstLessonId = lessons[0]?.id ?? ''
   return {
-    version: 1,
-    currentLessonId: LESSONS[0].id,
-    records: { [LESSONS[0].id]: createLessonRecord() },
+    version: 2,
+    currentLessonId: firstLessonId,
+    records: firstLessonId ? { [firstLessonId]: createLessonRecord() } : {},
   }
-}
-
-export function loadLearningState(user: string): LearningState {
-  const fallback = createLearningState()
-  try {
-    const raw = localStorage.getItem(`ai-english:learning:v1:${user}`)
-    if (!raw) return fallback
-    const parsed = JSON.parse(raw) as LearningState
-    if (parsed.version !== 1 || !LESSONS.some((lesson) => lesson.id === parsed.currentLessonId)) return fallback
-    return parsed
-  } catch {
-    return fallback
-  }
-}
-
-export function saveLearningState(user: string, state: LearningState) {
-  localStorage.setItem(`ai-english:learning:v1:${user}`, JSON.stringify(state))
 }
 
 export function updateLessonRecord(

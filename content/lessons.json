@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "targetSize": 1000,
-  "curatedAt": "2026-08-19T00:00:00.000Z",
+  "curatedAt": "2026-08-19T05:23:11.400Z",
   "entries": [
     {
       "id": "lesson-cdc-short-walk",
@@ -22,7 +22,10 @@
       "translation": {
         "prompt": "The useful lesson is not to wait for a perfect workout.",
         "referenceZh": "真正有用的启示是，不必等到一场完美的锻炼才开始行动。",
-        "gradingNotes": ["not to wait 表示“不要等待/不必等到”", "workout 在这里指一整次锻炼"]
+        "gradingNotes": [
+          "not to wait 表示“不要等待/不必等到”",
+          "workout 在这里指一整次锻炼"
+        ]
       },
       "speakingPrompt": "Describe one small way you could add more movement to a busy day.",
       "writing": {
@@ -34,9 +37,24 @@
         "hint": "使用 sustainable 或 can sustain 表达“可持续的”。"
       },
       "vocabulary": [
-        { "term": "moderate", "ipa": "/ˈmɑːdərət/", "part": "adj.", "meaning": "适度的，中等强度的" },
-        { "term": "chronic", "ipa": "/ˈkrɑːnɪk/", "part": "adj.", "meaning": "慢性的，长期的" },
-        { "term": "consistency", "ipa": "/kənˈsɪstənsi/", "part": "n.", "meaning": "持续性，一贯性" }
+        {
+          "term": "moderate",
+          "ipa": "/ˈmɑːdərət/",
+          "part": "adj.",
+          "meaning": "适度的，中等强度的"
+        },
+        {
+          "term": "chronic",
+          "ipa": "/ˈkrɑːnɪk/",
+          "part": "adj.",
+          "meaning": "慢性的，长期的"
+        },
+        {
+          "term": "consistency",
+          "ipa": "/kənˈsɪstənsi/",
+          "part": "n.",
+          "meaning": "持续性，一贯性"
+        }
       ],
       "source": {
         "publisher": "Centers for Disease Control and Prevention",
@@ -76,7 +94,10 @@
       "translation": {
         "prompt": "Plan a few meals around food that needs to be used soon.",
         "referenceZh": "围绕那些需要尽快用掉的食物，提前安排几顿饭。",
-        "gradingNotes": ["plan ... around 表示“围绕……来安排”", "needs to be used 是被动表达"]
+        "gradingNotes": [
+          "plan ... around 表示“围绕……来安排”",
+          "needs to be used 是被动表达"
+        ]
       },
       "speakingPrompt": "What food do you often forget at home, and what system could help you use it?",
       "writing": {
@@ -88,9 +109,24 @@
         "hint": "“查看”可用 check 或 look through；注意 before 后接动名词。"
       },
       "vocabulary": [
-        { "term": "pantry", "ipa": "/ˈpæntri/", "part": "n.", "meaning": "食品储藏室，食品柜" },
-        { "term": "spoiled", "ipa": "/spɔɪld/", "part": "adj.", "meaning": "变质的" },
-        { "term": "quantity", "ipa": "/ˈkwɑːntəti/", "part": "n.", "meaning": "数量" }
+        {
+          "term": "pantry",
+          "ipa": "/ˈpæntri/",
+          "part": "n.",
+          "meaning": "食品储藏室，食品柜"
+        },
+        {
+          "term": "spoiled",
+          "ipa": "/spɔɪld/",
+          "part": "adj.",
+          "meaning": "变质的"
+        },
+        {
+          "term": "quantity",
+          "ipa": "/ˈkwɑːntəti/",
+          "part": "n.",
+          "meaning": "数量"
+        }
       ],
       "source": {
         "publisher": "U.S. Environmental Protection Agency",
@@ -130,7 +166,10 @@
       "translation": {
         "prompt": "A bleached coral is not necessarily dead, but it has lost an important source of energy.",
         "referenceZh": "白化的珊瑚不一定已经死亡，但它失去了一项重要的能量来源。",
-        "gradingNotes": ["not necessarily 表示“不一定”", "has lost 强调失去后的当前状态"]
+        "gradingNotes": [
+          "not necessarily 表示“不一定”",
+          "has lost 强调失去后的当前状态"
+        ]
       },
       "speakingPrompt": "Explain symbiosis using coral and algae as an example.",
       "writing": {
@@ -142,9 +181,24 @@
         "hint": "用 why 引导宾语从句，或使用 both ... and ... 结构。"
       },
       "vocabulary": [
-        { "term": "polyp", "ipa": "/ˈpɑːlɪp/", "part": "n.", "meaning": "珊瑚虫；息肉" },
-        { "term": "symbiosis", "ipa": "/ˌsɪmbaɪˈoʊsɪs/", "part": "n.", "meaning": "共生关系" },
-        { "term": "vulnerable", "ipa": "/ˈvʌlnərəbl/", "part": "adj.", "meaning": "脆弱的，易受伤害的" }
+        {
+          "term": "polyp",
+          "ipa": "/ˈpɑːlɪp/",
+          "part": "n.",
+          "meaning": "珊瑚虫；息肉"
+        },
+        {
+          "term": "symbiosis",
+          "ipa": "/ˌsɪmbaɪˈoʊsɪs/",
+          "part": "n.",
+          "meaning": "共生关系"
+        },
+        {
+          "term": "vulnerable",
+          "ipa": "/ˈvʌlnərəbl/",
+          "part": "adj.",
+          "meaning": "脆弱的，易受伤害的"
+        }
       ],
       "source": {
         "publisher": "NOAA National Ocean Service",
@@ -184,7 +238,10 @@
       "translation": {
         "prompt": "Each successful test reduces uncertainty before crews attempt the much longer journey to Mars.",
         "referenceZh": "每一次成功的测试，都会在宇航员尝试更漫长的火星旅程之前降低不确定性。",
-        "gradingNotes": ["reduce uncertainty 表示“降低不确定性”", "attempt 在这里是“尝试进行”"]
+        "gradingNotes": [
+          "reduce uncertainty 表示“降低不确定性”",
+          "attempt 在这里是“尝试进行”"
+        ]
       },
       "speakingPrompt": "Do you think the Moon is a useful step toward Mars? Give two reasons.",
       "writing": {
@@ -196,9 +253,24 @@
         "hint": "尝试 not only ... but also ... 结构。"
       },
       "vocabulary": [
-        { "term": "life-support", "ipa": "/ˈlaɪf səˌpɔːrt/", "part": "adj.", "meaning": "维持生命的" },
-        { "term": "lunar", "ipa": "/ˈluːnər/", "part": "adj.", "meaning": "月球的" },
-        { "term": "uncertainty", "ipa": "/ʌnˈsɜːrtnti/", "part": "n.", "meaning": "不确定性" }
+        {
+          "term": "life-support",
+          "ipa": "/ˈlaɪf səˌpɔːrt/",
+          "part": "adj.",
+          "meaning": "维持生命的"
+        },
+        {
+          "term": "lunar",
+          "ipa": "/ˈluːnər/",
+          "part": "adj.",
+          "meaning": "月球的"
+        },
+        {
+          "term": "uncertainty",
+          "ipa": "/ʌnˈsɜːrtnti/",
+          "part": "n.",
+          "meaning": "不确定性"
+        }
       ],
       "source": {
         "publisher": "NASA",
@@ -239,7 +311,10 @@
       "translation": {
         "prompt": "The framework does not promise that every trade-off will disappear.",
         "referenceZh": "这套框架并不承诺每一种权衡都会消失。",
-        "gradingNotes": ["trade-off 指目标之间不得不做的取舍", "promise that 后接完整宾语从句"]
+        "gradingNotes": [
+          "trade-off 指目标之间不得不做的取舍",
+          "promise that 后接完整宾语从句"
+        ]
       },
       "speakingPrompt": "Which of the four actions is easiest to neglect, and why?",
       "writing": {
@@ -251,9 +326,24 @@
         "hint": "“治理规则”使用 governance rules；注意 evidence 是不可数名词。"
       },
       "vocabulary": [
-        { "term": "governance", "ipa": "/ˈɡʌvərnəns/", "part": "n.", "meaning": "治理，管理机制" },
-        { "term": "deployment", "ipa": "/dɪˈplɔɪmənt/", "part": "n.", "meaning": "部署，投入使用" },
-        { "term": "trade-off", "ipa": "/ˈtreɪd ɔːf/", "part": "n.", "meaning": "权衡，取舍" }
+        {
+          "term": "governance",
+          "ipa": "/ˈɡʌvərnəns/",
+          "part": "n.",
+          "meaning": "治理，管理机制"
+        },
+        {
+          "term": "deployment",
+          "ipa": "/dɪˈplɔɪmənt/",
+          "part": "n.",
+          "meaning": "部署，投入使用"
+        },
+        {
+          "term": "trade-off",
+          "ipa": "/ˈtreɪd ɔːf/",
+          "part": "n.",
+          "meaning": "权衡，取舍"
+        }
       ],
       "source": {
         "publisher": "National Institute of Standards and Technology",
@@ -272,6 +362,3201 @@
         "factualAccuracy": 15,
         "durability": 9,
         "total": 99
+      }
+    },
+    {
+      "id": "lesson-nasa-moon-facts",
+      "slug": "why-we-always-see-the-same-side-of-the-moon",
+      "title": "Why We Always See the Same Side of the Moon",
+      "titleZh": "为什么我们总看到月球的同一面",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "The Moon travels around Earth while also turning slowly on its own axis. One lunar rotation takes almost the same amount of time as one orbit around our planet. Because these two motions stay synchronized, the same lunar hemisphere usually faces Earth. The far side is not permanently dark; it receives sunlight during every lunar month. Changing sunlight creates the phases we see, from a thin crescent to a full Moon. Impact craters, cooled lava, and ancient ice make the lunar surface a record of solar-system history. Synchronized motion explains our familiar view without implying that the Moon has stopped rotating. Understanding this relationship turns an everyday sight into a clear lesson about motion and perspective. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "听文章时区分 rotation、orbit 和 phase，理解两个周期同步后产生的视觉结果。",
+      "keyIdeaZh": "月球自转与绕地公转周期接近，因此同一面长期朝向地球。",
+      "translation": {
+        "prompt": "The far side is not permanently dark; it receives sunlight during every lunar month.",
+        "referenceZh": "月球背面并非永远黑暗；它在每个阴历月都会接受阳光。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain why the far side of the Moon is not the same as a permanently dark side.",
+      "writing": {
+        "promptZh": "同步运动解释了我们熟悉的景象。",
+        "answers": [
+          "Synchronized motion explains our familiar view without implying that the Moon has stopped rotating."
+        ],
+        "hint": "复用本课表达：synchronized / hemisphere。"
+      },
+      "vocabulary": [
+        {
+          "term": "synchronized",
+          "ipa": "/ˈsɪŋkrənaɪzd/",
+          "part": "adj.",
+          "meaning": "同步的"
+        },
+        {
+          "term": "hemisphere",
+          "ipa": "/ˈhemɪsfɪr/",
+          "part": "n.",
+          "meaning": "半球"
+        },
+        {
+          "term": "crescent",
+          "ipa": "/ˈkresnt/",
+          "part": "n.",
+          "meaning": "新月形"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Moon Facts",
+        "url": "https://science.nasa.gov/moon/facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-mars-seasons",
+      "slug": "a-day-on-mars-feels-familiar-but-a-year-does-not",
+      "title": "A Day on Mars Feels Familiar, but a Year Does Not",
+      "titleZh": "火星的一天很熟悉，一年却很不同",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Mars completes one rotation in about 24.6 hours, so a Martian day is close to an Earth day. Scientists call that day a sol, a useful word when they plan rover operations. A Martian year is much longer because Mars follows a wider path around the Sun. It takes about 687 Earth days for Mars to complete a single orbit. Mars also has seasons because its axis is tilted in a way that resembles Earth. However, its elliptical orbit makes those seasons unequal in length and more extreme in some regions. A familiar daily rhythm can therefore exist inside a calendar that feels completely different. Mission teams must translate between sols and Earth dates when they schedule science and communicate results. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "抓住 day、sol、year 和 season 四个时间概念，比较火星与地球的相似和差异。",
+      "keyIdeaZh": "火星日接近地球日，但更长的公转轨道让火星年和季节明显不同。",
+      "translation": {
+        "prompt": "It takes about 687 Earth days for Mars to complete a single orbit.",
+        "referenceZh": "火星绕太阳完成一周大约需要687个地球日。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Which would be harder to adjust to on Mars: the length of a day or the length of a year?",
+      "writing": {
+        "promptZh": "熟悉的日常节奏可能存在于完全不同的日历中。",
+        "answers": [
+          "A familiar daily rhythm can therefore exist inside a calendar that feels completely different."
+        ],
+        "hint": "复用本课表达：sol / elliptical。"
+      },
+      "vocabulary": [
+        {
+          "term": "sol",
+          "ipa": "/sɑːl/",
+          "part": "n.",
+          "meaning": "火星日"
+        },
+        {
+          "term": "elliptical",
+          "ipa": "/ɪˈlɪptɪkl/",
+          "part": "adj.",
+          "meaning": "椭圆形的"
+        },
+        {
+          "term": "rotation",
+          "ipa": "/roʊˈteɪʃn/",
+          "part": "n.",
+          "meaning": "自转"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Mars Facts",
+        "url": "https://science.nasa.gov/mars/facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-earth-atmosphere",
+      "slug": "earth-is-more-than-a-blue-surface",
+      "title": "Earth Is More Than a Blue Surface",
+      "titleZh": "地球不只是一颗蓝色星球",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "From space, Earth looks blue because oceans cover most of its surface. Liquid water is only one part of the system that makes our planet unusual. The atmosphere contains gases that support life and help regulate surface temperature. A magnetic field also deflects many charged particles arriving from the Sun. Land, ocean, air, ice, and living things constantly exchange energy and material. A change in one part of this connected system can influence many other parts. Earth stays habitable through relationships among water, air, rock, sunlight, and life. Seeing the planet as a system helps scientists study both local events and global change. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "不要只听“蓝色星球”的描述，重点记录水、大气、磁场和生命之间的联系。",
+      "keyIdeaZh": "地球宜居不是单一条件造成的，而是多个系统长期相互作用的结果。",
+      "translation": {
+        "prompt": "A magnetic field also deflects many charged particles arriving from the Sun.",
+        "referenceZh": "磁场还能偏转许多来自太阳的带电粒子。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Choose one Earth system and explain how it connects with another system.",
+      "writing": {
+        "promptZh": "地球通过水、空气、岩石、阳光和生命之间的联系保持宜居。",
+        "answers": [
+          "Earth stays habitable through relationships among water, air, rock, sunlight, and life."
+        ],
+        "hint": "复用本课表达：atmosphere / deflect。"
+      },
+      "vocabulary": [
+        {
+          "term": "atmosphere",
+          "ipa": "/ˈætməsfɪr/",
+          "part": "n.",
+          "meaning": "大气层"
+        },
+        {
+          "term": "deflect",
+          "ipa": "/dɪˈflekt/",
+          "part": "v.",
+          "meaning": "使偏转"
+        },
+        {
+          "term": "habitable",
+          "ipa": "/ˈhæbɪtəbl/",
+          "part": "adj.",
+          "meaning": "适宜居住的"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Earth Facts",
+        "url": "https://science.nasa.gov/earth/facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-sun-energy",
+      "slug": "the-sun-holds-the-solar-system-together",
+      "title": "The Sun Holds the Solar System Together",
+      "titleZh": "太阳如何维系整个太阳系",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "The Sun is an ordinary star in one sense, yet it dominates our local neighborhood in space. Its gravity keeps planets, dwarf planets, asteroids, and comets moving in stable paths. Deep inside the Sun, nuclear fusion combines hydrogen and releases enormous amounts of energy. That energy takes time to travel outward before reaching Earth as light and heat. Sunlight powers photosynthesis, influences weather, and supports almost every food chain on our planet. Solar activity can also disturb satellites, radio communication, navigation, and electrical systems. The Sun is both a steady source of life-giving energy and a changing space-weather environment. Studying it helps scientists understand stars while protecting technology used in daily life. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "按 gravity、fusion、sunlight、space weather 的顺序理解太阳的四种作用。",
+      "keyIdeaZh": "太阳既为生命提供能量，也通过太空天气影响现代技术。",
+      "translation": {
+        "prompt": "That energy takes time to travel outward before reaching Earth as light and heat.",
+        "referenceZh": "这些能量向外传播需要时间，之后才以光和热的形式到达地球。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Describe one way the Sun supports life and one way it can disrupt technology.",
+      "writing": {
+        "promptZh": "太阳既是稳定的能量来源，也是不断变化的太空天气环境。",
+        "answers": [
+          "The Sun is both a steady source of life-giving energy and a changing space-weather environment."
+        ],
+        "hint": "复用本课表达：fusion / dominate。"
+      },
+      "vocabulary": [
+        {
+          "term": "fusion",
+          "ipa": "/ˈfjuːʒn/",
+          "part": "n.",
+          "meaning": "核聚变"
+        },
+        {
+          "term": "dominate",
+          "ipa": "/ˈdɑːmɪneɪt/",
+          "part": "v.",
+          "meaning": "支配，占主导"
+        },
+        {
+          "term": "disturb",
+          "ipa": "/dɪˈstɜːrb/",
+          "part": "v.",
+          "meaning": "干扰"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Sun Facts",
+        "url": "https://science.nasa.gov/sun/facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-venus-greenhouse",
+      "slug": "venus-shows-the-power-of-an-atmosphere",
+      "title": "Venus Shows the Power of an Atmosphere",
+      "titleZh": "金星展示了大气层的力量",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Venus is similar to Earth in size, but its surface conditions are dramatically different. A thick atmosphere made mostly of carbon dioxide traps heat with an intense greenhouse effect. Surface temperatures are high enough to melt lead, even though Venus is not the closest planet to the Sun. Clouds of sulfuric acid hide the surface from ordinary visible-light cameras. Radar instruments can look through those clouds and map mountains, plains, and volcanic features. Venus rotates very slowly and in the opposite direction from most planets. Similar size does not guarantee a similar climate when atmospheric history develops differently. By studying Venus, scientists test ideas about climate, geology, and the evolution of rocky worlds. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "关注 similar in size 与 dramatically different 的对比，并记录大气如何改变行星表面。",
+      "keyIdeaZh": "行星大小相近并不意味着气候相近，大气演化会造成巨大差异。",
+      "translation": {
+        "prompt": "Clouds of sulfuric acid hide the surface from ordinary visible-light cameras.",
+        "referenceZh": "硫酸云层使普通的可见光相机无法看到金星表面。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Why is Venus useful for testing ideas about planets and climate?",
+      "writing": {
+        "promptZh": "相似的大小并不能保证相似的气候。",
+        "answers": [
+          "Similar size does not guarantee a similar climate when atmospheric history develops differently."
+        ],
+        "hint": "复用本课表达：intense / sulfuric。"
+      },
+      "vocabulary": [
+        {
+          "term": "intense",
+          "ipa": "/ɪnˈtens/",
+          "part": "adj.",
+          "meaning": "强烈的"
+        },
+        {
+          "term": "sulfuric",
+          "ipa": "/sʌlˈfjʊrɪk/",
+          "part": "adj.",
+          "meaning": "硫酸的"
+        },
+        {
+          "term": "evolution",
+          "ipa": "/ˌevəˈluːʃn/",
+          "part": "n.",
+          "meaning": "演化"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Venus Facts",
+        "url": "https://science.nasa.gov/venus/venus-facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-jupiter-storms",
+      "slug": "jupiter-is-a-world-of-motion",
+      "title": "Jupiter Is a World of Motion",
+      "titleZh": "木星是一颗不断运动的世界",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Jupiter is the largest planet in our solar system and is made mostly of hydrogen and helium. It has no solid surface like Earth, although pressure increases greatly deeper inside the planet. Fast rotation stretches clouds into colorful bands that move in different directions. The Great Red Spot is a giant storm that has been observed for generations. Jupiter also has a powerful magnetic field and a large family of moons. Some of those moons contain ice, volcanoes, or possible oceans beneath their surfaces. The planet and its moons form a complex system rather than a single isolated object. Exploring that system helps scientists study storms, magnetic environments, and possible habitats beyond Earth. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "听出木星本体的气体、风暴和磁场，再把注意力转向它的卫星系统。",
+      "keyIdeaZh": "研究木星需要把行星、磁场和众多卫星看成一个复杂系统。",
+      "translation": {
+        "prompt": "The Great Red Spot is a giant storm that has been observed for generations.",
+        "referenceZh": "大红斑是一场已经被观测了数代人的巨型风暴。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Which feature of Jupiter or its moons would you most like to investigate, and why?",
+      "writing": {
+        "promptZh": "这颗行星及其卫星构成了一个复杂系统。",
+        "answers": [
+          "The planet and its moons form a complex system rather than a single isolated object."
+        ],
+        "hint": "复用本课表达：hydrogen / magnetic。"
+      },
+      "vocabulary": [
+        {
+          "term": "hydrogen",
+          "ipa": "/ˈhaɪdrədʒən/",
+          "part": "n.",
+          "meaning": "氢"
+        },
+        {
+          "term": "magnetic",
+          "ipa": "/mæɡˈnetɪk/",
+          "part": "adj.",
+          "meaning": "磁性的"
+        },
+        {
+          "term": "isolated",
+          "ipa": "/ˈaɪsəleɪtɪd/",
+          "part": "adj.",
+          "meaning": "孤立的"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Jupiter Facts",
+        "url": "https://science.nasa.gov/jupiter/jupiter-facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-saturn-rings",
+      "slug": "saturn-s-rings-are-bright-but-temporary",
+      "title": "Saturn’s Rings Are Bright but Temporary",
+      "titleZh": "土星环耀眼，却并非永恒",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Saturn is famous for rings that can be seen even with a modest telescope. The rings contain countless pieces of ice and rock, ranging from dust-sized grains to much larger chunks. They appear solid from far away, but wide gaps separate many of their particles. Gravity from Saturn and its moons shapes ring edges, waves, and narrow divisions. Some material falls gradually into the planet, while collisions continue to change the ring system. Scientists therefore do not expect the rings to remain exactly as they are forever. A beautiful structure can look permanent on a human timescale while still evolving astronomically. Saturn offers a visible laboratory for studying gravity, collisions, and change across a planetary system. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "先想象远看像实体的土星环，再听清粒子、间隙、引力和变化之间的关系。",
+      "keyIdeaZh": "土星环由大量运动中的冰石颗粒组成，并会在漫长时间里持续演化。",
+      "translation": {
+        "prompt": "Gravity from Saturn and its moons shapes ring edges, waves, and narrow divisions.",
+        "referenceZh": "土星及其卫星的引力塑造了环的边缘、波纹和狭窄分隔。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Why can Saturn’s rings look solid even though they are made of separate particles?",
+      "writing": {
+        "promptZh": "美丽的结构在人类时间尺度上可能显得永恒。",
+        "answers": [
+          "A beautiful structure can look permanent on a human timescale while still evolving astronomically."
+        ],
+        "hint": "复用本课表达：particle / division。"
+      },
+      "vocabulary": [
+        {
+          "term": "particle",
+          "ipa": "/ˈpɑːrtɪkl/",
+          "part": "n.",
+          "meaning": "颗粒"
+        },
+        {
+          "term": "division",
+          "ipa": "/dɪˈvɪʒn/",
+          "part": "n.",
+          "meaning": "分隔"
+        },
+        {
+          "term": "astronomically",
+          "ipa": "/ˌæstrəˈnɑːmɪkli/",
+          "part": "adv.",
+          "meaning": "在天文尺度上"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Saturn Facts",
+        "url": "https://science.nasa.gov/saturn/facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-asteroid-records",
+      "slug": "asteroids-preserve-an-ancient-record",
+      "title": "Asteroids Preserve an Ancient Record",
+      "titleZh": "小行星保存着远古记录",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Asteroids are rocky remnants left from the formation of the solar system about 4.6 billion years ago. Most orbit the Sun between Mars and Jupiter, but others follow paths that approach Earth. Their shapes are often irregular because many are too small for gravity to make them round. Some asteroids are loose collections of material held together weakly by gravity. Spacecraft can measure their composition, photograph their surfaces, and sometimes return samples to Earth. Those samples preserve chemical clues that have been altered or erased on active planets. A small object can carry evidence about conditions that existed before Earth fully formed. Tracking nearby asteroids also improves knowledge that can support long-term planetary defense. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "抓住 remnants、samples、clues 三个词，理解小行星为何像太阳系的历史档案。",
+      "keyIdeaZh": "小行星样本保留了活跃行星上可能已经消失的早期化学线索。",
+      "translation": {
+        "prompt": "Some asteroids are loose collections of material held together weakly by gravity.",
+        "referenceZh": "有些小行星是由引力松散维系在一起的物质集合。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Give one scientific reason and one safety reason for studying asteroids.",
+      "writing": {
+        "promptZh": "一个小天体也能携带地球形成之前的证据。",
+        "answers": [
+          "A small object can carry evidence about conditions that existed before Earth fully formed."
+        ],
+        "hint": "复用本课表达：remnant / irregular。"
+      },
+      "vocabulary": [
+        {
+          "term": "remnant",
+          "ipa": "/ˈremnənt/",
+          "part": "n.",
+          "meaning": "残余物"
+        },
+        {
+          "term": "irregular",
+          "ipa": "/ɪˈreɡjələr/",
+          "part": "adj.",
+          "meaning": "不规则的"
+        },
+        {
+          "term": "composition",
+          "ipa": "/ˌkɑːmpəˈzɪʃn/",
+          "part": "n.",
+          "meaning": "组成成分"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Asteroid Facts",
+        "url": "https://science.nasa.gov/solar-system/asteroids/facts/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nasa-rocky-exoplanets",
+      "slug": "a-rocky-planet-is-only-the-beginning",
+      "title": "A Rocky Planet Is Only the Beginning",
+      "titleZh": "发现岩石行星只是开始",
+      "topic": "太空与科学",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Astronomers call planets dominated by rock or iron terrestrial planets. Finding a world close to Earth in size does not automatically make it habitable. Researchers must also investigate its orbit, temperature, atmosphere, star, and possible surface conditions. A planet may be rocky while remaining far too hot, cold, or exposed to radiation for familiar life. Telescopes study tiny changes in starlight to estimate a planet’s size and atmospheric chemistry. Each measurement carries uncertainty, so several methods are stronger than one signal alone. The word Earth-like should describe specific evidence rather than serve as a promise of another Earth. Careful language helps the public understand both the excitement and limits of exoplanet discoveries. Careful comparison helps readers separate an exciting image from the physical process and evidence that explain it.",
+      "guideZh": "注意文章如何限制 Earth-like 这个说法，并列出判断宜居性需要的多种证据。",
+      "keyIdeaZh": "岩石结构和地球大小只是线索，不能单独证明一颗行星适宜生命存在。",
+      "translation": {
+        "prompt": "A planet may be rocky while remaining far too hot, cold, or exposed to radiation for familiar life.",
+        "referenceZh": "一颗行星可能是岩石构成的，却仍然过热、过冷或暴露在强辐射下。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "What evidence would you want before calling an exoplanet Earth-like?",
+      "writing": {
+        "promptZh": "“类地”一词应该描述具体证据。",
+        "answers": [
+          "The word Earth-like should describe specific evidence rather than serve as a promise of another Earth."
+        ],
+        "hint": "复用本课表达：terrestrial / habitable。"
+      },
+      "vocabulary": [
+        {
+          "term": "terrestrial",
+          "ipa": "/təˈrestriəl/",
+          "part": "adj.",
+          "meaning": "类地的，陆地的"
+        },
+        {
+          "term": "habitable",
+          "ipa": "/ˈhæbɪtəbl/",
+          "part": "adj.",
+          "meaning": "适宜居住的"
+        },
+        {
+          "term": "uncertainty",
+          "ipa": "/ʌnˈsɜːrtnti/",
+          "part": "n.",
+          "meaning": "不确定性"
+        }
+      ],
+      "source": {
+        "publisher": "NASA Science",
+        "title": "Terrestrial Exoplanets",
+        "url": "https://science.nasa.gov/exoplanets/terrestrial/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-marine-debris",
+      "slug": "marine-debris-begins-far-from-the-ocean",
+      "title": "Marine Debris Begins Far from the Ocean",
+      "titleZh": "海洋垃圾可能从离海很远的地方开始",
+      "topic": "海洋与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Marine debris includes persistent manufactured material that is abandoned in oceans, coasts, or the Great Lakes. Fishing gear, plastic packaging, bottles, and many other objects can injure wildlife or obstruct navigation. Much of this debris begins on land rather than being dropped directly from a boat. Rain and wind can move litter into storm drains, rivers, and eventually coastal water. Once debris enters a current, it may travel long distances and become difficult to recover. Prevention therefore includes secure waste systems, careful recreation, and reducing disposable items. A local action can matter because water connects streets and rivers with the wider ocean. Cleanup is useful, but stopping material before it escapes is usually more efficient. Following movement through the whole system helps connect a local observation with consequences that may appear far away.",
+      "guideZh": "听清垃圾从 land 到 storm drain、river、ocean 的移动路径，并比较清理与预防。",
+      "keyIdeaZh": "街道、河流和海洋由水相连，因此海洋垃圾预防必须从陆地开始。",
+      "translation": {
+        "prompt": "Rain and wind can move litter into storm drains, rivers, and eventually coastal water.",
+        "referenceZh": "雨水和风会把垃圾带入雨水排水沟、河流，并最终带到沿海水域。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Name one item that could become marine debris and explain how to prevent it.",
+      "writing": {
+        "promptZh": "一个地方的行动也可能产生影响。",
+        "answers": [
+          "A local action can matter because water connects streets and rivers with the wider ocean."
+        ],
+        "hint": "复用本课表达：debris / obstruct。"
+      },
+      "vocabulary": [
+        {
+          "term": "debris",
+          "ipa": "/dəˈbriː/",
+          "part": "n.",
+          "meaning": "碎片，垃圾"
+        },
+        {
+          "term": "obstruct",
+          "ipa": "/əbˈstrʌkt/",
+          "part": "v.",
+          "meaning": "阻碍"
+        },
+        {
+          "term": "disposable",
+          "ipa": "/dɪˈspoʊzəbl/",
+          "part": "adj.",
+          "meaning": "一次性的"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "What is marine debris?",
+        "url": "https://oceanservice.noaa.gov/facts/marinedebris.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-ocean-gyres",
+      "slug": "a-gyre-moves-more-than-water",
+      "title": "A Gyre Moves More Than Water",
+      "titleZh": "海洋环流带走的不只是海水",
+      "topic": "海洋与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "A gyre is a large system of rotating ocean currents rather than a single floating island of trash. Wind, tides, Earth’s rotation, temperature, and salinity all help drive movement in the ocean. Five major subtropical gyres organize broad patterns across the Atlantic, Pacific, and Indian Oceans. These currents transport heat, nutrients, ships, organisms, and pollution over long distances. Floating debris can gather in some regions, which is why gyres are often associated with garbage patches. However, most debris remains spread through a huge area instead of forming a solid surface. Accurate language matters because a moving current system is not the same as a permanent trash island. Current data supports navigation, rescue work, environmental response, and scientific forecasting. Following movement through the whole system helps connect a local observation with consequences that may appear far away.",
+      "guideZh": "区分 gyre 和 garbage patch，记录海流的驱动力以及它能运输的不同事物。",
+      "keyIdeaZh": "环流是庞大的动态海流系统，垃圾只是它可能运输和聚集的物质之一。",
+      "translation": {
+        "prompt": "These currents transport heat, nutrients, ships, organisms, and pollution over long distances.",
+        "referenceZh": "这些海流会把热量、营养物、船只、生物和污染物带到很远的地方。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Why is it misleading to describe a gyre as a solid island of trash?",
+      "writing": {
+        "promptZh": "准确的语言很重要。",
+        "answers": [
+          "Accurate language matters because a moving current system is not the same as a permanent trash island."
+        ],
+        "hint": "复用本课表达：gyre / salinity。"
+      },
+      "vocabulary": [
+        {
+          "term": "gyre",
+          "ipa": "/ˈdʒaɪər/",
+          "part": "n.",
+          "meaning": "海洋环流"
+        },
+        {
+          "term": "salinity",
+          "ipa": "/səˈlɪnəti/",
+          "part": "n.",
+          "meaning": "盐度"
+        },
+        {
+          "term": "forecasting",
+          "ipa": "/ˈfɔːrkæstɪŋ/",
+          "part": "n.",
+          "meaning": "预测"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "What is a gyre?",
+        "url": "https://oceanservice.noaa.gov/facts/gyre.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-tides-gravity",
+      "slug": "tides-are-a-pattern-not-a-fixed-schedule",
+      "title": "Tides Are a Pattern, Not a Fixed Schedule",
+      "titleZh": "潮汐有规律，却不是固定时刻表",
+      "topic": "海洋与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Tides are long-period waves that cause ocean levels to rise and fall along coasts. The gravitational pull of the Moon has the strongest influence, while the Sun also contributes. Coastline shape, water depth, and local geography change how that astronomical force appears in each place. Some locations experience two similar high tides each day, while others follow different patterns. Weather can push water above or below the level predicted from gravity alone. For this reason, tide tables are local forecasts rather than universal daily schedules. Boaters, coastal workers, scientists, and visitors all use tide information to plan safely. A predictable natural cycle still requires local measurements and current weather knowledge. Following movement through the whole system helps connect a local observation with consequences that may appear far away.",
+      "guideZh": "先听引力造成的总体规律，再找出海岸形状、水深和天气如何改变当地潮位。",
+      "keyIdeaZh": "天体引力形成潮汐规律，但当地地形和天气决定具体表现。",
+      "translation": {
+        "prompt": "Some locations experience two similar high tides each day, while others follow different patterns.",
+        "referenceZh": "有些地方每天出现两次相似的高潮，而其他地方遵循不同模式。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Why should someone check a local tide table instead of using a general rule?",
+      "writing": {
+        "promptZh": "潮汐表是地方性预测，而不是全球统一的时间表。",
+        "answers": [
+          "Boaters, coastal workers, scientists, and visitors all use tide information to plan safely."
+        ],
+        "hint": "复用本课表达：gravitational / astronomical。"
+      },
+      "vocabulary": [
+        {
+          "term": "gravitational",
+          "ipa": "/ˌɡrævɪˈteɪʃənl/",
+          "part": "adj.",
+          "meaning": "引力的"
+        },
+        {
+          "term": "astronomical",
+          "ipa": "/ˌæstrəˈnɑːmɪkl/",
+          "part": "adj.",
+          "meaning": "天文的"
+        },
+        {
+          "term": "predicted",
+          "ipa": "/prɪˈdɪktɪd/",
+          "part": "adj.",
+          "meaning": "预测的"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "What are tides?",
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-ocean-blue",
+      "slug": "why-the-ocean-often-looks-blue",
+      "title": "Why the Ocean Often Looks Blue",
+      "titleZh": "海洋为什么常常呈现蓝色",
+      "topic": "海洋与环境",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Ocean color begins with the way water absorbs and scatters different parts of visible light. Water absorbs colors near the red end of the spectrum more readily than blue light. More blue light remains available to scatter back toward an observer’s eyes. The sky can reflect on the surface, but reflection is not the main reason deep water looks blue. Sediment, algae, depth, clouds, and the angle of sunlight can all change the color we see. Green or brown water is therefore not simply a failure to reflect a blue sky. Ocean color carries information about water, particles, and living organisms below the surface. Satellites use these color differences to help scientists monitor large marine regions. Following movement through the whole system helps connect a local observation with consequences that may appear far away.",
+      "guideZh": "重点区分 absorb、scatter 和 reflect，避免把海洋颜色简单解释成天空倒影。",
+      "keyIdeaZh": "海水对不同波长光的吸收和散射，是深水常呈蓝色的主要原因。",
+      "translation": {
+        "prompt": "The sky can reflect on the surface, but reflection is not the main reason deep water looks blue.",
+        "referenceZh": "天空会倒映在海面上，但倒影并不是深水呈蓝色的主要原因。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain why ocean water can look green or brown instead of blue.",
+      "writing": {
+        "promptZh": "海洋颜色携带着水面以下的信息。",
+        "answers": [
+          "Ocean color carries information about water, particles, and living organisms below the surface."
+        ],
+        "hint": "复用本课表达：absorb / scatter。"
+      },
+      "vocabulary": [
+        {
+          "term": "absorb",
+          "ipa": "/əbˈzɔːrb/",
+          "part": "v.",
+          "meaning": "吸收"
+        },
+        {
+          "term": "scatter",
+          "ipa": "/ˈskætər/",
+          "part": "v.",
+          "meaning": "散射"
+        },
+        {
+          "term": "sediment",
+          "ipa": "/ˈsedɪmənt/",
+          "part": "n.",
+          "meaning": "沉积物"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "Why is the ocean blue?",
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-ocean-salt",
+      "slug": "rivers-carry-the-ingredients-of-a-salty-ocean",
+      "title": "Rivers Carry the Ingredients of a Salty Ocean",
+      "titleZh": "河流把海洋盐分的原料带入大海",
+      "topic": "海洋与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Rainwater reacts with carbon dioxide in the air and becomes slightly acidic. As it moves across rocks and soil, it dissolves small amounts of minerals and salts. Rivers carry many of those dissolved materials toward the ocean over long periods. Water also enters and leaves the seafloor through hydrothermal systems that exchange minerals. Ocean water evaporates, but most dissolved salts remain behind and become concentrated. The process continues slowly across geological time rather than during one dramatic event. Rivers taste fresh because their salt concentration is far lower than the concentration in seawater. The salty ocean records a long interaction among rain, rock, rivers, seafloor, and evaporation. Following movement through the whole system helps connect a local observation with consequences that may appear far away.",
+      "guideZh": "按 rain、rock、river、ocean、evaporation 的顺序复述盐分长期积累的过程。",
+      "keyIdeaZh": "海洋盐分来自水、岩石和海底长期交换，蒸发又让盐分留在海中。",
+      "translation": {
+        "prompt": "Water also enters and leaves the seafloor through hydrothermal systems that exchange minerals.",
+        "referenceZh": "水还会通过热液系统进出海底，并在这个过程中交换矿物质。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Describe the journey of one dissolved mineral from rock to the ocean.",
+      "writing": {
+        "promptZh": "这个过程在地质时间里缓慢持续。",
+        "answers": [
+          "Rivers taste fresh because their salt concentration is far lower than the concentration in seawater."
+        ],
+        "hint": "复用本课表达：acidic / dissolve。"
+      },
+      "vocabulary": [
+        {
+          "term": "acidic",
+          "ipa": "/əˈsɪdɪk/",
+          "part": "adj.",
+          "meaning": "酸性的"
+        },
+        {
+          "term": "dissolve",
+          "ipa": "/dɪˈzɑːlv/",
+          "part": "v.",
+          "meaning": "溶解"
+        },
+        {
+          "term": "hydrothermal",
+          "ipa": "/ˌhaɪdroʊˈθɜːrml/",
+          "part": "adj.",
+          "meaning": "热液的"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "Why is the ocean salty?",
+        "url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-rip-current",
+      "slug": "a-rip-current-pulls-away-not-under",
+      "title": "A Rip Current Pulls Away, Not Under",
+      "titleZh": "离岸流把人带离岸边，而不是拖入水下",
+      "topic": "安全与自然",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "A rip current is a narrow, fast-moving channel of water that flows away from the shore. It does not pull a swimmer under the water, but it can carry someone farther offshore. Trying to swim directly against the current may cause exhaustion and panic. A safer response is to stay calm, float, signal for help, and move parallel to the beach when possible. Rip currents can appear near breaks in sandbars, structures, or places where waves return seaward. Conditions change quickly, so even experienced swimmers should respect warnings and lifeguard advice. Knowing the direction of the current helps replace a dangerous struggle with a planned escape. Beach safety begins before entering the water by checking conditions and choosing a guarded area.",
+      "guideZh": "这是安全类内容，请听清错误动作、正确动作以及 parallel to the beach 的方向。",
+      "keyIdeaZh": "遇到离岸流时不要逆流硬游，应保持冷静、漂浮并尝试平行海岸移动。",
+      "translation": {
+        "prompt": "A safer response is to stay calm, float, signal for help, and move parallel to the beach when possible.",
+        "referenceZh": "更安全的做法是保持冷静、漂浮、发出求救信号，并在可能时平行海滩移动。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Give three clear instructions to a friend who is caught in a rip current.",
+      "writing": {
+        "promptZh": "了解水流方向有助于制定逃生计划。",
+        "answers": [
+          "Knowing the direction of the current helps replace a dangerous struggle with a planned escape."
+        ],
+        "hint": "复用本课表达：offshore / exhaustion。"
+      },
+      "vocabulary": [
+        {
+          "term": "offshore",
+          "ipa": "/ˌɔːfˈʃɔːr/",
+          "part": "adv.",
+          "meaning": "向离岸方向"
+        },
+        {
+          "term": "exhaustion",
+          "ipa": "/ɪɡˈzɔːstʃən/",
+          "part": "n.",
+          "meaning": "精疲力竭"
+        },
+        {
+          "term": "parallel",
+          "ipa": "/ˈpærəlel/",
+          "part": "adj.",
+          "meaning": "平行的"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "What is a rip current?",
+        "url": "https://oceanservice.noaa.gov/facts/ripcurrent.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-estuary-nursery",
+      "slug": "where-rivers-meet-the-sea",
+      "title": "Where Rivers Meet the Sea",
+      "titleZh": "河流与海洋相遇的地方",
+      "topic": "海洋与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "An estuary is a partly enclosed coastal area where freshwater mixes with saltwater from the ocean. Changing tides create a dynamic environment with shifting salinity, sediment, and water levels. Marshes, seagrass, mudflats, and shallow channels provide food and shelter for many species. Young fish and shellfish often use estuaries as protected nursery habitats. These places can also filter runoff, store carbon, reduce erosion, and soften some storm impacts. Ports and communities frequently develop nearby because estuaries connect land, rivers, and sea travel. The same location can support wildlife, jobs, recreation, and protection from coastal hazards. Protecting an estuary requires managing activities both along the coast and far upstream. Following movement through the whole system helps connect a local observation with consequences that may appear far away.",
+      "guideZh": "听出淡水与海水混合后形成的生态功能，以及上游活动为何会影响河口。",
+      "keyIdeaZh": "河口连接陆地、河流和海洋，同时承担育幼、过滤和海岸保护等多重功能。",
+      "translation": {
+        "prompt": "Young fish and shellfish often use estuaries as protected nursery habitats.",
+        "referenceZh": "幼鱼和贝类经常把河口作为受到保护的育幼栖息地。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain two benefits an estuary can provide to nature or people.",
+      "writing": {
+        "promptZh": "同一个地方可以同时支持野生动物、工作和休闲。",
+        "answers": [
+          "The same location can support wildlife, jobs, recreation, and protection from coastal hazards."
+        ],
+        "hint": "复用本课表达：estuary / salinity。"
+      },
+      "vocabulary": [
+        {
+          "term": "estuary",
+          "ipa": "/ˈestʃueri/",
+          "part": "n.",
+          "meaning": "河口湾"
+        },
+        {
+          "term": "salinity",
+          "ipa": "/səˈlɪnəti/",
+          "part": "n.",
+          "meaning": "盐度"
+        },
+        {
+          "term": "upstream",
+          "ipa": "/ˌʌpˈstriːm/",
+          "part": "adv.",
+          "meaning": "向上游，在上游"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "What is an estuary?",
+        "url": "https://oceanservice.noaa.gov/facts/estuary.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-sea-level",
+      "slug": "sea-level-is-both-global-and-local",
+      "title": "Sea Level Is Both Global and Local",
+      "titleZh": "海平面既是全球问题，也是地方问题",
+      "topic": "气候与城市",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Global average sea level rises when ocean water warms and expands and when land ice melts. Local sea level can change differently because land may sink, rise, or move after geological events. Ocean currents, winds, tides, and regional climate patterns also affect what a tide gauge records. A global trend therefore does not produce exactly the same number along every coastline. Satellites measure broad ocean height, while long-running coastal gauges provide detailed local histories. Communities combine both kinds of evidence when they plan roads, drainage, buildings, and emergency routes. Good adaptation begins with local measurements placed inside a reliable global picture. The distinction between global and local change improves decisions without denying either scale. Reliable local evidence allows communities to turn a broad environmental pattern into a practical planning decision.",
+      "guideZh": "区分 global average 与 local sea level，并记录卫星和验潮仪各自提供的证据。",
+      "keyIdeaZh": "全球海平面上升趋势会因陆地运动和区域海洋条件而在各地呈现不同速度。",
+      "translation": {
+        "prompt": "A global trend therefore does not produce exactly the same number along every coastline.",
+        "referenceZh": "因此，全球趋势不会在每一段海岸线上产生完全相同的数字。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Why should a coastal city use both global and local sea-level information?",
+      "writing": {
+        "promptZh": "良好的适应始于可靠的地方测量。",
+        "answers": [
+          "Good adaptation begins with local measurements placed inside a reliable global picture."
+        ],
+        "hint": "复用本课表达：expand / gauge。"
+      },
+      "vocabulary": [
+        {
+          "term": "expand",
+          "ipa": "/ɪkˈspænd/",
+          "part": "v.",
+          "meaning": "膨胀"
+        },
+        {
+          "term": "gauge",
+          "ipa": "/ɡeɪdʒ/",
+          "part": "n.",
+          "meaning": "测量仪器"
+        },
+        {
+          "term": "adaptation",
+          "ipa": "/ˌædæpˈteɪʃn/",
+          "part": "n.",
+          "meaning": "适应措施"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "Is sea level rising?",
+        "url": "https://oceanservice.noaa.gov/facts/sealevel.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-noaa-weather-climate",
+      "slug": "weather-is-today-climate-is-the-pattern",
+      "title": "Weather Is Today; Climate Is the Pattern",
+      "titleZh": "天气描述今天，气候描述长期模式",
+      "topic": "气候与城市",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Weather describes short-term conditions such as today’s temperature, rain, wind, or cloud cover. Climate describes patterns and ranges observed in a region over much longer periods. A cold morning does not disprove a warming climate, just as one hot afternoon cannot define it. Scientists study many measurements across decades to identify changes in averages and extremes. Weather forecasts help people decide what to wear or whether to change tomorrow’s plans. Climate information helps communities design buildings, manage water, and prepare for long-term risks. The two ideas use related observations but answer questions on different timescales. Choosing the correct timescale prevents a single unusual day from becoming a misleading conclusion. Reliable local evidence allows communities to turn a broad environmental pattern into a practical planning decision.",
+      "guideZh": "用 short-term、long-term 和 timescale 三个线索区分天气与气候的用途。",
+      "keyIdeaZh": "天气和气候使用相关观测，但回答的是不同时间尺度的问题。",
+      "translation": {
+        "prompt": "Scientists study many measurements across decades to identify changes in averages and extremes.",
+        "referenceZh": "科学家研究跨越数十年的大量测量，以识别平均值和极端情况的变化。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Give one weather question and one climate question about your city.",
+      "writing": {
+        "promptZh": "这两个概念回答不同时间尺度的问题。",
+        "answers": [
+          "The two ideas use related observations but answer questions on different timescales."
+        ],
+        "hint": "复用本课表达：condition / decade。"
+      },
+      "vocabulary": [
+        {
+          "term": "condition",
+          "ipa": "/kənˈdɪʃn/",
+          "part": "n.",
+          "meaning": "状况"
+        },
+        {
+          "term": "decade",
+          "ipa": "/ˈdekeɪd/",
+          "part": "n.",
+          "meaning": "十年"
+        },
+        {
+          "term": "timescale",
+          "ipa": "/ˈtaɪmskeɪl/",
+          "part": "n.",
+          "meaning": "时间尺度"
+        }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "What is the difference between weather and climate?",
+        "url": "https://oceanservice.noaa.gov/facts/weather_climate.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-indoor-air",
+      "slug": "the-air-indoors-has-its-own-story",
+      "title": "The Air Indoors Has Its Own Story",
+      "titleZh": "室内空气也有自己的故事",
+      "topic": "健康与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "People spend much of their time indoors, where air can contain pollutants from many ordinary sources. Cooking, cleaning products, building materials, smoke, moisture, and outdoor pollution may all contribute. Poor ventilation can allow some pollutants to build up instead of moving outside. Opening windows may help in suitable conditions, but it is not always safe during smoke or heavy outdoor pollution. Source control, effective ventilation, moisture repair, and proper filtration work best as a combined strategy. A strong smell is not a reliable test because harmful pollutants can be odorless. Healthy indoor air depends on understanding the source before choosing the response. Small maintenance decisions can reduce exposure across the many hours people spend at home, school, or work. A useful response combines trustworthy information with actions suited to the current place, exposure, and personal health.",
+      "guideZh": "记录污染来源，并注意开窗并非所有情况下都合适，解决方案需要因来源而异。",
+      "keyIdeaZh": "改善室内空气需要控制来源、通风、修复潮湿和过滤共同配合。",
+      "translation": {
+        "prompt": "Opening windows may help in suitable conditions, but it is not always safe during smoke or heavy outdoor pollution.",
+        "referenceZh": "在烟雾或室外污染严重时，开窗并不总是安全的。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Identify one indoor air source and suggest a practical way to reduce it.",
+      "writing": {
+        "promptZh": "健康的室内空气取决于先了解污染来源。",
+        "answers": [
+          "Healthy indoor air depends on understanding the source before choosing the response."
+        ],
+        "hint": "复用本课表达：ventilation / filtration。"
+      },
+      "vocabulary": [
+        {
+          "term": "ventilation",
+          "ipa": "/ˌventɪˈleɪʃn/",
+          "part": "n.",
+          "meaning": "通风"
+        },
+        {
+          "term": "filtration",
+          "ipa": "/fɪlˈtreɪʃn/",
+          "part": "n.",
+          "meaning": "过滤"
+        },
+        {
+          "term": "odorless",
+          "ipa": "/ˈoʊdərləs/",
+          "part": "adj.",
+          "meaning": "无气味的"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Introduction to Indoor Air Quality",
+        "url": "https://www.epa.gov/indoor-air-quality-iaq/introduction-indoor-air-quality",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-water-saving",
+      "slug": "saving-water-begins-with-finding-waste",
+      "title": "Saving Water Begins with Finding Waste",
+      "titleZh": "节水从发现浪费开始",
+      "topic": "生活与环境",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Water-saving advice often begins with shorter showers, but hidden leaks can waste water every day. A dripping faucet or running toilet may continue unnoticed because the loss happens slowly. Checking a water bill and meter can reveal changes that deserve investigation. Efficient fixtures reduce water use while still providing the service people need. Outdoor watering also deserves attention because plants, soil, weather, and season affect demand. Watering at the right time and repairing irrigation problems can prevent unnecessary loss. Conservation works best when people measure waste, fix it, and then improve daily habits. The goal is reliable service with less water, not simply using water as little as possible. The most durable improvement usually comes from a small system that makes the better action visible and repeatable.",
+      "guideZh": "听出 detect、repair、improve 的行动顺序，并比较室内漏水与室外浇灌。",
+      "keyIdeaZh": "有效节水先找到持续浪费，再修复设备并调整习惯。",
+      "translation": {
+        "prompt": "Efficient fixtures reduce water use while still providing the service people need.",
+        "referenceZh": "高效用水装置在提供人们所需服务的同时减少用水量。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Describe one way to detect wasted water at home before changing your habits.",
+      "writing": {
+        "promptZh": "节约在测量浪费之后效果最好。",
+        "answers": [
+          "Conservation works best when people measure waste, fix it, and then improve daily habits."
+        ],
+        "hint": "复用本课表达：fixture / irrigation。"
+      },
+      "vocabulary": [
+        {
+          "term": "fixture",
+          "ipa": "/ˈfɪkstʃər/",
+          "part": "n.",
+          "meaning": "固定装置，用水器具"
+        },
+        {
+          "term": "irrigation",
+          "ipa": "/ˌɪrɪˈɡeɪʃn/",
+          "part": "n.",
+          "meaning": "灌溉"
+        },
+        {
+          "term": "conservation",
+          "ipa": "/ˌkɑːnsərˈveɪʃn/",
+          "part": "n.",
+          "meaning": "节约，保护"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Start Saving",
+        "url": "https://www.epa.gov/watersense/start-saving",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-home-compost",
+      "slug": "compost-turns-scraps-into-a-soil-resource",
+      "title": "Compost Turns Scraps into a Soil Resource",
+      "titleZh": "堆肥把厨余变成土壤资源",
+      "topic": "生活与环境",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Home composting uses natural decomposition to turn selected food and yard material into a soil amendment. A healthy pile needs a balance of nitrogen-rich green material and carbon-rich brown material. Air and moisture help microorganisms break material down without creating strong unpleasant odors. Fruit and vegetable scraps, dry leaves, and small plant pieces are common ingredients. Meat, dairy products, and greasy food may attract pests in a simple backyard system. Cutting material smaller and turning the pile can speed the process when conditions are suitable. Finished compost returns nutrients and organic matter to soil instead of sending useful material to a landfill. A good system depends on balance and observation rather than adding every kind of waste. The most durable improvement usually comes from a small system that makes the better action visible and repeatable.",
+      "guideZh": "注意 green、brown、air、moisture 四个条件，并区分适合与不适合家庭堆肥的材料。",
+      "keyIdeaZh": "家庭堆肥靠材料、空气和水分的平衡，而不是把所有垃圾都放进去。",
+      "translation": {
+        "prompt": "Fruit and vegetable scraps, dry leaves, and small plant pieces are common ingredients.",
+        "referenceZh": "水果蔬菜残余、干叶和小块植物材料是常见原料。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain what a beginner should add to a compost pile and what should stay out.",
+      "writing": {
+        "promptZh": "成熟堆肥会把有机质送回土壤。",
+        "answers": [
+          "Finished compost returns nutrients and organic matter to soil instead of sending useful material to a landfill."
+        ],
+        "hint": "复用本课表达：decomposition / microorganism。"
+      },
+      "vocabulary": [
+        {
+          "term": "decomposition",
+          "ipa": "/ˌdiːkɑːmpəˈzɪʃn/",
+          "part": "n.",
+          "meaning": "分解"
+        },
+        {
+          "term": "microorganism",
+          "ipa": "/ˌmaɪkroʊˈɔːrɡənɪzəm/",
+          "part": "n.",
+          "meaning": "微生物"
+        },
+        {
+          "term": "amendment",
+          "ipa": "/əˈmendmənt/",
+          "part": "n.",
+          "meaning": "土壤改良物"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Composting at Home",
+        "url": "https://www.epa.gov/recycle/composting-home",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-electronics-recycling",
+      "slug": "an-old-phone-is-more-than-trash",
+      "title": "An Old Phone Is More Than Trash",
+      "titleZh": "旧手机不只是垃圾",
+      "topic": "科技与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Electronic devices contain metals, glass, plastics, batteries, and components that require careful handling. A working device may serve someone else through reuse, repair, resale, or donation. Reusing equipment can extend its useful life before recycling becomes necessary. When a device reaches the end of that life, certified programs can recover material and manage hazards. Personal data should be backed up and removed before a phone or computer leaves its owner. Batteries may need a separate collection route because damage can create fire risks. The best choice follows a clear order: reduce unnecessary purchases, reuse safely, and recycle responsibly. Treating electronics as a resource protects information and materials at the same time. Thinking about the full life cycle reveals costs and opportunities that are easy to miss at the moment of disposal.",
+      "guideZh": "按 reduce、reuse、recycle 的顺序听，并记录处理数据和电池时的特殊注意事项。",
+      "keyIdeaZh": "电子产品处理既关系材料回收，也关系个人数据和电池安全。",
+      "translation": {
+        "prompt": "When a device reaches the end of that life, certified programs can recover material and manage hazards.",
+        "referenceZh": "设备达到使用寿命终点后，合格项目可以回收材料并管理危险物。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "What steps should you take before giving an old phone to another person?",
+      "writing": {
+        "promptZh": "最好的选择遵循清晰的顺序。",
+        "answers": [
+          "The best choice follows a clear order: reduce unnecessary purchases, reuse safely, and recycle responsibly."
+        ],
+        "hint": "复用本课表达：component / certified。"
+      },
+      "vocabulary": [
+        {
+          "term": "component",
+          "ipa": "/kəmˈpoʊnənt/",
+          "part": "n.",
+          "meaning": "零部件"
+        },
+        {
+          "term": "certified",
+          "ipa": "/ˈsɜːrtɪfaɪd/",
+          "part": "adj.",
+          "meaning": "经过认证的"
+        },
+        {
+          "term": "recover",
+          "ipa": "/rɪˈkʌvər/",
+          "part": "v.",
+          "meaning": "回收，重新获得"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Electronics Donation and Recycling",
+        "url": "https://www.epa.gov/recycle/electronics-donation-and-recycling",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-stormwater-runoff",
+      "slug": "rain-becomes-a-problem-when-it-cannot-soak-in",
+      "title": "Rain Becomes a Problem When It Cannot Soak In",
+      "titleZh": "当雨水无法渗入土地时",
+      "topic": "气候与城市",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Rain that falls on roofs, roads, and parking lots cannot soak into the ground easily. It flows across hard surfaces, gathers oil, litter, soil, and other pollutants, and enters drains. Fast runoff can increase flooding, erode stream banks, and carry pollution into local water. Rain gardens, trees, permeable pavement, and rain barrels slow water or keep it on site. These approaches copy parts of the natural water cycle inside a developed neighborhood. No single practice fits every property because soil, space, rainfall, and maintenance differ. A city handles storms better when many small places absorb, store, and slow water together. The surface beneath a raindrop can shape its entire journey to a river or the ocean. Reliable local evidence allows communities to turn a broad environmental pattern into a practical planning decision.",
+      "guideZh": "跟随一滴雨在硬化地面上的路径，并找出绿色设施怎样改变速度和去向。",
+      "keyIdeaZh": "许多分散的小型吸水和储水空间，可以共同降低城市雨洪风险。",
+      "translation": {
+        "prompt": "Rain gardens, trees, permeable pavement, and rain barrels slow water or keep it on site.",
+        "referenceZh": "雨水花园、树木、透水路面和雨水桶能够减缓水流或把水留在原地。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Choose one stormwater solution and explain where it could work in your neighborhood.",
+      "writing": {
+        "promptZh": "一座城市需要许多小地方共同减缓水流。",
+        "answers": [
+          "A city handles storms better when many small places absorb, store, and slow water together."
+        ],
+        "hint": "复用本课表达：runoff / permeable。"
+      },
+      "vocabulary": [
+        {
+          "term": "runoff",
+          "ipa": "/ˈrʌnɔːf/",
+          "part": "n.",
+          "meaning": "地表径流"
+        },
+        {
+          "term": "permeable",
+          "ipa": "/ˈpɜːrmiəbl/",
+          "part": "adj.",
+          "meaning": "可渗透的"
+        },
+        {
+          "term": "erode",
+          "ipa": "/ɪˈroʊd/",
+          "part": "v.",
+          "meaning": "侵蚀"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Soak Up the Rain: What’s the Problem?",
+        "url": "https://www.epa.gov/soakuptherain/soak-rain-whats-problem",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-air-quality-index",
+      "slug": "one-number-can-guide-a-health-decision",
+      "title": "One Number Can Guide a Health Decision",
+      "titleZh": "一个数字如何帮助健康决策",
+      "topic": "健康与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "The Air Quality Index translates measurements of common air pollutants into a scale people can use. Lower values generally indicate cleaner air, while higher values signal greater potential health concern. Colors and categories help communicate the meaning of a number quickly. Sensitive groups may need to reduce long or intense outdoor activity before everyone else does. The index can vary by pollutant, location, weather, smoke, traffic, and time of day. Checking a current local reading is therefore more useful than relying on yesterday’s conditions. The AQI does not remove pollution, but it helps people choose when and how to be active. Clear public information turns technical monitoring into a practical daily decision. A useful response combines trustworthy information with actions suited to the current place, exposure, and personal health.",
+      "guideZh": "重点理解 AQI 如何把技术测量转化为颜色、类别和具体行动建议。",
+      "keyIdeaZh": "空气质量指数不能消除污染，但能帮助不同人群及时调整户外活动。",
+      "translation": {
+        "prompt": "Sensitive groups may need to reduce long or intense outdoor activity before everyone else does.",
+        "referenceZh": "敏感人群可能需要比其他人更早减少长时间或高强度的户外活动。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "How would you change an outdoor plan if the AQI became unhealthy?",
+      "writing": {
+        "promptZh": "当前的本地读数比昨天的情况更有用。",
+        "answers": [
+          "The AQI does not remove pollution, but it helps people choose when and how to be active."
+        ],
+        "hint": "复用本课表达：pollutant / sensitive。"
+      },
+      "vocabulary": [
+        {
+          "term": "pollutant",
+          "ipa": "/pəˈluːtənt/",
+          "part": "n.",
+          "meaning": "污染物"
+        },
+        {
+          "term": "sensitive",
+          "ipa": "/ˈsensətɪv/",
+          "part": "adj.",
+          "meaning": "敏感的"
+        },
+        {
+          "term": "monitoring",
+          "ipa": "/ˈmɑːnɪtərɪŋ/",
+          "part": "n.",
+          "meaning": "监测"
+        }
+      ],
+      "source": {
+        "publisher": "AirNow",
+        "title": "Air Quality Index Basics",
+        "url": "https://www.airnow.gov/aqi/aqi-basics/",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-wildfire-smoke",
+      "slug": "wildfire-smoke-is-a-mixture-not-a-single-gas",
+      "title": "Wildfire Smoke Is a Mixture, Not a Single Gas",
+      "titleZh": "野火烟雾是混合物，不是单一气体",
+      "topic": "健康与环境",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Wildfire smoke contains gases and fine particles produced as vegetation and other material burn. Fine particles are a major concern because they can travel deep into the lungs. Smoke concentration changes with fire behavior, wind, terrain, temperature, and distance. People with heart or lung conditions, older adults, children, and pregnant people may face greater risk. A building with closed windows is not automatically protected if outdoor smoke enters through leaks or ventilation. Air-quality information, cleaner indoor air, filtration, and reduced exposure can work together during an event. The safest response depends on current conditions and a person’s health rather than on smell alone. Understanding smoke as a changing mixture supports better choices before symptoms become severe. A useful response combines trustworthy information with actions suited to the current place, exposure, and personal health.",
+      "guideZh": "听出烟雾成分、易感人群和降低暴露的多层策略，不要只用气味判断风险。",
+      "keyIdeaZh": "野火烟雾风险随环境和个人健康变化，需要结合监测、过滤与减少暴露。",
+      "translation": {
+        "prompt": "People with heart or lung conditions, older adults, children, and pregnant people may face greater risk.",
+        "referenceZh": "患有心脏或肺部疾病的人、老年人、儿童和孕妇可能面临更高风险。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Give a simple plan for creating cleaner indoor air during a smoke event.",
+      "writing": {
+        "promptZh": "最安全的应对方式取决于当前条件和个人健康。",
+        "answers": [
+          "The safest response depends on current conditions and a person’s health rather than on smell alone."
+        ],
+        "hint": "复用本课表达：vegetation / concentration。"
+      },
+      "vocabulary": [
+        {
+          "term": "vegetation",
+          "ipa": "/ˌvedʒəˈteɪʃn/",
+          "part": "n.",
+          "meaning": "植被"
+        },
+        {
+          "term": "concentration",
+          "ipa": "/ˌkɑːnsənˈtreɪʃn/",
+          "part": "n.",
+          "meaning": "浓度"
+        },
+        {
+          "term": "exposure",
+          "ipa": "/ɪkˈspoʊʒər/",
+          "part": "n.",
+          "meaning": "暴露"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Why is Smoke a Health Concern?",
+        "url": "https://www.epa.gov/wildfire-smoke-course/why-smoke-health-concern",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-green-infrastructure",
+      "slug": "a-city-can-work-more-like-a-watershed",
+      "title": "A City Can Work More Like a Watershed",
+      "titleZh": "城市也可以像流域一样工作",
+      "topic": "气候与城市",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Traditional drainage often moves stormwater away through pipes as quickly as possible. Green infrastructure manages some of that water where it falls by using plants, soil, and permeable surfaces. Examples include rain gardens, green roofs, street trees, restored wetlands, and connected open space. These systems can reduce runoff while also cooling streets, supporting habitat, and improving public space. They still require design, inspection, and maintenance rather than functioning as decoration alone. Engineers may combine green features with conventional pipes when storms exceed local storage capacity. Resilient infrastructure uses several layers so the failure of one layer does not become a complete failure. Managing rain as a resource can create benefits beyond the original drainage problem. Reliable local evidence allows communities to turn a broad environmental pattern into a practical planning decision.",
+      "guideZh": "比较传统管道与绿色基础设施，并记录后者除了排水之外带来的共同收益。",
+      "keyIdeaZh": "绿色基础设施在雨水落下处管理它，并与传统工程共同形成多层韧性。",
+      "translation": {
+        "prompt": "These systems can reduce runoff while also cooling streets, supporting habitat, and improving public space.",
+        "referenceZh": "这些系统能减少径流，同时给街道降温、支持栖息地并改善公共空间。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Which green infrastructure feature would bring the most benefits to a dense city street?",
+      "writing": {
+        "promptZh": "有韧性的基础设施会使用多个层次。",
+        "answers": [
+          "Resilient infrastructure uses several layers so the failure of one layer does not become a complete failure."
+        ],
+        "hint": "复用本课表达：infrastructure / conventional。"
+      },
+      "vocabulary": [
+        {
+          "term": "infrastructure",
+          "ipa": "/ˈɪnfrəstrʌktʃər/",
+          "part": "n.",
+          "meaning": "基础设施"
+        },
+        {
+          "term": "conventional",
+          "ipa": "/kənˈvenʃənl/",
+          "part": "adj.",
+          "meaning": "传统的"
+        },
+        {
+          "term": "resilient",
+          "ipa": "/rɪˈzɪliənt/",
+          "part": "adj.",
+          "meaning": "有韧性的"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "About Green Infrastructure",
+        "url": "https://www.epa.gov/green-infrastructure/about-green-infrastructure",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-epa-lead-exposure",
+      "slug": "lead-risk-depends-on-contact-not-appearance",
+      "title": "Lead Risk Depends on Contact, Not Appearance",
+      "titleZh": "铅风险取决于接触，而不是外观",
+      "topic": "健康与环境",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Lead is a naturally occurring metal that was widely used in paint, fuel, plumbing, and many products. Old paint can create contaminated dust when it peels or is disturbed during renovation. Lead may also enter drinking water when plumbing materials corrode under certain conditions. Children are especially vulnerable because exposure can affect the developing brain and nervous system. A surface or glass of water may look normal even when testing detects lead. Safe renovation, proper cleaning, certified testing, and attention to water systems reduce risk. Prevention depends on identifying likely sources before work or exposure spreads contamination. An invisible hazard requires evidence-based testing rather than confidence based on appearance. A useful response combines trustworthy information with actions suited to the current place, exposure, and personal health.",
+      "guideZh": "抓住 paint dust、plumbing、testing 三条线索，理解为什么看起来正常不能排除风险。",
+      "keyIdeaZh": "铅污染往往不可见，预防需要识别来源、规范操作和检测证据。",
+      "translation": {
+        "prompt": "Children are especially vulnerable because exposure can affect the developing brain and nervous system.",
+        "referenceZh": "儿童尤其脆弱，因为接触铅可能影响正在发育的大脑和神经系统。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Why is visual inspection not enough when checking for possible lead exposure?",
+      "writing": {
+        "promptZh": "无形的危险需要以证据为基础的检测。",
+        "answers": [
+          "Prevention depends on identifying likely sources before work or exposure spreads contamination."
+        ],
+        "hint": "复用本课表达：corrode / vulnerable。"
+      },
+      "vocabulary": [
+        {
+          "term": "corrode",
+          "ipa": "/kəˈroʊd/",
+          "part": "v.",
+          "meaning": "腐蚀"
+        },
+        {
+          "term": "vulnerable",
+          "ipa": "/ˈvʌlnərəbl/",
+          "part": "adj.",
+          "meaning": "易受伤害的"
+        },
+        {
+          "term": "contamination",
+          "ipa": "/kənˌtæmɪˈneɪʃn/",
+          "part": "n.",
+          "meaning": "污染"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Learn About Lead",
+        "url": "https://www.epa.gov/lead/learn-about-lead",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-sleep-routine",
+      "slug": "good-sleep-starts-before-bedtime",
+      "title": "Good Sleep Starts Before Bedtime",
+      "titleZh": "好睡眠从上床之前开始",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Sleep supports attention, mood, memory, physical health, and the body’s ability to recover. A regular schedule helps the brain connect a familiar time with rest. Bright light, caffeine, heavy meals, and stimulating activity late in the day may delay sleep. A quiet, dark, cool room can make the sleep environment more comfortable. Weekend schedules that shift dramatically may make Monday morning feel like another time zone. A useful routine begins with a consistent wake time and small evening signals that can be repeated. Better sleep is usually built through daily patterns rather than one perfect night. Persistent sleep problems deserve professional attention instead of endless self-experimenting. The practical goal is a repeatable habit that reduces risk without demanding a perfect routine every day.",
+      "guideZh": "听出 schedule、environment 和 evening signals 三组习惯，并注意何时应寻求专业帮助。",
+      "keyIdeaZh": "睡眠质量更依赖可重复的日常规律，而不是偶尔的一晚完美睡眠。",
+      "translation": {
+        "prompt": "A quiet, dark, cool room can make the sleep environment more comfortable.",
+        "referenceZh": "安静、黑暗、凉爽的房间能让睡眠环境更加舒适。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Describe one evening habit that helps sleep and one habit that may delay it.",
+      "writing": {
+        "promptZh": "有用的习惯始于稳定的起床时间。",
+        "answers": [
+          "Better sleep is usually built through daily patterns rather than one perfect night."
+        ],
+        "hint": "复用本课表达：stimulating / persistent。"
+      },
+      "vocabulary": [
+        {
+          "term": "stimulating",
+          "ipa": "/ˈstɪmjuleɪtɪŋ/",
+          "part": "adj.",
+          "meaning": "使兴奋的"
+        },
+        {
+          "term": "persistent",
+          "ipa": "/pərˈsɪstənt/",
+          "part": "adj.",
+          "meaning": "持续的"
+        },
+        {
+          "term": "recover",
+          "ipa": "/rɪˈkʌvər/",
+          "part": "v.",
+          "meaning": "恢复"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "About Sleep",
+        "url": "https://www.cdc.gov/sleep/about/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-clean-hands",
+      "slug": "clean-hands-need-more-than-a-quick-rinse",
+      "title": "Clean Hands Need More Than a Quick Rinse",
+      "titleZh": "清洁双手不只是快速冲水",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Hands touch shared surfaces, food, faces, and other people throughout an ordinary day. Washing with soap and clean running water removes germs and material that can carry them. Scrubbing all hand surfaces for about twenty seconds gives the process time to work. Thumbs, fingertips, the backs of hands, and spaces between fingers are easy to miss. Hands should be dried because germs transfer more easily to and from wet skin. Alcohol-based sanitizer is useful when soap and water are unavailable, but it does not remove every kind of contamination. Good technique matters more than making the washing routine look fast or impressive. Regular hand hygiene is a simple layer of protection, especially before food and after possible exposure. The practical goal is a repeatable habit that reduces risk without demanding a perfect routine every day.",
+      "guideZh": "按 wet、soap、scrub、rinse、dry 的顺序理解步骤，并找出容易遗漏的位置。",
+      "keyIdeaZh": "洗手效果取决于肥皂、时间、覆盖范围和干燥，而不是简单冲一下。",
+      "translation": {
+        "prompt": "Thumbs, fingertips, the backs of hands, and spaces between fingers are easy to miss.",
+        "referenceZh": "拇指、指尖、手背和手指之间的缝隙很容易被忽略。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain the handwashing steps to someone who usually rinses for only a few seconds.",
+      "writing": {
+        "promptZh": "正确的方法比快速完成更重要。",
+        "answers": [
+          "Good technique matters more than making the washing routine look fast or impressive."
+        ],
+        "hint": "复用本课表达：scrub / fingertip。"
+      },
+      "vocabulary": [
+        {
+          "term": "scrub",
+          "ipa": "/skrʌb/",
+          "part": "v.",
+          "meaning": "用力擦洗"
+        },
+        {
+          "term": "fingertip",
+          "ipa": "/ˈfɪŋɡərtɪp/",
+          "part": "n.",
+          "meaning": "指尖"
+        },
+        {
+          "term": "sanitizer",
+          "ipa": "/ˈsænɪtaɪzər/",
+          "part": "n.",
+          "meaning": "消毒剂"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "About Hand Hygiene in Schools and Early Care",
+        "url": "https://www.cdc.gov/clean-hands/about/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-food-safety",
+      "slug": "four-actions-make-food-safer",
+      "title": "Four Actions Make Food Safer",
+      "titleZh": "四个动作让食物更安全",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Food safety at home can be organized around four actions: clean, separate, cook, and chill. Cleaning removes germs from hands, tools, and surfaces before they spread. Separating raw meat from ready-to-eat food reduces cross-contamination. Cooking to a safe internal temperature requires a food thermometer rather than guessing from color. Chilling food promptly slows the growth of many harmful germs. The refrigerator should keep food cold, but it does not make unsafe food safe again. Each action blocks a different path by which germs can reach or multiply in a meal. A simple sequence is easier to remember and repeat than a long list of disconnected warnings. The practical goal is a repeatable habit that reduces risk without demanding a perfect routine every day.",
+      "guideZh": "记住 clean、separate、cook、chill，并说明每一步阻断了哪一种风险。",
+      "keyIdeaZh": "四个动作分别控制传播、交叉污染、加热不足和细菌繁殖。",
+      "translation": {
+        "prompt": "Cooking to a safe internal temperature requires a food thermometer rather than guessing from color.",
+        "referenceZh": "烹饪到安全的内部温度需要食物温度计，而不是凭颜色猜测。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Use the four food-safety actions to describe how you would prepare a meal.",
+      "writing": {
+        "promptZh": "每个动作都阻断了不同的风险路径。",
+        "answers": [
+          "Each action blocks a different path by which germs can reach or multiply in a meal."
+        ],
+        "hint": "复用本课表达：cross-contamination / thermometer。"
+      },
+      "vocabulary": [
+        {
+          "term": "cross-contamination",
+          "ipa": "/ˌkrɔːs kənˌtæmɪˈneɪʃn/",
+          "part": "n.",
+          "meaning": "交叉污染"
+        },
+        {
+          "term": "thermometer",
+          "ipa": "/θərˈmɑːmɪtər/",
+          "part": "n.",
+          "meaning": "温度计"
+        },
+        {
+          "term": "promptly",
+          "ipa": "/ˈprɑːmptli/",
+          "part": "adv.",
+          "meaning": "迅速地"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "About Four Steps to Food Safety",
+        "url": "https://www.cdc.gov/food-safety/prevention/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-vaccines-memory",
+      "slug": "vaccines-train-immune-memory",
+      "title": "Vaccines Train Immune Memory",
+      "titleZh": "疫苗训练免疫记忆",
+      "topic": "健康与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "The immune system recognizes germs, responds to them, and can remember parts of that encounter. Vaccines present a safe signal that helps the body practice a protective response. Different vaccine technologies deliver that signal in different ways without needing the full disease experience. After vaccination, immune memory can respond faster if the actual germ appears later. Protection may take time to develop, and some vaccines require more than one dose or a later booster. No medical product removes every risk, so recommendations weigh benefits, known effects, and disease danger. Vaccination turns preparation into an advantage before the body faces a real infection. Clear explanations should distinguish temporary immune responses from the illness a vaccine is designed to prevent. Clear explanations support informed choices while leaving individual medical decisions to qualified healthcare professionals.",
+      "guideZh": "围绕 signal、practice、memory、faster response 理解疫苗原理，不把训练反应等同于患病。",
+      "keyIdeaZh": "疫苗让免疫系统提前练习并形成记忆，以便更快应对真实病原体。",
+      "translation": {
+        "prompt": "After vaccination, immune memory can respond faster if the actual germ appears later.",
+        "referenceZh": "接种后，如果真正的病原体后来出现，免疫记忆可以更快作出反应。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain immune memory with a simple comparison that avoids saying a vaccine causes the full disease.",
+      "writing": {
+        "promptZh": "疫苗把提前准备变成了一种优势。",
+        "answers": [
+          "Vaccination turns preparation into an advantage before the body faces a real infection."
+        ],
+        "hint": "复用本课表达：immune / booster。"
+      },
+      "vocabulary": [
+        {
+          "term": "immune",
+          "ipa": "/ɪˈmjuːn/",
+          "part": "adj.",
+          "meaning": "免疫的"
+        },
+        {
+          "term": "booster",
+          "ipa": "/ˈbuːstər/",
+          "part": "n.",
+          "meaning": "加强针"
+        },
+        {
+          "term": "encounter",
+          "ipa": "/ɪnˈkaʊntər/",
+          "part": "n.",
+          "meaning": "遭遇"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "Explaining How Vaccines Work",
+        "url": "https://www.cdc.gov/vaccines/basics/explaining-how-vaccines-work.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-healthy-weight",
+      "slug": "health-is-a-pattern-not-a-single-number",
+      "title": "Health Is a Pattern, Not a Single Number",
+      "titleZh": "健康是一种长期模式，不是单一数字",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Body weight can provide useful health information, but it never describes a whole person by itself. Sleep, food, movement, stress, medicine, genetics, environment, and life stage can all influence weight. Fast changes may be difficult to maintain and can distract from behaviors that support long-term health. Regular meals, varied food, enjoyable activity, and enough rest create a more practical foundation. A healthcare professional can interpret measurements inside an individual medical context. Respectful goals focus on health and function rather than shame or unrealistic comparison. A sustainable pattern is more informative than one isolated number on one morning. Progress can include energy, strength, sleep, laboratory results, and habits as well as weight. The practical goal is a repeatable habit that reduces risk without demanding a perfect routine every day.",
+      "guideZh": "注意文章如何限制单一体重数字的意义，并列出更全面的进步指标。",
+      "keyIdeaZh": "体重需要放在个人健康背景中理解，长期行为模式比孤立数字更重要。",
+      "translation": {
+        "prompt": "Regular meals, varied food, enjoyable activity, and enough rest create a more practical foundation.",
+        "referenceZh": "规律饮食、多样食物、愉快运动和充足休息构成了更实际的基础。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Name two ways to measure health progress without focusing only on body weight.",
+      "writing": {
+        "promptZh": "可持续的模式比一个孤立数字更有信息量。",
+        "answers": [
+          "A sustainable pattern is more informative than one isolated number on one morning."
+        ],
+        "hint": "复用本课表达：genetics / sustainable。"
+      },
+      "vocabulary": [
+        {
+          "term": "genetics",
+          "ipa": "/dʒəˈnetɪks/",
+          "part": "n.",
+          "meaning": "遗传因素"
+        },
+        {
+          "term": "sustainable",
+          "ipa": "/səˈsteɪnəbl/",
+          "part": "adj.",
+          "meaning": "可持续的"
+        },
+        {
+          "term": "isolated",
+          "ipa": "/ˈaɪsəleɪtɪd/",
+          "part": "adj.",
+          "meaning": "孤立的"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "About Healthy Weight and Growth",
+        "url": "https://www.cdc.gov/healthy-weight-growth/about/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-mental-health",
+      "slug": "mental-health-changes-and-can-be-supported",
+      "title": "Mental Health Changes and Can Be Supported",
+      "titleZh": "心理健康会变化，也可以得到支持",
+      "topic": "心理与社会",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Mental health includes emotional, psychological, and social well-being across everyday life. It can influence how people handle stress, build relationships, make decisions, and care for themselves. Everyone experiences difficult emotions, but duration, intensity, and impact help show when more support is needed. Sleep, movement, connection, meaningful activity, and professional care can all play useful roles. Reaching out early may prevent a manageable problem from becoming a crisis. Support should be practical and respectful rather than reducing a person to a diagnosis. Mental health is not a permanent label; it can change with circumstances, treatment, and time. In an immediate danger or crisis, urgent local professional help is more appropriate than general self-care advice. Respectful support begins by listening carefully, noticing impact, and matching the response to the seriousness of the situation.",
+      "guideZh": "区分普通困难情绪与需要更多支持的信号，并注意文章对危机情况的边界说明。",
+      "keyIdeaZh": "心理健康会随环境和时间变化，及时、尊重且适当的支持很重要。",
+      "translation": {
+        "prompt": "Sleep, movement, connection, meaningful activity, and professional care can all play useful roles.",
+        "referenceZh": "每个人都会经历困难情绪，但持续时间、强度和影响能帮助判断何时需要更多支持。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "What is one respectful way to offer support without trying to diagnose someone?",
+      "writing": {
+        "promptZh": "及早求助可能防止问题演变成危机。",
+        "answers": [
+          "Mental health is not a permanent label; it can change with circumstances, treatment, and time."
+        ],
+        "hint": "复用本课表达：well-being / intensity。"
+      },
+      "vocabulary": [
+        {
+          "term": "well-being",
+          "ipa": "/ˌwel ˈbiːɪŋ/",
+          "part": "n.",
+          "meaning": "身心健康"
+        },
+        {
+          "term": "intensity",
+          "ipa": "/ɪnˈtensəti/",
+          "part": "n.",
+          "meaning": "强度"
+        },
+        {
+          "term": "diagnosis",
+          "ipa": "/ˌdaɪəɡˈnoʊsɪs/",
+          "part": "n.",
+          "meaning": "诊断"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "About Mental Health",
+        "url": "https://www.cdc.gov/mental-health/about/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-sun-safety",
+      "slug": "sun-protection-works-in-layers",
+      "title": "Sun Protection Works in Layers",
+      "titleZh": "防晒需要多层保护",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Ultraviolet radiation from the Sun can damage skin even when the weather does not feel very hot. Clouds may reduce some sunlight, but they do not remove all ultraviolet exposure. Shade, protective clothing, a hat, sunglasses, and sunscreen provide different layers of protection. Sunscreen should cover exposed skin and be reapplied according to its directions, especially after water or sweating. Midday sunlight is often stronger, so timing can reduce exposure during long outdoor activities. Children and adults both benefit from habits that do not depend on noticing a burn first. No single layer is perfect, but several practical layers reduce total exposure. Sun safety supports outdoor activity instead of requiring people to avoid the outdoors completely. The practical goal is a repeatable habit that reduces risk without demanding a perfect routine every day.",
+      "guideZh": "找出 shade、clothing、sunscreen、timing 四层保护，并注意紫外线与温度不同。",
+      "keyIdeaZh": "防晒不是依赖单一产品，而是把遮阴、衣物、防晒霜和时间安排结合起来。",
+      "translation": {
+        "prompt": "Sunscreen should cover exposed skin and be reapplied according to its directions, especially after water or sweating.",
+        "referenceZh": "防晒霜应覆盖暴露的皮肤，并按说明重新涂抹，尤其是在接触水或出汗之后。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Plan sun protection for a two-hour outdoor activity using at least three layers.",
+      "writing": {
+        "promptZh": "多个实际的保护层可以减少总暴露。",
+        "answers": [
+          "No single layer is perfect, but several practical layers reduce total exposure."
+        ],
+        "hint": "复用本课表达：ultraviolet / reapply。"
+      },
+      "vocabulary": [
+        {
+          "term": "ultraviolet",
+          "ipa": "/ˌʌltrəˈvaɪələt/",
+          "part": "adj.",
+          "meaning": "紫外线的"
+        },
+        {
+          "term": "reapply",
+          "ipa": "/ˌriːəˈplaɪ/",
+          "part": "v.",
+          "meaning": "再次涂抹"
+        },
+        {
+          "term": "exposure",
+          "ipa": "/ɪkˈspoʊʒər/",
+          "part": "n.",
+          "meaning": "暴露"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "Sun Safety Facts",
+        "url": "https://www.cdc.gov/skin-cancer/sun-safety/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-antibiotic-use",
+      "slug": "antibiotics-treat-bacteria-not-every-infection",
+      "title": "Antibiotics Treat Bacteria, Not Every Infection",
+      "titleZh": "抗生素治疗细菌，而不是所有感染",
+      "topic": "健康与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Antibiotics are medicines designed to treat certain infections caused by bacteria. They do not treat viruses such as those that cause colds or influenza. Using an antibiotic when it is not needed can cause side effects without helping the illness. It can also contribute to antimicrobial resistance, which makes some germs harder to treat later. The correct drug, dose, and duration depend on the infection and a clinician’s judgment. People should not save leftover antibiotics, share them, or demand them for every respiratory symptom. Responsible use protects the current patient while preserving treatment options for other people. Good medical care sometimes means receiving symptom relief and advice instead of an antibiotic prescription. Clear explanations support informed choices while leaving individual medical decisions to qualified healthcare professionals.",
+      "guideZh": "听清 bacteria 与 virus 的区别，并理解个人用药如何影响未来治疗选择。",
+      "keyIdeaZh": "只在需要时正确使用抗生素，既保护当前患者，也减缓耐药性。",
+      "translation": {
+        "prompt": "It can also contribute to antimicrobial resistance, which makes some germs harder to treat later.",
+        "referenceZh": "不需要时使用抗生素可能带来副作用，却无法帮助治疗疾病。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain why not receiving an antibiotic can sometimes be the correct medical decision.",
+      "writing": {
+        "promptZh": "负责任的使用能够保留未来的治疗选择。",
+        "answers": [
+          "Responsible use protects the current patient while preserving treatment options for other people."
+        ],
+        "hint": "复用本课表达：antibiotic / resistance。"
+      },
+      "vocabulary": [
+        {
+          "term": "antibiotic",
+          "ipa": "/ˌæntibaɪˈɑːtɪk/",
+          "part": "n.",
+          "meaning": "抗生素"
+        },
+        {
+          "term": "resistance",
+          "ipa": "/rɪˈzɪstəns/",
+          "part": "n.",
+          "meaning": "耐药性"
+        },
+        {
+          "term": "prescription",
+          "ipa": "/prɪˈskrɪpʃn/",
+          "part": "n.",
+          "meaning": "处方"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "Antibiotic Use and Antimicrobial Resistance Facts",
+        "url": "https://www.cdc.gov/antibiotic-use/about/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-cdc-hearing-protection",
+      "slug": "hearing-damage-can-build-quietly",
+      "title": "Hearing Damage Can Build Quietly",
+      "titleZh": "听力损伤可能在无声中累积",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Very loud sound can damage sensitive structures in the inner ear in a short time. Lower sound levels may also cause harm when exposure continues for long periods or happens repeatedly. Pain is not a reliable warning because damaging sound may not feel painful in the moment. Distance, time, volume, and hearing protection all change the amount of sound energy reaching the ear. Moving away from speakers, taking quiet breaks, lowering volume, and using well-fitted protection reduce risk. Temporary ringing or muffled hearing after noise is a sign that the ears were stressed. Protective habits work best before a permanent change becomes noticeable. Enjoying music, tools, or events safely means managing exposure rather than waiting for discomfort. The practical goal is a repeatable habit that reduces risk without demanding a perfect routine every day.",
+      "guideZh": "抓住 volume、time、distance、protection 四个变量，理解“没有疼痛”不等于安全。",
+      "keyIdeaZh": "噪声风险由音量和暴露时间共同决定，保护必须发生在永久损伤之前。",
+      "translation": {
+        "prompt": "Distance, time, volume, and hearing protection all change the amount of sound energy reaching the ear.",
+        "referenceZh": "距离、时间、音量和听力保护都会改变到达耳朵的声能。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "How would you protect your hearing at a loud concert or while using power tools?",
+      "writing": {
+        "promptZh": "保护习惯应该在永久变化出现之前建立。",
+        "answers": [
+          "Protective habits work best before a permanent change becomes noticeable."
+        ],
+        "hint": "复用本课表达：muffled / exposure。"
+      },
+      "vocabulary": [
+        {
+          "term": "muffled",
+          "ipa": "/ˈmʌfld/",
+          "part": "adj.",
+          "meaning": "声音沉闷的"
+        },
+        {
+          "term": "exposure",
+          "ipa": "/ɪkˈspoʊʒər/",
+          "part": "n.",
+          "meaning": "暴露"
+        },
+        {
+          "term": "permanent",
+          "ipa": "/ˈpɜːrmənənt/",
+          "part": "adj.",
+          "meaning": "永久的"
+        }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "About Noise-Induced Hearing Loss",
+        "url": "https://www.cdc.gov/hearing-loss/about/index.html",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nist-strong-passwords",
+      "slug": "a-strong-password-is-long-and-unique",
+      "title": "A Strong Password Is Long and Unique",
+      "titleZh": "强密码首先要长而且独特",
+      "topic": "科技与安全",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "以高频词和清晰短句为主，概念通过具体例子展开。"
+      },
+      "estimatedMinutes": 18,
+      "body": "A password protects an account only when an attacker cannot easily guess or reuse it. Length matters because every additional character can greatly increase the number of possible combinations. A long passphrase made from unrelated words may be easier to remember than a short complicated pattern. Every important account should have a unique password so one breach does not unlock several services. A password manager can create and store strong credentials without requiring perfect human memory. Multi-factor authentication adds another barrier when a password is stolen. Changing a good password constantly is less useful than replacing it after compromise or suspected exposure. Good security reduces repeated decisions by building strong defaults into everyday account use. A dependable security habit slows down unusual requests and makes one stolen secret less valuable to an attacker.",
+      "guideZh": "听出 length、unique、password manager、MFA 四层策略，并理解频繁改密码并非核心。",
+      "keyIdeaZh": "长且独特的密码配合密码管理器和多因素认证，比复杂但重复的短密码更可靠。",
+      "translation": {
+        "prompt": "Every important account should have a unique password so one breach does not unlock several services.",
+        "referenceZh": "每个重要账号都应该使用独特密码，这样一次泄露就不会解锁多个服务。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain why reusing one very strong password is still risky.",
+      "writing": {
+        "promptZh": "良好的安全措施会减少重复决策。",
+        "answers": [
+          "Changing a good password constantly is less useful than replacing it after compromise or suspected exposure."
+        ],
+        "hint": "复用本课表达：passphrase / credential。"
+      },
+      "vocabulary": [
+        {
+          "term": "passphrase",
+          "ipa": "/ˈpæsf reɪz/",
+          "part": "n.",
+          "meaning": "密码短语"
+        },
+        {
+          "term": "credential",
+          "ipa": "/krəˈdenʃl/",
+          "part": "n.",
+          "meaning": "身份凭据"
+        },
+        {
+          "term": "compromise",
+          "ipa": "/ˈkɑːmprəmaɪz/",
+          "part": "n.",
+          "meaning": "安全失陷"
+        }
+      ],
+      "source": {
+        "publisher": "National Institute of Standards and Technology",
+        "title": "How Do I Create a Good Password?",
+        "url": "https://www.nist.gov/cybersecurity/how-do-i-create-good-password",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nist-phishing-signals",
+      "slug": "phishing-tries-to-borrow-your-trust",
+      "title": "Phishing Tries to Borrow Your Trust",
+      "titleZh": "网络钓鱼试图借用你的信任",
+      "topic": "科技与安全",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Phishing messages imitate a trusted person or organization to make a request feel legitimate. They may create urgency, fear, curiosity, or excitement so the receiver acts before checking details. A familiar logo and sender name can be copied, while the underlying address or link points elsewhere. Instead of using a message link, open the known website or contact the sender through a separate channel. Unexpected attachments, payment changes, password requests, and unusual secrecy deserve extra verification. Reporting a suspicious message helps an organization protect other people who received it. The safest habit is to slow down precisely when a message insists there is no time. Phishing defense combines technical filters with a human process for verifying unusual requests. A dependable security habit slows down unusual requests and makes one stolen secret less valuable to an attacker.",
+      "guideZh": "识别 urgency、copied identity、separate channel 三个关键信号和应对动作。",
+      "keyIdeaZh": "钓鱼攻击利用情绪和信任，最有效的人类防线是在紧急时停下来独立核验。",
+      "translation": {
+        "prompt": "Instead of using a message link, open the known website or contact the sender through a separate channel.",
+        "referenceZh": "不要使用消息中的链接，而应打开已知网站或通过另一条渠道联系发送者。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Describe how you would verify an urgent payment request from a familiar colleague.",
+      "writing": {
+        "promptZh": "最安全的习惯是在消息催促时放慢速度。",
+        "answers": [
+          "The safest habit is to slow down precisely when a message insists there is no time."
+        ],
+        "hint": "复用本课表达：legitimate / underlying。"
+      },
+      "vocabulary": [
+        {
+          "term": "legitimate",
+          "ipa": "/lɪˈdʒɪtɪmət/",
+          "part": "adj.",
+          "meaning": "合法可信的"
+        },
+        {
+          "term": "underlying",
+          "ipa": "/ˌʌndərˈlaɪɪŋ/",
+          "part": "adj.",
+          "meaning": "底层的，实际的"
+        },
+        {
+          "term": "verification",
+          "ipa": "/ˌverɪfɪˈkeɪʃn/",
+          "part": "n.",
+          "meaning": "核验"
+        }
+      ],
+      "source": {
+        "publisher": "National Institute of Standards and Technology",
+        "title": "Phishing",
+        "url": "https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nist-multi-factor",
+      "slug": "one-more-factor-changes-an-attack",
+      "title": "One More Factor Changes an Attack",
+      "titleZh": "多一个认证因素，就能改变攻击难度",
+      "topic": "科技与安全",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Authentication asks a user to prove that an account really belongs to them. A password is one factor based on something the user knows. A security key, authenticator, device, or biometric check can provide a different kind of factor. Multi-factor authentication requires more than one factor before granting access. A stolen password is then less useful because the attacker still lacks another required proof. Some methods resist phishing better than one-time codes sent by text message. The best available method should protect email, finance, administration, and other high-value accounts first. Adding a second factor changes a single stolen secret from complete access into only one part of the puzzle. A dependable security habit slows down unusual requests and makes one stolen secret less valuable to an attacker.",
+      "guideZh": "区分 something you know 与其他 factor，并理解为什么不同方法抗钓鱼能力不同。",
+      "keyIdeaZh": "多因素认证让被盗密码不再等同于完整访问权限。",
+      "translation": {
+        "prompt": "Multi-factor authentication requires more than one factor before granting access.",
+        "referenceZh": "多因素认证要求提供不止一种因素，之后才授予访问权限。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Which accounts would you protect with multi-factor authentication first, and why?",
+      "writing": {
+        "promptZh": "高价值账号应该最先受到保护。",
+        "answers": [
+          "The best available method should protect email, finance, administration, and other high-value accounts first."
+        ],
+        "hint": "复用本课表达：authentication / biometric。"
+      },
+      "vocabulary": [
+        {
+          "term": "authentication",
+          "ipa": "/ɔːˌθentɪˈkeɪʃn/",
+          "part": "n.",
+          "meaning": "身份认证"
+        },
+        {
+          "term": "biometric",
+          "ipa": "/ˌbaɪoʊˈmetrɪk/",
+          "part": "adj.",
+          "meaning": "生物特征的"
+        },
+        {
+          "term": "grant",
+          "ipa": "/ɡrænt/",
+          "part": "v.",
+          "meaning": "授予"
+        }
+      ],
+      "source": {
+        "publisher": "National Institute of Standards and Technology",
+        "title": "Multi-Factor Authentication",
+        "url": "https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/multi-factor-authentication",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nist-si-units",
+      "slug": "shared-units-make-measurements-travel",
+      "title": "Shared Units Make Measurements Travel",
+      "titleZh": "统一单位让测量结果跨越边界",
+      "topic": "科学与社会",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "A measurement is useful only when other people understand the unit and can reproduce the result. The International System of Units provides a shared language for length, mass, time, temperature, and more. Seven base units support many derived units used in science, engineering, medicine, and trade. Modern definitions connect units to stable physical constants rather than to one fragile object. Calibration compares an instrument with a trusted reference so its readings remain reliable. A small unit error can become a large safety, manufacturing, or financial problem. Shared standards allow a component measured in one country to fit a system built in another. Metrology may seem invisible, but it supports confidence in nearly every technical number people use. Shared definitions turn an invisible technical process into results that people in different places can trust and compare.",
+      "guideZh": "听出 unit、constant、calibration、standard 的关系，理解统一测量如何支撑协作。",
+      "keyIdeaZh": "国际单位和校准体系让不同地点的测量具有可比较性和可信度。",
+      "translation": {
+        "prompt": "Modern definitions connect units to stable physical constants rather than to one fragile object.",
+        "referenceZh": "现代定义把单位与稳定的物理常数联系起来，而不是依赖一个脆弱物体。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Give an example of a problem that could result from inconsistent measurement units.",
+      "writing": {
+        "promptZh": "共享标准让不同国家制造的部件能够配合。",
+        "answers": [
+          "Shared standards allow a component measured in one country to fit a system built in another."
+        ],
+        "hint": "复用本课表达：derived / calibration。"
+      },
+      "vocabulary": [
+        {
+          "term": "derived",
+          "ipa": "/dɪˈraɪvd/",
+          "part": "adj.",
+          "meaning": "派生的"
+        },
+        {
+          "term": "calibration",
+          "ipa": "/ˌkælɪˈbreɪʃn/",
+          "part": "n.",
+          "meaning": "校准"
+        },
+        {
+          "term": "metrology",
+          "ipa": "/məˈtrɑːlədʒi/",
+          "part": "n.",
+          "meaning": "计量学"
+        }
+      ],
+      "source": {
+        "publisher": "National Institute of Standards and Technology",
+        "title": "SI Units",
+        "url": "https://www.nist.gov/pml/owm/metric-si/si-units",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-usgs-water-cycle",
+      "slug": "the-water-cycle-has-stores-as-well-as-motion",
+      "title": "The Water Cycle Has Stores as Well as Motion",
+      "titleZh": "水循环既有流动，也有储存",
+      "topic": "地球与环境",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "The water cycle describes water moving among the atmosphere, surface, ground, ice, ocean, and living things. Evaporation and plant transpiration send water vapor into the air, where it can condense into clouds. Precipitation returns water as rain, snow, or other forms depending on atmospheric conditions. Some water runs across land, some enters soil and rock, and some remains stored in ice or lakes. Groundwater may move slowly for years while a storm runoff channel changes within minutes. People alter the cycle through pumping, dams, paved surfaces, land cover, and water use. The cycle is not a simple circle because water follows many paths and waits in stores for different lengths of time. Understanding both movement and storage helps communities manage floods, drought, supply, and ecosystems.",
+      "guideZh": "不要把水循环只画成圆圈，要听出多条路径、不同储存位置和不同时间尺度。",
+      "keyIdeaZh": "水在多条路径中流动，并会在地下水、冰和湖泊等位置停留不同时间。",
+      "translation": {
+        "prompt": "Some water runs across land, some enters soil and rock, and some remains stored in ice or lakes.",
+        "referenceZh": "一部分水流过地表，一部分进入土壤和岩石，还有一部分储存在冰或湖泊中。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Follow one drop of rain through two different possible paths in the water cycle.",
+      "writing": {
+        "promptZh": "水不会沿着一个简单的圆圈流动。",
+        "answers": [
+          "The cycle is not a simple circle because water follows many paths and waits in stores for different lengths of time."
+        ],
+        "hint": "复用本课表达：transpiration / precipitation。"
+      },
+      "vocabulary": [
+        {
+          "term": "transpiration",
+          "ipa": "/ˌtrænspəˈreɪʃn/",
+          "part": "n.",
+          "meaning": "蒸腾作用"
+        },
+        {
+          "term": "precipitation",
+          "ipa": "/prɪˌsɪpɪˈteɪʃn/",
+          "part": "n.",
+          "meaning": "降水"
+        },
+        {
+          "term": "groundwater",
+          "ipa": "/ˈɡraʊndwɔːtər/",
+          "part": "n.",
+          "meaning": "地下水"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Geological Survey",
+        "title": "Water Cycle",
+        "url": "https://www.usgs.gov/special-topics/water-science-school/water-cycle",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-usgs-earthquake-science",
+      "slug": "an-earthquake-begins-with-stored-stress",
+      "title": "An Earthquake Begins with Stored Stress",
+      "titleZh": "地震始于积累的应力",
+      "topic": "地球与安全",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Tectonic plates move slowly, but friction can lock sections of a fault for long periods. Stress builds until the rocks slip, releasing energy that travels outward as seismic waves. The point where rupture begins underground is the hypocenter, while the epicenter lies above it at the surface. Instruments record ground motion and help scientists locate an event and estimate its magnitude. Magnitude describes earthquake size, while shaking intensity varies from place to place. Distance, depth, soil, building design, and local geology all influence the damage people experience. Scientists can estimate long-term hazard, but they cannot reliably predict the exact time of a future earthquake. Prepared buildings and practiced actions turn scientific knowledge into reduced risk. Scientific monitoring reduces uncertainty, but preparation is what turns the available warning into lower risk.",
+      "guideZh": "按 locked fault、stress、slip、seismic waves 的过程理解地震，并区分 magnitude 与 intensity。",
+      "keyIdeaZh": "地震规模与当地震感和损害不是同一概念，风险还取决于环境与建筑。",
+      "translation": {
+        "prompt": "Instruments record ground motion and help scientists locate an event and estimate its magnitude.",
+        "referenceZh": "仪器记录地面运动，帮助科学家定位事件并估算其震级。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Explain why the same earthquake can cause different levels of shaking in two cities.",
+      "writing": {
+        "promptZh": "科学家可以估计长期危险。",
+        "answers": [
+          "Scientists can estimate long-term hazard, but they cannot reliably predict the exact time of a future earthquake."
+        ],
+        "hint": "复用本课表达：fault / hypocenter。"
+      },
+      "vocabulary": [
+        {
+          "term": "fault",
+          "ipa": "/fɔːlt/",
+          "part": "n.",
+          "meaning": "断层"
+        },
+        {
+          "term": "hypocenter",
+          "ipa": "/ˈhaɪpəʊsentər/",
+          "part": "n.",
+          "meaning": "震源"
+        },
+        {
+          "term": "magnitude",
+          "ipa": "/ˈmæɡnɪtuːd/",
+          "part": "n.",
+          "meaning": "震级"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Geological Survey",
+        "title": "The Science of Earthquakes",
+        "url": "https://www.usgs.gov/programs/earthquake-hazards/science-earthquakes",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-usgs-volcano-alerts",
+      "slug": "a-volcano-alert-communicates-uncertainty",
+      "title": "A Volcano Alert Communicates Uncertainty",
+      "titleZh": "火山预警也在传达不确定性",
+      "topic": "地球与安全",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "信息密度较高，包含抽象概念、限定表达和专业词汇。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Volcano observatories monitor earthquakes, ground deformation, gas, heat, and visual changes around active volcanoes. No single signal proves that an eruption will occur because volcanic systems can change without erupting. Scientists compare several observations with the volcano’s history to judge whether unrest is increasing. Alert levels summarize current conditions and help public agencies coordinate decisions. An alert is not a promise of a specific event at an exact time. Ash, lava, gases, mudflows, and landslides create different hazards that may reach different areas. Clear updates should describe evidence, uncertainty, possible impacts, and recommended actions together. Monitoring reduces surprise, while community planning turns warning time into safer movement and communication. Scientific monitoring reduces uncertainty, but preparation is what turns the available warning into lower risk.",
+      "guideZh": "听出多种监测信号，并理解 alert level 是对当前状态的概括，不是精确预言。",
+      "keyIdeaZh": "火山监测通过多种证据管理不确定性，并为公共行动争取时间。",
+      "translation": {
+        "prompt": "Alert levels summarize current conditions and help public agencies coordinate decisions.",
+        "referenceZh": "预警不是对某个事件将在准确时间发生的承诺。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "What information should a clear volcano update include besides an alert level?",
+      "writing": {
+        "promptZh": "监测能够减少意外。",
+        "answers": [
+          "Clear updates should describe evidence, uncertainty, possible impacts, and recommended actions together."
+        ],
+        "hint": "复用本课表达：deformation / unrest。"
+      },
+      "vocabulary": [
+        {
+          "term": "deformation",
+          "ipa": "/ˌdiːfɔːrˈmeɪʃn/",
+          "part": "n.",
+          "meaning": "形变"
+        },
+        {
+          "term": "unrest",
+          "ipa": "/ʌnˈrest/",
+          "part": "n.",
+          "meaning": "异常活动"
+        },
+        {
+          "term": "observatory",
+          "ipa": "/əbˈzɜːrvətɔːri/",
+          "part": "n.",
+          "meaning": "观测站"
+        }
+      ],
+      "source": {
+        "publisher": "U.S. Geological Survey",
+        "title": "Volcano Hazards Program",
+        "url": "https://www.usgs.gov/programs/VHP",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nps-leave-no-trace",
+      "slug": "leave-no-trace-is-a-decision-system",
+      "title": "Leave No Trace Is a Decision System",
+      "titleZh": "无痕山林是一套决策方法",
+      "topic": "旅行与自然",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Leave No Trace principles help visitors reduce their impact while enjoying parks and other outdoor places. Planning ahead prevents emergencies and helps people bring the right food, clothing, and waste containers. Durable surfaces concentrate travel where footsteps are less likely to damage fragile plants or soil. Visitors should pack out waste, leave natural objects, and avoid changing a site for convenience. Wildlife stays safer when people watch from a distance and keep food secure. Quiet, respectful behavior also protects the experience of other visitors. The principles are not only cleanup rules; they guide choices before, during, and after a trip. Responsible access keeps an outdoor place enjoyable without requiring that nobody visit it. Thoughtful design and visitor choices can protect a shared resource while keeping it available for people to experience.",
+      "guideZh": "把原则理解为出发前、旅行中和离开后的决策系统，而不只是捡垃圾。",
+      "keyIdeaZh": "无痕理念通过提前规划和现场选择，在开放自然体验的同时降低影响。",
+      "translation": {
+        "prompt": "Visitors should pack out waste, leave natural objects, and avoid changing a site for convenience.",
+        "referenceZh": "游客应该带走垃圾、保留自然物品原状，不要为了方便改变场地。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "Choose two Leave No Trace principles and apply them to a weekend trip.",
+      "writing": {
+        "promptZh": "这些原则在旅行前、中、后都能指导选择。",
+        "answers": [
+          "The principles are not only cleanup rules; they guide choices before, during, and after a trip."
+        ],
+        "hint": "复用本课表达：durable / fragile。"
+      },
+      "vocabulary": [
+        {
+          "term": "durable",
+          "ipa": "/ˈdʊrəbl/",
+          "part": "adj.",
+          "meaning": "耐久的"
+        },
+        {
+          "term": "fragile",
+          "ipa": "/ˈfrædʒl/",
+          "part": "adj.",
+          "meaning": "脆弱的"
+        },
+        {
+          "term": "concentrate",
+          "ipa": "/ˈkɑːnsntreɪt/",
+          "part": "v.",
+          "meaning": "集中"
+        }
+      ],
+      "source": {
+        "publisher": "National Park Service",
+        "title": "Leave No Trace Seven Principles",
+        "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
+      }
+    },
+    {
+      "id": "lesson-nps-night-skies",
+      "slug": "darkness-is-a-natural-resource",
+      "title": "Darkness Is a Natural Resource",
+      "titleZh": "黑暗也是一种自然资源",
+      "topic": "旅行与自然",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含复合句、过程解释和适量学科词汇，逻辑关系明确。"
+      },
+      "estimatedMinutes": 22,
+      "body": "A naturally dark night sky reveals stars, planets, the Milky Way, and patterns used by cultures for generations. Artificial light can brighten the sky far beyond the place where a lamp is installed. Excess light may waste energy, disturb wildlife behavior, affect human experience, and hide astronomical detail. Useful outdoor lighting points downward, limits brightness, uses suitable color, and operates only when needed. Dark-sky protection does not require turning off every light or reducing safety. It asks designers to put the right amount of light in the right place at the right time. A well-designed fixture can improve visibility while sending less light into the sky. Protecting darkness preserves science, wildlife, energy, cultural heritage, and a shared view of the universe.",
+      "guideZh": "记录光污染的多种影响，并听出方向、亮度、色温和时间四个设计变量。",
+      "keyIdeaZh": "保护夜空不是拒绝照明，而是让合适的光在合适时间照到合适位置。",
+      "translation": {
+        "prompt": "Useful outdoor lighting points downward, limits brightness, uses suitable color, and operates only when needed.",
+        "referenceZh": "有用的户外照明应向下照射、限制亮度、使用合适颜色，并只在需要时运行。",
+        "gradingNotes": [
+          "保留原句的主要信息、逻辑关系和语气。",
+          "允许自然中文表达，不要求逐词对应。"
+        ]
+      },
+      "speakingPrompt": "How could your neighborhood reduce sky glow without making streets feel unsafe?",
+      "writing": {
+        "promptZh": "设计良好的灯具能够改善能见度。",
+        "answers": [
+          "A well-designed fixture can improve visibility while sending less light into the sky."
+        ],
+        "hint": "复用本课表达：artificial / fixture。"
+      },
+      "vocabulary": [
+        {
+          "term": "artificial",
+          "ipa": "/ˌɑːrtɪˈfɪʃl/",
+          "part": "adj.",
+          "meaning": "人工的"
+        },
+        {
+          "term": "fixture",
+          "ipa": "/ˈfɪkstʃər/",
+          "part": "n.",
+          "meaning": "灯具，固定装置"
+        },
+        {
+          "term": "heritage",
+          "ipa": "/ˈherɪtɪdʒ/",
+          "part": "n.",
+          "meaning": "文化遗产"
+        }
+      ],
+      "source": {
+        "publisher": "National Park Service",
+        "title": "Night Skies",
+        "url": "https://www.nps.gov/subjects/nightskies/index.htm",
+        "publishedAt": "",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "Authoritative public information source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 18,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 95
       }
     }
   ]

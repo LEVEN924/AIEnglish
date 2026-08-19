@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-19T02:37:38.688Z",
-  "catalogVersion": 1,
+  "generatedAt": "2026-08-19T05:23:23.844Z",
+  "catalogVersion": 2,
   "targetSize": 1000,
-  "currentSize": 5,
+  "currentSize": 50,
   "passed": true,
   "lessons": [
     {
@@ -39,6 +39,321 @@
       "words": 169,
       "fingerprint": "6aaaaba0d7da9f98ed8fa3bc0eb3ecbde12cb84728177cf06cf7b133f4c08306",
       "errors": []
+    },
+    {
+      "id": "lesson-nasa-moon-facts",
+      "title": "Why We Always See the Same Side of the Moon",
+      "words": 133,
+      "fingerprint": "bb739953b02bb45650d3e3232ebc2aea3e42698e565c3e97d17544e4cb15786a",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-mars-seasons",
+      "title": "A Day on Mars Feels Familiar, but a Year Does Not",
+      "words": 136,
+      "fingerprint": "d5304def2bbffe5b510b4d26aaf353303baf1e44c0b7dd7af25ee410e1e0c74e",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-earth-atmosphere",
+      "title": "Earth Is More Than a Blue Surface",
+      "words": 120,
+      "fingerprint": "9d3fdd636f21e71987b0e7a05424804c2b1da7f9cad54754d1639687c51d5830",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-sun-energy",
+      "title": "The Sun Holds the Solar System Together",
+      "words": 129,
+      "fingerprint": "6f5e21d332dfb98ff76bd5147354a1cc1d2e8a329ca4593a041843dbf9d80d1a",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-venus-greenhouse",
+      "title": "Venus Shows the Power of an Atmosphere",
+      "words": 130,
+      "fingerprint": "003a2b1507d96ddda4cf37d72e20efef0e9f388d4c85e6119f4565c8d7f072da",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-jupiter-storms",
+      "title": "Jupiter Is a World of Motion",
+      "words": 130,
+      "fingerprint": "7bcf0a2f97718a846d4c9e1ac7818f3c223319a98a92ae763baf87360c486512",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-saturn-rings",
+      "title": "Saturn’s Rings Are Bright but Temporary",
+      "words": 133,
+      "fingerprint": "65c151e96ad1a005fdd1426cdbcc2b5cf4b57a384e625f2fa1960ed4f7b712c2",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-asteroid-records",
+      "title": "Asteroids Preserve an Ancient Record",
+      "words": 130,
+      "fingerprint": "a890042a1bb61e274c5b3c0b068bf742c701db4f042d13f07f1559b6ef1bc31a",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-rocky-exoplanets",
+      "title": "A Rocky Planet Is Only the Beginning",
+      "words": 130,
+      "fingerprint": "ffc5c5c20669abac5ec8c10b9d2c7ca83284c1ccc170d5928f541a6611720660",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-marine-debris",
+      "title": "Marine Debris Begins Far from the Ocean",
+      "words": 133,
+      "fingerprint": "4f30de191b94d066d9705b31ca9f7e6c3e9e4bb7c0255199566200df5321e75e",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-ocean-gyres",
+      "title": "A Gyre Moves More Than Water",
+      "words": 137,
+      "fingerprint": "98606336686d506fec7b463d4dc3ac7085205a643e926e09e8da05ae71a66cb7",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-tides-gravity",
+      "title": "Tides Are a Pattern, Not a Fixed Schedule",
+      "words": 128,
+      "fingerprint": "46d66126b994068ee59e46f8fab8be4b82c6687cdebc2660779be6797201de56",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-ocean-blue",
+      "title": "Why the Ocean Often Looks Blue",
+      "words": 135,
+      "fingerprint": "bf4f0743376cf7323b250253e6912c04578f0c402ef4bf54c71d1c10c4478eb7",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-ocean-salt",
+      "title": "Rivers Carry the Ingredients of a Salty Ocean",
+      "words": 125,
+      "fingerprint": "dcaaa70c9adf774929905605ff2280ddd92d6e18741d26aeea1aabe3cbd71456",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-rip-current",
+      "title": "A Rip Current Pulls Away, Not Under",
+      "words": 121,
+      "fingerprint": "d7c7f77a9605442d1b35b3c7bbf572b4e148501c3d72337444b371b45b6fb447",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-estuary-nursery",
+      "title": "Where Rivers Meet the Sea",
+      "words": 126,
+      "fingerprint": "e93a8acec76995ebe26ca80df594fc67125720dd9f80c6b98d7141315300e93f",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-sea-level",
+      "title": "Sea Level Is Both Global and Local",
+      "words": 130,
+      "fingerprint": "a502186990fd8c67ad16c1b143847b88a2c671b26f14b8035254867e6e663827",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-weather-climate",
+      "title": "Weather Is Today; Climate Is the Pattern",
+      "words": 127,
+      "fingerprint": "51335dacd843484106409300cbf9f0582c34710781568bd447b24119794e4075",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-indoor-air",
+      "title": "The Air Indoors Has Its Own Story",
+      "words": 136,
+      "fingerprint": "c528ab7f29cb8617455d1ac95dc8999b5f642e3ae628cea1e25f042755fb9748",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-water-saving",
+      "title": "Saving Water Begins with Finding Waste",
+      "words": 127,
+      "fingerprint": "a9f0f5eb39c166e63db1e74fe3392421e499863e4c5c8f19baf87fe678bd5be9",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-home-compost",
+      "title": "Compost Turns Scraps into a Soil Resource",
+      "words": 135,
+      "fingerprint": "95c52cb7ff7467ebaed3fffecc124ca3bb376b46293ccd364d8c190f48c4c4f6",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-electronics-recycling",
+      "title": "An Old Phone Is More Than Trash",
+      "words": 131,
+      "fingerprint": "5442ba3aa355e6e2a2ed8046132fde53dd335b73bc38d7378baaa14f9297ea1f",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-stormwater-runoff",
+      "title": "Rain Becomes a Problem When It Cannot Soak In",
+      "words": 132,
+      "fingerprint": "5500e9ea99497b2ddb7b59153becd65ba371ce8ddcf3503e3d931af3a924a85c",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-air-quality-index",
+      "title": "One Number Can Guide a Health Decision",
+      "words": 130,
+      "fingerprint": "e33fce7d8a279b30f71920eb4c82bf4148cb5bbe8a0a0ec9f52265aa5a9e6752",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-wildfire-smoke",
+      "title": "Wildfire Smoke Is a Mixture, Not a Single Gas",
+      "words": 134,
+      "fingerprint": "5e4b1db3532e184265905d898c079cf55f0b296089aa3fd05bbadfc3dbb817e0",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-green-infrastructure",
+      "title": "A City Can Work More Like a Watershed",
+      "words": 131,
+      "fingerprint": "d0448648aa94d1884a3a91245ba2326688b2b3ca231575fb0ec107f590626911",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-lead-exposure",
+      "title": "Lead Risk Depends on Contact, Not Appearance",
+      "words": 126,
+      "fingerprint": "6bbeffcf47f5b691996156d4b455f5f4c9bf30ae22193a8e87ef058c36a7af77",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-sleep-routine",
+      "title": "Good Sleep Starts Before Bedtime",
+      "words": 124,
+      "fingerprint": "e4ba963d68234edc8cac53898ade4f268760af60953396ce76ffa8b84ecbcb96",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-clean-hands",
+      "title": "Clean Hands Need More Than a Quick Rinse",
+      "words": 135,
+      "fingerprint": "06f28e79513b5cb95b293e30bb2aa8b859acbc28683dd321abfe784df91e443d",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-food-safety",
+      "title": "Four Actions Make Food Safer",
+      "words": 123,
+      "fingerprint": "fdf5ea221d43b0bd7a4c65e6493e8dc30d08dd4313b82f300dd86c1d454348cc",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-vaccines-memory",
+      "title": "Vaccines Train Immune Memory",
+      "words": 132,
+      "fingerprint": "4d9c9378587f897dd280bb7cf33e016fd6dfac033e824113116c3dab94c0eaf8",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-healthy-weight",
+      "title": "Health Is a Pattern, Not a Single Number",
+      "words": 128,
+      "fingerprint": "82cb51ccf17d11b4bf51b1cf64844793532e88735d450baf25ccec7544fc822c",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-mental-health",
+      "title": "Mental Health Changes and Can Be Supported",
+      "words": 131,
+      "fingerprint": "f7168588be91d46dbe010866939048b6042a1efba1562a18cdcc3191332471de",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-sun-safety",
+      "title": "Sun Protection Works in Layers",
+      "words": 133,
+      "fingerprint": "f2146a3810716770b0a69fe7ac78151c65a5dea8a1d641d8d65eea840f0e6185",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-antibiotic-use",
+      "title": "Antibiotics Treat Bacteria, Not Every Infection",
+      "words": 127,
+      "fingerprint": "8dd7c8d434d185dd1ac873a80d0393e40978849f1ad659404febba81d8fc62bf",
+      "errors": []
+    },
+    {
+      "id": "lesson-cdc-hearing-protection",
+      "title": "Hearing Damage Can Build Quietly",
+      "words": 134,
+      "fingerprint": "9afdb736fcb815c28e4206e6f24563ffc52ff3d7d13e7b5f72c42a6e5742ea1a",
+      "errors": []
+    },
+    {
+      "id": "lesson-nist-strong-passwords",
+      "title": "A Strong Password Is Long and Unique",
+      "words": 133,
+      "fingerprint": "04a36f95d27882de04444e8b51f563850ee873dc7ce4b7d2c5aaeff5dcd4fe76",
+      "errors": []
+    },
+    {
+      "id": "lesson-nist-phishing-signals",
+      "title": "Phishing Tries to Borrow Your Trust",
+      "words": 136,
+      "fingerprint": "56c65d25ba163b5c4078a36bba9444109591690c4835188f9d2ff96c15186b56",
+      "errors": []
+    },
+    {
+      "id": "lesson-nist-multi-factor",
+      "title": "One More Factor Changes an Attack",
+      "words": 127,
+      "fingerprint": "e451605d88546e2125e6049a1d4bd33a5db8687e2d974ce4fce7b4eced702ca6",
+      "errors": []
+    },
+    {
+      "id": "lesson-nist-si-units",
+      "title": "Shared Units Make Measurements Travel",
+      "words": 135,
+      "fingerprint": "e88a7333af33472aeb8d13cc2a1c627cc6f1b0b7d0b7ac38d55a52ed63820c42",
+      "errors": []
+    },
+    {
+      "id": "lesson-usgs-water-cycle",
+      "title": "The Water Cycle Has Stores as Well as Motion",
+      "words": 125,
+      "fingerprint": "7ee3699500ae34c4ea0703b287c0e15ab4a57c9dfafeee636cf72ede588feb5d",
+      "errors": []
+    },
+    {
+      "id": "lesson-usgs-earthquake-science",
+      "title": "An Earthquake Begins with Stored Stress",
+      "words": 130,
+      "fingerprint": "baa2d8a878cc00b33d3eeaa5254fd4bb85ff3043fd369ee0f49d952574e2e092",
+      "errors": []
+    },
+    {
+      "id": "lesson-usgs-volcano-alerts",
+      "title": "A Volcano Alert Communicates Uncertainty",
+      "words": 125,
+      "fingerprint": "723f9a4182cc6a1af9fef088de3aa22074bb076860d713ff96f80600a08a0704",
+      "errors": []
+    },
+    {
+      "id": "lesson-nps-leave-no-trace",
+      "title": "Leave No Trace Is a Decision System",
+      "words": 131,
+      "fingerprint": "6ce9b3e17088395054dd216a13f40c764b4fe071df811cad87c703da3dcc06bd",
+      "errors": []
+    },
+    {
+      "id": "lesson-nps-night-skies",
+      "title": "Darkness Is a Natural Resource",
+      "words": 121,
+      "fingerprint": "233cedde1dab8947703f3848cad2a2f1a5774691483362e371ecdbdad47d5a11",
+      "errors": []
     }
   ],
   "errors": [],
@@ -50,7 +365,7 @@
       "ok": true,
       "title": "Health Benefits of Physical Activity for Adults | Physical Activity Basics | CDC",
       "bytes": 50717,
-      "durationMs": 1268
+      "durationMs": 1265
     },
     {
       "id": "lesson-epa-food-waste",
@@ -59,7 +374,7 @@
       "ok": true,
       "title": "Preventing Wasted Food At Home | US EPA",
       "bytes": 74409,
-      "durationMs": 850
+      "durationMs": 1859
     },
     {
       "id": "lesson-noaa-coral-partnership",
@@ -68,7 +383,7 @@
       "ok": true,
       "title": "Are corals animals or plants?",
       "bytes": 29894,
-      "durationMs": 1827
+      "durationMs": 1959
     },
     {
       "id": "lesson-nasa-moon-before-mars",
@@ -76,8 +391,8 @@
       "status": 200,
       "ok": true,
       "title": "What is Artemis? - NASA",
-      "bytes": 266434,
-      "durationMs": 710
+      "bytes": 266435,
+      "durationMs": 2222
     },
     {
       "id": "lesson-nist-four-verbs",
@@ -86,7 +401,412 @@
       "ok": true,
       "title": "AI Risk Management Framework | NIST",
       "bytes": 92386,
-      "durationMs": 1582
+      "durationMs": 1941
+    },
+    {
+      "id": "lesson-nasa-moon-facts",
+      "url": "https://science.nasa.gov/moon/facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Moon Facts - NASA Science",
+      "bytes": 306117,
+      "durationMs": 1550
+    },
+    {
+      "id": "lesson-nasa-mars-seasons",
+      "url": "https://science.nasa.gov/mars/facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Mars: Facts - NASA Science",
+      "bytes": 293561,
+      "durationMs": 1344
+    },
+    {
+      "id": "lesson-nasa-earth-atmosphere",
+      "url": "https://science.nasa.gov/earth/facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Facts About Earth",
+      "bytes": 316921,
+      "durationMs": 1620
+    },
+    {
+      "id": "lesson-nasa-sun-energy",
+      "url": "https://science.nasa.gov/sun/facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Sun: Facts - NASA Science",
+      "bytes": 318454,
+      "durationMs": 1199
+    },
+    {
+      "id": "lesson-nasa-venus-greenhouse",
+      "url": "https://science.nasa.gov/venus/venus-facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Venus: Facts - NASA Science",
+      "bytes": 281019,
+      "durationMs": 2078
+    },
+    {
+      "id": "lesson-nasa-jupiter-storms",
+      "url": "https://science.nasa.gov/jupiter/jupiter-facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Jupiter Facts",
+      "bytes": 277314,
+      "durationMs": 1200
+    },
+    {
+      "id": "lesson-nasa-saturn-rings",
+      "url": "https://science.nasa.gov/saturn/facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Saturn: Facts - NASA Science",
+      "bytes": 274305,
+      "durationMs": 1588
+    },
+    {
+      "id": "lesson-nasa-asteroid-records",
+      "url": "https://science.nasa.gov/solar-system/asteroids/facts/",
+      "status": 200,
+      "ok": true,
+      "title": "Asteroid Facts",
+      "bytes": 298445,
+      "durationMs": 1307
+    },
+    {
+      "id": "lesson-nasa-rocky-exoplanets",
+      "url": "https://science.nasa.gov/exoplanets/terrestrial/",
+      "status": 200,
+      "ok": true,
+      "title": "Terrestrial - NASA Science",
+      "bytes": 305440,
+      "durationMs": 1650
+    },
+    {
+      "id": "lesson-noaa-marine-debris",
+      "url": "https://oceanservice.noaa.gov/facts/marinedebris.html",
+      "status": 200,
+      "ok": true,
+      "title": "What is marine debris?",
+      "bytes": 27642,
+      "durationMs": 1836
+    },
+    {
+      "id": "lesson-noaa-ocean-gyres",
+      "url": "https://oceanservice.noaa.gov/facts/gyre.html",
+      "status": 200,
+      "ok": true,
+      "title": "What is a gyre?",
+      "bytes": 31237,
+      "durationMs": 2668
+    },
+    {
+      "id": "lesson-noaa-tides-gravity",
+      "url": "https://oceanservice.noaa.gov/facts/tides.html",
+      "status": 200,
+      "ok": true,
+      "title": "What are tides?",
+      "bytes": 29594,
+      "durationMs": 1505
+    },
+    {
+      "id": "lesson-noaa-ocean-blue",
+      "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+      "status": 200,
+      "ok": true,
+      "title": "Why is the ocean blue?",
+      "bytes": 29359,
+      "durationMs": 1790
+    },
+    {
+      "id": "lesson-noaa-ocean-salt",
+      "url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+      "status": 200,
+      "ok": true,
+      "title": "Why is the ocean salty?",
+      "bytes": 29775,
+      "durationMs": 1514
+    },
+    {
+      "id": "lesson-noaa-rip-current",
+      "url": "https://oceanservice.noaa.gov/facts/ripcurrent.html",
+      "status": 200,
+      "ok": true,
+      "title": "What is a rip current?",
+      "bytes": 28166,
+      "durationMs": 1521
+    },
+    {
+      "id": "lesson-noaa-estuary-nursery",
+      "url": "https://oceanservice.noaa.gov/facts/estuary.html",
+      "status": 200,
+      "ok": true,
+      "title": "What is an estuary?",
+      "bytes": 30376,
+      "durationMs": 1902
+    },
+    {
+      "id": "lesson-noaa-sea-level",
+      "url": "https://oceanservice.noaa.gov/facts/sealevel.html",
+      "status": 200,
+      "ok": true,
+      "title": "Is sea level rising?",
+      "bytes": 33250,
+      "durationMs": 1441
+    },
+    {
+      "id": "lesson-noaa-weather-climate",
+      "url": "https://oceanservice.noaa.gov/facts/weather_climate.html",
+      "status": 200,
+      "ok": true,
+      "title": "What is the difference between weather and climate?",
+      "bytes": 29586,
+      "durationMs": 1453
+    },
+    {
+      "id": "lesson-epa-indoor-air",
+      "url": "https://www.epa.gov/indoor-air-quality-iaq/introduction-indoor-air-quality",
+      "status": 200,
+      "ok": true,
+      "title": "Introduction to Indoor Air Quality | US EPA",
+      "bytes": 66338,
+      "durationMs": 1675
+    },
+    {
+      "id": "lesson-epa-water-saving",
+      "url": "https://www.epa.gov/watersense/start-saving",
+      "status": 200,
+      "ok": true,
+      "title": "Start Saving | US EPA",
+      "bytes": 85571,
+      "durationMs": 1504
+    },
+    {
+      "id": "lesson-epa-home-compost",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "status": 200,
+      "ok": true,
+      "title": "Composting At Home | US EPA",
+      "bytes": 80147,
+      "durationMs": 1298
+    },
+    {
+      "id": "lesson-epa-electronics-recycling",
+      "url": "https://www.epa.gov/recycle/electronics-donation-and-recycling",
+      "status": 200,
+      "ok": true,
+      "title": "Electronics Donation and Recycling | US EPA",
+      "bytes": 57900,
+      "durationMs": 1412
+    },
+    {
+      "id": "lesson-epa-stormwater-runoff",
+      "url": "https://www.epa.gov/soakuptherain/soak-rain-whats-problem",
+      "status": 200,
+      "ok": true,
+      "title": "Soak Up the Rain: What&#039;s the Problem? | US EPA",
+      "bytes": 71344,
+      "durationMs": 1299
+    },
+    {
+      "id": "lesson-epa-air-quality-index",
+      "url": "https://www.airnow.gov/aqi/aqi-basics/",
+      "status": 200,
+      "ok": true,
+      "title": "AQI Basics | AirNow.gov",
+      "bytes": 57189,
+      "durationMs": 1283
+    },
+    {
+      "id": "lesson-epa-wildfire-smoke",
+      "url": "https://www.epa.gov/wildfire-smoke-course/why-smoke-health-concern",
+      "status": 200,
+      "ok": true,
+      "title": "Why is Smoke a Health Concern? | US EPA",
+      "bytes": 67224,
+      "durationMs": 2406
+    },
+    {
+      "id": "lesson-epa-green-infrastructure",
+      "url": "https://www.epa.gov/green-infrastructure/about-green-infrastructure",
+      "status": 200,
+      "ok": true,
+      "title": "About Green Infrastructure | US EPA",
+      "bytes": 72125,
+      "durationMs": 1856
+    },
+    {
+      "id": "lesson-epa-lead-exposure",
+      "url": "https://www.epa.gov/lead/learn-about-lead",
+      "status": 200,
+      "ok": true,
+      "title": "Learn About Lead | US EPA",
+      "bytes": 86925,
+      "durationMs": 1322
+    },
+    {
+      "id": "lesson-cdc-sleep-routine",
+      "url": "https://www.cdc.gov/sleep/about/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "About Sleep | Sleep | CDC",
+      "bytes": 54145,
+      "durationMs": 1439
+    },
+    {
+      "id": "lesson-cdc-clean-hands",
+      "url": "https://www.cdc.gov/clean-hands/about/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "About Handwashing | Clean Hands | CDC",
+      "bytes": 52232,
+      "durationMs": 1975
+    },
+    {
+      "id": "lesson-cdc-food-safety",
+      "url": "https://www.cdc.gov/food-safety/prevention/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "Preventing Food Poisoning | Food Safety | CDC",
+      "bytes": 65255,
+      "durationMs": 1514
+    },
+    {
+      "id": "lesson-cdc-vaccines-memory",
+      "url": "https://www.cdc.gov/vaccines/basics/explaining-how-vaccines-work.html",
+      "status": 200,
+      "ok": true,
+      "title": "Explaining How Vaccines Work | Vaccines & Immunizations | CDC",
+      "bytes": 67426,
+      "durationMs": 1336
+    },
+    {
+      "id": "lesson-cdc-healthy-weight",
+      "url": "https://www.cdc.gov/healthy-weight-growth/about/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "About Healthy Weight and Growth | Healthy Weight and Growth | CDC",
+      "bytes": 63073,
+      "durationMs": 1273
+    },
+    {
+      "id": "lesson-cdc-mental-health",
+      "url": "https://www.cdc.gov/mental-health/about/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "About Mental Health | Mental Health | CDC",
+      "bytes": 69619,
+      "durationMs": 1418
+    },
+    {
+      "id": "lesson-cdc-sun-safety",
+      "url": "https://www.cdc.gov/skin-cancer/sun-safety/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "Sun Safety Facts | Skin Cancer | CDC",
+      "bytes": 59501,
+      "durationMs": 2210
+    },
+    {
+      "id": "lesson-cdc-antibiotic-use",
+      "url": "https://www.cdc.gov/antibiotic-use/about/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "Healthy Habits: Antibiotic Do's and Don'ts | Antibiotic Prescribing and Use | CDC",
+      "bytes": 57763,
+      "durationMs": 2089
+    },
+    {
+      "id": "lesson-cdc-hearing-protection",
+      "url": "https://www.cdc.gov/hearing-loss/about/index.html",
+      "status": 200,
+      "ok": true,
+      "title": "About Noise-Induced Hearing Loss | Loud Noises Can Cause Hearing Loss | CDC",
+      "bytes": 40032,
+      "durationMs": 1279
+    },
+    {
+      "id": "lesson-nist-strong-passwords",
+      "url": "https://www.nist.gov/cybersecurity/how-do-i-create-good-password",
+      "status": 200,
+      "ok": true,
+      "title": "How Do I Create a Good Password? | NIST",
+      "bytes": 90573,
+      "durationMs": 2359
+    },
+    {
+      "id": "lesson-nist-phishing-signals",
+      "url": "https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing",
+      "status": 200,
+      "ok": true,
+      "title": "Phishing | NIST",
+      "bytes": 91687,
+      "durationMs": 1745
+    },
+    {
+      "id": "lesson-nist-multi-factor",
+      "url": "https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/multi-factor-authentication",
+      "status": 200,
+      "ok": true,
+      "title": "Multi-Factor Authentication | NIST",
+      "bytes": 91366,
+      "durationMs": 1625
+    },
+    {
+      "id": "lesson-nist-si-units",
+      "url": "https://www.nist.gov/pml/owm/metric-si/si-units",
+      "status": 200,
+      "ok": true,
+      "title": "SI Units | NIST",
+      "bytes": 121865,
+      "durationMs": 1869
+    },
+    {
+      "id": "lesson-usgs-water-cycle",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/water-cycle",
+      "status": 200,
+      "ok": true,
+      "title": "Water cycle | U.S. Geological Survey",
+      "bytes": 95778,
+      "durationMs": 3206
+    },
+    {
+      "id": "lesson-usgs-earthquake-science",
+      "url": "https://www.usgs.gov/programs/earthquake-hazards/science-earthquakes",
+      "status": 200,
+      "ok": true,
+      "title": "The Science of Earthquakes | U.S. Geological Survey",
+      "bytes": 96471,
+      "durationMs": 1218
+    },
+    {
+      "id": "lesson-usgs-volcano-alerts",
+      "url": "https://www.usgs.gov/programs/VHP",
+      "status": 200,
+      "ok": true,
+      "title": "Volcano Hazards Program | U.S. Geological Survey",
+      "bytes": 133487,
+      "durationMs": 1172
+    },
+    {
+      "id": "lesson-nps-leave-no-trace",
+      "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm",
+      "status": 200,
+      "ok": true,
+      "title": "Leave No Trace Seven Principles (U.S. National Park Service)",
+      "bytes": 36115,
+      "durationMs": 1574
+    },
+    {
+      "id": "lesson-nps-night-skies",
+      "url": "https://www.nps.gov/subjects/nightskies/index.htm",
+      "status": 200,
+      "ok": true,
+      "title": "Night Skies (U.S. National Park Service)",
+      "bytes": 51677,
+      "durationMs": 1802
     }
   ]
 }

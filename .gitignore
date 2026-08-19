@@ -33,6 +33,8 @@ venv/
 # Generated artifacts and temporary files
 outputs/
 .runtime/
+data/*.sqlite
+data/*.sqlite-*
 tmp/
 temp/
 *.log

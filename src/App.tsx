@@ -19,6 +19,7 @@ import {
   PenLine,
   Play,
   RotateCcw,
+  SkipBack,
   SkipForward,
   Square,
   UserRound,
@@ -35,21 +36,22 @@ import {
   type FormEvent,
   type ReactNode,
 } from 'react'
-import { CONTENT_TARGET, LESSONS, findLesson } from './data/lessons'
-import { getSession, login, logout } from './lib/api'
+import { completeReview as completeReviewTask, gradeAnswer, getBootstrap, getSession, login, logout, saveLearningProfile, saveLearningState } from './lib/api'
 import {
   completeStep,
   createLessonRecord,
-  loadLearningState,
-  saveLearningState,
   updateLessonRecord,
 } from './lib/learning-state'
 import {
   STEP_ORDER,
+  type BootstrapData,
+  type GradingFeedback,
   type LearningState,
+  type LearningProfile,
   type Lesson,
   type LessonRecord,
   type PrimaryView,
+  type ReviewItem,
   type Session,
   type StepId,
 } from './types'
@@ -95,7 +97,7 @@ function App() {
   if (session === null) return <LoginScreen onAuthenticated={setSession} />
 
   return (
-    <LearningWorkspace
+    <AuthenticatedWorkspace
       session={session}
       onLogout={async () => {
         await logout().catch(() => undefined)
@@ -103,6 +105,36 @@ function App() {
       }}
     />
   )
+}
+
+function AuthenticatedWorkspace({ session, onLogout }: { session: Session; onLogout: () => Promise<void> }) {
+  const [bootstrap, setBootstrap] = useState<BootstrapData | null>(null)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let active = true
+    getBootstrap()
+      .then((data) => {
+        if (active) setBootstrap(data)
+      })
+      .catch((requestError) => {
+        if (active) setError(requestError instanceof Error ? requestError.message : '无法读取学习数据库')
+      })
+    return () => { active = false }
+  }, [])
+
+  if (error) {
+    return (
+      <main className="loading-screen" role="alert">
+        <span className="brand-seal" aria-hidden="true">!</span>
+        <p>{error}</p>
+        <button className="double-border-button" type="button" onClick={() => window.location.reload()}><span>重新载入</span></button>
+      </main>
+    )
+  }
+  if (!bootstrap) return <LoadingScreen />
+
+  return <LearningWorkspace session={session} bootstrap={bootstrap} onLogout={onLogout} />
 }
 
 function LoadingScreen() {
@@ -197,17 +229,35 @@ function LoginScreen({ onAuthenticated }: { onAuthenticated: (session: Session) 
   )
 }
 
-function LearningWorkspace({ session, onLogout }: { session: Session; onLogout: () => Promise<void> }) {
+function LearningWorkspace({
+  session,
+  bootstrap,
+  onLogout,
+}: {
+  session: Session
+  bootstrap: BootstrapData
+  onLogout: () => Promise<void>
+}) {
   const [view, setView] = useState<PrimaryView>('today')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [notice, setNotice] = useState('')
-  const [state, setState] = useState<LearningState>(() => loadLearningState(session.user))
-  const lesson = findLesson(state.currentLessonId)
+  const [syncStatus, setSyncStatus] = useState<'saved' | 'saving' | 'error'>('saved')
+  const [profile, setProfile] = useState<LearningProfile>(bootstrap.profile)
+  const [state, setState] = useState<LearningState>(bootstrap.learningState)
+  const [reviewItems, setReviewItems] = useState<ReviewItem[]>(bootstrap.reviewItems)
+  const lessons = bootstrap.lessons
+  const lesson = lessons.find((candidate) => candidate.id === state.currentLessonId) ?? lessons[0]
   const record = state.records[lesson.id] ?? createLessonRecord()
 
   useEffect(() => {
-    saveLearningState(session.user, state)
-  }, [session.user, state])
+    setSyncStatus('saving')
+    const timer = window.setTimeout(() => {
+      saveLearningState(state)
+        .then(() => setSyncStatus('saved'))
+        .catch(() => setSyncStatus('error'))
+    }, 450)
+    return () => window.clearTimeout(timer)
+  }, [state])
 
   const updateCurrentRecord = useCallback((updater: (record: LessonRecord) => LessonRecord) => {
     setState((current) => updateLessonRecord(current, current.currentLessonId, updater))
@@ -219,12 +269,12 @@ function LearningWorkspace({ session, onLogout }: { session: Session; onLogout: 
 
   function skipCurrentLesson() {
     setState((current) => {
-      const currentIndex = LESSONS.findIndex((candidate) => candidate.id === current.currentLessonId)
+      const currentIndex = lessons.findIndex((candidate) => candidate.id === current.currentLessonId)
       const withSkip = updateLessonRecord(current, current.currentLessonId, (currentRecord) => ({
         ...currentRecord,
         skipped: true,
       }))
-      const candidates = [...LESSONS.slice(currentIndex + 1), ...LESSONS.slice(0, currentIndex)]
+      const candidates = [...lessons.slice(currentIndex + 1), ...lessons.slice(0, currentIndex)]
       const nextLesson = candidates.find((candidate) => !withSkip.records[candidate.id]?.skipped) ?? candidates[0]
       return {
         ...withSkip,
@@ -239,28 +289,35 @@ function LearningWorkspace({ session, onLogout }: { session: Session; onLogout: 
     window.setTimeout(() => setNotice(''), 3200)
   }
 
+  function navigate(nextView: PrimaryView) {
+    setView(nextView)
+    setMobileNavOpen(false)
+    if (nextView === 'review') {
+      getBootstrap().then((data) => setReviewItems(data.reviewItems)).catch(() => undefined)
+    }
+  }
+
   return (
     <div className="app-shell">
       <AppSidebar
         activeView={view}
         mobileOpen={mobileNavOpen}
         onClose={() => setMobileNavOpen(false)}
-        onNavigate={(nextView) => {
-          setView(nextView)
-          setMobileNavOpen(false)
-        }}
+        onNavigate={navigate}
       />
 
       <div className="app-stage">
         <AppHeader
           onMenu={() => setMobileNavOpen((open) => !open)}
           user={session.user}
+          syncStatus={syncStatus}
         />
 
         <main className="app-content">
           {view === 'today' ? (
             <TodayView
               lesson={lesson}
+              lessonNumber={lessons.findIndex((candidate) => candidate.id === lesson.id) + 1}
               record={record}
               onRecordChange={updateCurrentRecord}
               onCompleteStep={finishStep}
@@ -269,6 +326,7 @@ function LearningWorkspace({ session, onLogout }: { session: Session; onLogout: 
           ) : null}
           {view === 'conversations' ? (
             <ConversationsView
+              lessons={lessons}
               state={state}
               onOpenLesson={(lessonId) => {
                 setState((current) => ({
@@ -283,20 +341,56 @@ function LearningWorkspace({ session, onLogout }: { session: Session; onLogout: 
               }}
             />
           ) : null}
-          {view === 'review' ? <ReviewView state={state} /> : null}
+          {view === 'review' ? (
+            <ReviewView
+              lessons={lessons}
+              state={state}
+              reviewItems={reviewItems}
+              onComplete={async (item) => {
+                if (!item.reviewTaskId) return
+                await completeReviewTask(item.reviewTaskId)
+                setReviewItems((current) => current.filter((candidate) => candidate.id !== item.id))
+                setNotice('本条错题已标记为掌握。')
+              }}
+            />
+          ) : null}
           {view === 'profile' ? (
-            <ProfileView user={session.user} state={state} onLogout={onLogout} />
+            <ProfileView
+              user={session.user}
+              state={state}
+              lessons={lessons}
+              profile={profile}
+              databaseEngine={bootstrap.database.engine}
+              onProfileChange={async (nextProfile) => {
+                setProfile(nextProfile)
+                try {
+                  setProfile(await saveLearningProfile(nextProfile))
+                  setNotice('学习档案已保存到数据库。')
+                } catch {
+                  setNotice('学习档案保存失败，请稍后重试。')
+                }
+              }}
+              onLogout={onLogout}
+            />
           ) : null}
         </main>
       </div>
 
-      <MobileBottomNav activeView={view} onNavigate={setView} />
+      <MobileBottomNav activeView={view} onNavigate={navigate} />
       {notice ? <div className="toast" role="status">{notice}</div> : null}
     </div>
   )
 }
 
-function AppHeader({ onMenu, user }: { onMenu: () => void; user: string }) {
+function AppHeader({
+  onMenu,
+  user,
+  syncStatus,
+}: {
+  onMenu: () => void
+  user: string
+  syncStatus: 'saved' | 'saving' | 'error'
+}) {
   const formattedDate = useMemo(() => {
     const parts = new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
@@ -318,6 +412,7 @@ function AppHeader({ onMenu, user }: { onMenu: () => void; user: string }) {
         <span className="brand-subtitle">每日一课，英文会话</span>
       </div>
       <div className="header-meta">
+        <span className={`sync-state ${syncStatus}`}>{syncStatus === 'saved' ? '数据库已同步' : syncStatus === 'saving' ? '正在同步…' : '同步失败'}</span>
         <span>{formattedDate}</span>
         <span className="user-monogram" title={user}>{user.slice(0, 1)}</span>
       </div>
@@ -397,12 +492,14 @@ function MobileBottomNav({ activeView, onNavigate }: { activeView: PrimaryView; 
 
 function TodayView({
   lesson,
+  lessonNumber,
   record,
   onRecordChange,
   onCompleteStep,
   onSkip,
 }: {
   lesson: Lesson
+  lessonNumber: number
   record: LessonRecord
   onRecordChange: (updater: (record: LessonRecord) => LessonRecord) => void
   onCompleteStep: (step: StepId) => void
@@ -472,7 +569,7 @@ function TodayView({
       <StepTicketRail completed={record.completedSteps} activeIndex={activeIndex} />
 
       <section className="lesson-docket" aria-label="今日文章信息">
-        <div className="docket-number">NO. {String(LESSONS.indexOf(lesson) + 1).padStart(3, '0')}</div>
+        <div className="docket-number">NO. {String(lessonNumber).padStart(3, '0')}</div>
         <div>
           <span>{lesson.topic}</span>
           <strong>{lesson.titleZh}</strong>
@@ -537,12 +634,9 @@ function TodayView({
           {isVisible('speaking') ? (
             <SpeakingSection
               lesson={lesson}
-              completed={record.completedSteps.includes('speaking')}
-              score={record.speakingScore}
-              onComplete={(score) => {
-                onRecordChange((current) => ({ ...current, speakingScore: score }))
-                onCompleteStep('speaking')
-              }}
+              record={record}
+              onRecordChange={onRecordChange}
+              onComplete={() => onCompleteStep('speaking')}
             />
           ) : null}
 
@@ -637,24 +731,44 @@ function AudioReader({ lesson }: { lesson: Lesson }) {
   const [rate, setRate] = useState(1)
   const [playing, setPlaying] = useState(false)
   const [showText, setShowText] = useState(false)
+  const [sentenceIndex, setSentenceIndex] = useState(0)
+  const sentences = useMemo(
+    () => (lesson.body.match(/[^.!?]+[.!?]+|[^.!?]+$/gu) ?? [lesson.body]).map((sentence) => sentence.trim()).filter(Boolean),
+    [lesson.body],
+  )
 
   useEffect(() => () => window.speechSynthesis?.cancel(), [lesson.id])
 
-  function togglePlayback() {
+  function speakFrom(index: number) {
     if (!('speechSynthesis' in window)) return
+    const safeIndex = Math.min(Math.max(index, 0), sentences.length - 1)
+    const utterance = new SpeechSynthesisUtterance(sentences[safeIndex])
+    utterance.lang = 'en-US'
+    utterance.rate = rate
+    utterance.onend = () => {
+      if (safeIndex < sentences.length - 1) speakFrom(safeIndex + 1)
+      else setPlaying(false)
+    }
+    utterance.onerror = () => setPlaying(false)
+    window.speechSynthesis.cancel()
+    window.speechSynthesis.speak(utterance)
+    setSentenceIndex(safeIndex)
+    setPlaying(true)
+  }
+
+  function togglePlayback() {
     if (playing) {
       window.speechSynthesis.cancel()
       setPlaying(false)
       return
     }
-    const utterance = new SpeechSynthesisUtterance(lesson.body)
-    utterance.lang = 'en-US'
-    utterance.rate = rate
-    utterance.onend = () => setPlaying(false)
-    utterance.onerror = () => setPlaying(false)
-    window.speechSynthesis.cancel()
-    window.speechSynthesis.speak(utterance)
-    setPlaying(true)
+    speakFrom(sentenceIndex)
+  }
+
+  function moveSentence(offset: number) {
+    const nextIndex = Math.min(Math.max(sentenceIndex + offset, 0), sentences.length - 1)
+    setSentenceIndex(nextIndex)
+    if (playing) speakFrom(nextIndex)
   }
 
   return (
@@ -664,11 +778,13 @@ function AudioReader({ lesson }: { lesson: Lesson }) {
           {playing ? <Pause size={19} fill="currentColor" /> : <Play size={19} fill="currentColor" />}
         </button>
         <div className={`waveform ${playing ? 'playing' : ''}`} aria-hidden="true">
-          {WAVEFORM_BARS.map((height, index) => <i key={index} style={{ height: `${height}%` }} />)}
+          {WAVEFORM_BARS.map((height, index) => <i className={index / WAVEFORM_BARS.length <= (sentenceIndex + 1) / sentences.length ? 'played' : ''} key={index} style={{ height: `${height}%` }} />)}
         </div>
       </div>
       <div className="audio-controls">
         <span><Volume2 size={15} /> 美式朗读</span>
+        <button type="button" onClick={() => moveSentence(-1)} aria-label="上一句" disabled={sentenceIndex === 0}><SkipBack size={15} /></button>
+        <button type="button" onClick={() => moveSentence(1)} aria-label="下一句" disabled={sentenceIndex === sentences.length - 1}><SkipForward size={15} /></button>
         <div className="rate-controls" aria-label="朗读速度">
           {[0.75, 1, 1.25].map((option) => (
             <button
@@ -690,6 +806,7 @@ function AudioReader({ lesson }: { lesson: Lesson }) {
         <button type="button" onClick={() => {
           window.speechSynthesis?.cancel()
           setPlaying(false)
+          setSentenceIndex(0)
         }} aria-label="重置音频">
           <RotateCcw size={15} />
         </button>
@@ -698,7 +815,7 @@ function AudioReader({ lesson }: { lesson: Lesson }) {
         {showText ? '收起原文' : '展开原文'}
         {showText ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
       </button>
-      {showText ? <div className="article-text"><p>{lesson.body}</p></div> : null}
+      {showText ? <div className="article-text sentence-list">{sentences.map((sentence, index) => <button className={index === sentenceIndex ? 'active' : ''} key={`${lesson.id}-${index}`} type="button" onClick={() => speakFrom(index)}><span>{String(index + 1).padStart(2, '0')}</span>{sentence}</button>)}</div> : null}
     </div>
   )
 }
@@ -715,12 +832,21 @@ function TranslationSection({
   onComplete: () => void
 }) {
   const completed = record.completedSteps.includes('translation')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  function submitTranslation() {
-    const contentWords = record.translationDraft.trim().split(/\s+/u).filter(Boolean).length
-    const score = Math.min(94, 68 + contentWords * 3)
-    onRecordChange((current) => ({ ...current, translationScore: score }))
-    onComplete()
+  async function submitTranslation() {
+    setSubmitting(true)
+    setError('')
+    try {
+      const result = await gradeAnswer('translation', lesson.id, record.translationDraft)
+      onRecordChange((current) => ({ ...current, translationScore: result.score, translationFeedback: result }))
+      onComplete()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : '翻译评分失败')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -738,15 +864,14 @@ function TranslationSection({
         />
       </label>
       {!completed ? (
-        <ActionButton onClick={submitTranslation} disabled={!record.translationDraft.trim()}>提交翻译</ActionButton>
+        <>
+          <ActionButton onClick={() => void submitTranslation()} disabled={!record.translationDraft.trim() || submitting}>{submitting ? '正在批改…' : '提交翻译'}</ActionButton>
+          {error ? <p className="form-error" role="alert">{error}</p> : null}
+        </>
       ) : (
         <div className="grading-note">
           <div className="score-seal"><strong>{record.translationScore}</strong><span>/ 100</span></div>
-          <div>
-            <span className="grading-label">参考译文</span>
-            <p>{lesson.translation.referenceZh}</p>
-            <ul>{lesson.translation.gradingNotes.map((note) => <li key={note}>{note}</li>)}</ul>
-          </div>
+          <GradingDetails feedback={record.translationFeedback} fallbackReference={lesson.translation.referenceZh} fallbackNotes={lesson.translation.gradingNotes} />
         </div>
       )}
     </ThreadSection>
@@ -755,18 +880,20 @@ function TranslationSection({
 
 function SpeakingSection({
   lesson,
-  completed,
-  score,
+  record,
+  onRecordChange,
   onComplete,
 }: {
   lesson: Lesson
-  completed: boolean
-  score?: number
-  onComplete: (score: number) => void
+  record: LessonRecord
+  onRecordChange: (updater: (record: LessonRecord) => LessonRecord) => void
+  onComplete: () => void
 }) {
+  const completed = record.completedSteps.includes('speaking')
   const [recording, setRecording] = useState(false)
   const [audioUrl, setAudioUrl] = useState('')
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const recorderRef = useRef<MediaRecorder | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const chunksRef = useRef<Blob[]>([])
@@ -798,13 +925,28 @@ function SpeakingSection({
       recorder.start()
       setRecording(true)
     } catch {
-      setError('无法使用麦克风。请允许权限，或使用练习模式继续。')
+      setError('无法使用麦克风。手机通过局域网 HTTP 访问时可直接在下方填写口述文本完成评分。')
     }
   }
 
   function stopRecording() {
     recorderRef.current?.stop()
     setRecording(false)
+  }
+
+  async function submitSpeaking() {
+    setSubmitting(true)
+    setError('')
+    try {
+      const result = await gradeAnswer('speaking', lesson.id, record.speakingTranscript ?? '')
+      onRecordChange((current) => ({ ...current, speakingScore: result.score, speakingFeedback: result }))
+      if (result.correct) onComplete()
+      else setError('本次低于 6 分，请根据反馈补充表达后重新提交。')
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : '口语评分失败')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -822,18 +964,27 @@ function SpeakingSection({
             {recording ? '结束录音' : '开始录音'}
           </button>
           {audioUrl ? <audio className="recording-playback" src={audioUrl} controls /> : null}
-          {audioUrl ? <ActionButton onClick={() => onComplete(8.2)}>提交口语</ActionButton> : null}
+          <label className="field-block transcript-field">
+            <span>口述文本 · 用于内容、语法与流畅度线索评分</span>
+            <textarea
+              value={record.speakingTranscript ?? ''}
+              onChange={(event) => onRecordChange((current) => ({ ...current, speakingTranscript: event.target.value }))}
+              placeholder="输入或粘贴你刚才说的英文；建议 3–4 个完整句子…"
+              rows={4}
+            />
+          </label>
+          <ActionButton onClick={() => void submitSpeaking()} disabled={!(record.speakingTranscript ?? '').trim() || submitting}>{submitting ? '正在评分…' : '提交口语'}</ActionButton>
           {error ? (
             <div className="permission-fallback">
               <p role="alert">{error}</p>
-              <button type="button" onClick={() => onComplete(7.4)}>使用练习模式继续</button>
             </div>
           ) : null}
+          {record.speakingFeedback && !record.speakingFeedback.correct ? <div className="grading-note compact-note"><GradingDetails feedback={record.speakingFeedback} fallbackReference={lesson.speakingPrompt} /></div> : null}
         </div>
       ) : (
         <div className="speaking-result">
-          <span className="score-seal small"><strong>{score?.toFixed(1)}</strong><span>/ 10</span></span>
-          <p>节奏稳定，表达完整。下一次可进一步减少句中停顿。</p>
+          <span className="score-seal small"><strong>{record.speakingScore?.toFixed(1)}</strong><span>/ 10</span></span>
+          <GradingDetails feedback={record.speakingFeedback} fallbackReference={lesson.speakingPrompt} />
         </div>
       )}
     </ThreadSection>
@@ -854,20 +1005,27 @@ function WritingSection({
   const completed = record.completedSteps.includes('writing')
   const showHint = record.writingAttempts === 1 && !record.writingCorrect
   const showAnswer = record.writingAttempts >= 2 && !record.writingCorrect
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  function normalize(value: string) {
-    return value.toLowerCase().replace(/[^a-z\s]/gu, '').replace(/\s+/gu, ' ').trim()
-  }
-
-  function submitWriting() {
-    const correct = lesson.writing.answers.some((answer) => normalize(answer) === normalize(record.writingDraft))
-    const nextAttempts = record.writingAttempts + 1
-    onRecordChange((current) => ({
-      ...current,
-      writingAttempts: nextAttempts,
-      writingCorrect: correct,
-    }))
-    if (correct || nextAttempts >= 2) onComplete()
+  async function submitWriting() {
+    setSubmitting(true)
+    setError('')
+    try {
+      const result = await gradeAnswer('writing', lesson.id, record.writingDraft)
+      const nextAttempts = record.writingAttempts + 1
+      onRecordChange((current) => ({
+        ...current,
+        writingAttempts: nextAttempts,
+        writingCorrect: result.correct,
+        writingFeedback: result,
+      }))
+      if (result.correct || nextAttempts >= 2) onComplete()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : '写作评分失败')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -885,10 +1043,11 @@ function WritingSection({
         />
       </label>
       {!completed ? (
-        <ActionButton onClick={submitWriting} disabled={!record.writingDraft.trim()}>
-          提交 · 第 {Math.min(record.writingAttempts + 1, 2)} 次
+        <ActionButton onClick={() => void submitWriting()} disabled={!record.writingDraft.trim() || submitting}>
+          {submitting ? '正在批改…' : `提交 · 第 ${Math.min(record.writingAttempts + 1, 2)} 次`}
         </ActionButton>
       ) : null}
+      {error ? <p className="form-error" role="alert">{error}</p> : null}
       {showHint ? <p className="inline-hint"><strong>提示：</strong>{lesson.writing.hint}</p> : null}
       {showAnswer ? (
         <div className="grading-note compact-note">
@@ -896,6 +1055,7 @@ function WritingSection({
         </div>
       ) : null}
       {record.writingCorrect ? <p className="success-note"><Check size={16} /> 表达准确，已收入今日掌握句型。</p> : null}
+      {record.writingFeedback ? <div className="grading-note compact-note"><GradingDetails feedback={record.writingFeedback} fallbackReference={lesson.writing.answers[0]} /></div> : null}
     </ThreadSection>
   )
 }
@@ -904,7 +1064,7 @@ function SummarySection({ lesson, record, onComplete }: { lesson: Lesson; record
   const completed = record.completedSteps.includes('summary')
   const translation = record.translationScore ?? 80
   const speaking = Math.round((record.speakingScore ?? 7.5) * 10)
-  const writing = record.writingCorrect ? 92 : 76
+  const writing = Math.round(record.writingFeedback?.score ?? (record.writingCorrect ? 92 : 76))
   const total = Math.round(translation * 0.4 + speaking * 0.35 + writing * 0.25)
 
   return (
@@ -928,6 +1088,33 @@ function SummarySection({ lesson, record, onComplete }: { lesson: Lesson; record
       </div>
       {!completed ? <ActionButton onClick={onComplete}>完成今日学习</ActionButton> : <p className="success-note"><Check size={16} /> 今日档案已归档。</p>}
     </ThreadSection>
+  )
+}
+
+function GradingDetails({
+  feedback,
+  fallbackReference,
+  fallbackNotes = [],
+}: {
+  feedback?: GradingFeedback
+  fallbackReference: string
+  fallbackNotes?: string[]
+}) {
+  return (
+    <div className="grading-details">
+      <span className="grading-label">{feedback?.graderType === 'openai' ? 'AI 结构化批改' : '量表批改'}{feedback?.submissionVersion ? ` · 第 ${feedback.submissionVersion} 版` : ''}</span>
+      <p>{feedback?.summary ?? '已按本课量表完成批改。'}</p>
+      {feedback?.dimensions?.length ? (
+        <dl className="grading-dimensions">
+          {feedback.dimensions.map((dimension) => <div key={dimension.label}><dt>{dimension.label} · {dimension.weight}%</dt><dd>{dimension.score}</dd></div>)}
+        </dl>
+      ) : null}
+      <span className="grading-label">参考表达</span>
+      <p>{feedback?.reference ?? fallbackReference}</p>
+      <ul>
+        {(feedback?.improvements?.length ? feedback.improvements : fallbackNotes).map((note) => <li key={note}>{note}</li>)}
+      </ul>
+    </div>
   )
 }
 
@@ -973,14 +1160,42 @@ function ActionButton({ children, onClick, disabled = false }: { children: React
   )
 }
 
-function ConversationsView({ state, onOpenLesson }: { state: LearningState; onOpenLesson: (id: string) => void }) {
+function ConversationsView({
+  lessons,
+  state,
+  onOpenLesson,
+}: {
+  lessons: Lesson[]
+  state: LearningState
+  onOpenLesson: (id: string) => void
+}) {
+  const [query, setQuery] = useState('')
+  const [level, setLevel] = useState<'ALL' | 'L1' | 'L2' | 'L3'>('ALL')
+  const normalizedQuery = query.trim().toLowerCase()
+  const visibleLessons = lessons.filter((lesson) => {
+    const matchesLevel = level === 'ALL' || lesson.difficulty.level === level
+    const matchesQuery = !normalizedQuery || [lesson.title, lesson.titleZh, lesson.topic, lesson.source.publisher]
+      .some((value) => value.toLowerCase().includes(normalizedQuery))
+    return matchesLevel && matchesQuery
+  })
+
   return (
-    <ArchivePage title="对话档案" english="CONVERSATION INDEX" description="五篇种子内容已入库；完成、进行中和跳过状态会保存在本机。">
+    <ArchivePage title="对话档案" english="CONVERSATION INDEX" description={`${lessons.length} 篇精选内容已存入数据库；电脑与手机共享学习状态。`}>
+      <div className="archive-toolbar">
+        <label><span>检索内容</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="标题、主题或来源" /></label>
+        <div className="archive-filters" aria-label="难度筛选">
+          {(['ALL', 'L1', 'L2', 'L3'] as const).map((option) => (
+            <button className={level === option ? 'active' : ''} key={option} type="button" onClick={() => setLevel(option)}>{option === 'ALL' ? '全部' : option}</button>
+          ))}
+        </div>
+        <span>{visibleLessons.length} 篇</span>
+      </div>
       <div className="archive-table" role="table" aria-label="内容库">
         <div className="archive-row archive-head" role="row">
           <span>编号</span><span>内容</span><span>难度</span><span>状态</span><span />
         </div>
-        {LESSONS.map((lesson, index) => {
+        {visibleLessons.map((lesson) => {
+          const index = lessons.findIndex((candidate) => candidate.id === lesson.id)
           const record = state.records[lesson.id]
           const status = record?.skipped
             ? '已跳过'
@@ -1004,14 +1219,31 @@ function ConversationsView({ state, onOpenLesson }: { state: LearningState; onOp
   )
 }
 
-function ReviewView({ state }: { state: LearningState }) {
+function ReviewView({ lessons, state, reviewItems, onComplete }: { lessons: Lesson[]; state: LearningState; reviewItems: ReviewItem[]; onComplete: (item: ReviewItem) => Promise<void> }) {
   const activeRecords = Object.entries(state.records).filter(([, record]) => record.completedSteps.length > 0)
+  const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]))
   return (
     <ArchivePage title="复盘簿" english="REVIEW LEDGER" description="从已经发生的翻译、写作和口语练习中提取复盘线索。">
+      {reviewItems.length ? (
+        <section className="review-errors" aria-label="数据库错题">
+          <header><strong>待复习错题</strong><span>{reviewItems.length} 项</span></header>
+          {reviewItems.map((item) => (
+            <article key={item.id}>
+              <span>{item.errorType} · {item.titleZh}</span>
+              <p>{item.prompt}</p>
+              <del>{item.userAnswer}</del>
+              <ins>{item.correction}</ins>
+              <small>{item.explanation}</small>
+              {item.reviewTaskId ? <button type="button" onClick={() => void onComplete(item)}><Check size={14} /> 标记已掌握</button> : null}
+            </article>
+          ))}
+        </section>
+      ) : null}
       {activeRecords.length ? (
         <div className="review-grid">
           {activeRecords.map(([lessonId, record]) => {
-            const lesson = findLesson(lessonId)
+            const lesson = lessonById.get(lessonId)
+            if (!lesson) return null
             return (
               <article key={lessonId} className="review-sheet">
                 <span>{lesson.difficulty.level} · {lesson.topic}</span>
@@ -1033,19 +1265,42 @@ function ReviewView({ state }: { state: LearningState }) {
   )
 }
 
-function ProfileView({ user, state, onLogout }: { user: string; state: LearningState; onLogout: () => Promise<void> }) {
+function ProfileView({
+  user,
+  state,
+  lessons,
+  profile,
+  databaseEngine,
+  onProfileChange,
+  onLogout,
+}: {
+  user: string
+  state: LearningState
+  lessons: Lesson[]
+  profile: LearningProfile
+  databaseEngine: string
+  onProfileChange: (profile: LearningProfile) => Promise<void>
+  onLogout: () => Promise<void>
+}) {
   const completed = Object.values(state.records).filter((record) => record.completedSteps.includes('summary')).length
+  const [draft, setDraft] = useState(profile)
   return (
-    <ArchivePage title="我的档案" english="READER PROFILE" description="个人 MVP 的学习偏好与内容库状态。">
+    <ArchivePage title="我的档案" english="READER PROFILE" description="学习偏好、数据库状态与跨设备同步设置。">
       <div className="profile-sheet">
         <div className="profile-monogram">{user.slice(0, 1)}</div>
         <div className="profile-identity"><span>登录用户</span><strong>{user}</strong><small>PERSONAL READER · 001</small></div>
         <dl>
-          <div><dt>当前目标</dt><dd>六级 / 雅思 6.5</dd></div>
-          <div><dt>默认难度</dt><dd>L2 进阶</dd></div>
-          <div><dt>种子内容</dt><dd>{LESSONS.length} / {CONTENT_TARGET}</dd></div>
+          <div><dt>当前目标</dt><dd>{profile.targetExam}</dd></div>
+          <div><dt>默认难度</dt><dd>{profile.preferredLevel}</dd></div>
+          <div><dt>数据库内容</dt><dd>{lessons.length} 篇 · {databaseEngine}</dd></div>
           <div><dt>完成档案</dt><dd>{completed}</dd></div>
         </dl>
+        <form className="profile-form" onSubmit={(event) => { event.preventDefault(); void onProfileChange(draft) }}>
+          <label><span>学习目标</span><input value={draft.targetExam} onChange={(event) => setDraft((current) => ({ ...current, targetExam: event.target.value }))} /></label>
+          <label><span>默认难度</span><select value={draft.preferredLevel} onChange={(event) => setDraft((current) => ({ ...current, preferredLevel: event.target.value as LearningProfile['preferredLevel'] }))}><option value="L1">L1 基础</option><option value="L2">L2 进阶</option><option value="L3">L3 高阶</option></select></label>
+          <label><span>每日分钟</span><input type="number" min="5" max="120" value={draft.dailyGoalMinutes} onChange={(event) => setDraft((current) => ({ ...current, dailyGoalMinutes: Number(event.target.value) }))} /></label>
+          <button className="double-border-button" type="submit"><span>保存学习档案</span><ArrowRight size={16} /></button>
+        </form>
         <button className="logout-button" type="button" onClick={onLogout}><LogOut size={17} /> 退出登录</button>
       </div>
     </ArchivePage>
