@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-08-19T02:37:38.688Z",
+  "catalogVersion": 1,
+  "targetSize": 1000,
+  "currentSize": 5,
+  "passed": true,
+  "lessons": [
+    {
+      "id": "lesson-cdc-short-walk",
+      "title": "A Short Walk Can Change Your Day",
+      "words": 157,
+      "fingerprint": "a8d77dcae2b73fbac02d6da2696221df3512e67ff17f94e4a7cd8f33cf1d765c",
+      "errors": []
+    },
+    {
+      "id": "lesson-epa-food-waste",
+      "title": "Waste Less Food, One Shelf at a Time",
+      "words": 157,
+      "fingerprint": "b2543d0fcf937051f1b68e48422736f23bde82572a09464593ea0b8832d6c9cf",
+      "errors": []
+    },
+    {
+      "id": "lesson-noaa-coral-partnership",
+      "title": "Coral: An Animal with a Plant Partner",
+      "words": 155,
+      "fingerprint": "8d31d919748bcdb77970307f50e055b89f0609081a19f4063cfa2bb504513600",
+      "errors": []
+    },
+    {
+      "id": "lesson-nasa-moon-before-mars",
+      "title": "Why the Moon Comes Before Mars",
+      "words": 163,
+      "fingerprint": "b3fab252fda5aad7f165b261754fcb836d302180545d31f686c2f731bcbc809d",
+      "errors": []
+    },
+    {
+      "id": "lesson-nist-four-verbs",
+      "title": "Four Verbs for More Trustworthy AI",
+      "words": 169,
+      "fingerprint": "6aaaaba0d7da9f98ed8fa3bc0eb3ecbde12cb84728177cf06cf7b133f4c08306",
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "sourceChecks": [
+    {
+      "id": "lesson-cdc-short-walk",
+      "url": "https://www.cdc.gov/physical-activity-basics/health-benefits/adults.html",
+      "status": 200,
+      "ok": true,
+      "title": "Health Benefits of Physical Activity for Adults | Physical Activity Basics | CDC",
+      "bytes": 50717,
+      "durationMs": 1268
+    },
+    {
+      "id": "lesson-epa-food-waste",
+      "url": "https://www.epa.gov/recycle/preventing-wasted-food-home",
+      "status": 200,
+      "ok": true,
+      "title": "Preventing Wasted Food At Home | US EPA",
+      "bytes": 74409,
+      "durationMs": 850
+    },
+    {
+      "id": "lesson-noaa-coral-partnership",
+      "url": "https://oceanservice.noaa.gov/facts/coral.html",
+      "status": 200,
+      "ok": true,
+      "title": "Are corals animals or plants?",
+      "bytes": 29894,
+      "durationMs": 1827
+    },
+    {
+      "id": "lesson-nasa-moon-before-mars",
+      "url": "https://www.nasa.gov/general/what-is-artemis/",
+      "status": 200,
+      "ok": true,
+      "title": "What is Artemis? - NASA",
+      "bytes": 266434,
+      "durationMs": 710
+    },
+    {
+      "id": "lesson-nist-four-verbs",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "status": 200,
+      "ok": true,
+      "title": "AI Risk Management Framework | NIST",
+      "bytes": 92386,
+      "durationMs": 1582
+    }
+  ]
+}

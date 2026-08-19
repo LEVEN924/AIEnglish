@@ -1,0 +1,30 @@
+{
+  "name": "ai-english",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/app.mjs --dev",
+    "build": "tsc --noEmit && vite build",
+    "start": "node server/app.mjs",
+    "test": "node --test tests/api.test.mjs",
+    "test:api": "node --test tests/api.test.mjs",
+    "content:validate": "node scripts/content-pipeline.mjs",
+    "content:refresh": "node scripts/content-pipeline.mjs --fetch"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.32.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
+  }
+}

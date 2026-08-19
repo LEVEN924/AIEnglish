@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "targetSize": 1000,
+  "curatedAt": "2026-08-19T00:00:00.000Z",
+  "entries": [
+    {
+      "id": "lesson-cdc-short-walk",
+      "slug": "a-short-walk-can-change-your-day",
+      "title": "A Short Walk Can Change Your Day",
+      "titleZh": "一次短途步行也能改变一天",
+      "topic": "健康与日常",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "高频动词和短句为主，因果关系直接。"
+      },
+      "estimatedMinutes": 18,
+      "body": "Many people think exercise only counts when it is long, difficult, or done in a gym. That idea can make movement feel like another task on a busy list. In fact, even one session of moderate activity can offer immediate benefits. A brisk walk may help you feel less anxious, sleep better, and lower your blood pressure for a time. Regular movement adds longer-term benefits, including stronger bones and a lower risk of several chronic diseases. The useful lesson is not to wait for a perfect workout. You can walk during a phone call, take the stairs, or get off the bus one stop early. Start with a small action that fits your real day. When it becomes easy, add a few more minutes. A short walk will not solve every health problem, but it can be a realistic first step. Consistency grows more easily from a simple habit than from an ambitious plan you cannot repeat.",
+      "guideZh": "今天从一个很实际的问题开始：运动必须很累、很久才算数吗？先听文章，抓住作者如何用“即时收益”和“长期收益”改变这个常见看法。",
+      "keyIdeaZh": "可持续的小行动，比难以重复的宏大计划更容易形成习惯。",
+      "translation": {
+        "prompt": "The useful lesson is not to wait for a perfect workout.",
+        "referenceZh": "真正有用的启示是，不必等到一场完美的锻炼才开始行动。",
+        "gradingNotes": ["not to wait 表示“不要等待/不必等到”", "workout 在这里指一整次锻炼"]
+      },
+      "speakingPrompt": "Describe one small way you could add more movement to a busy day.",
+      "writing": {
+        "promptZh": "可持续的小习惯比完美的计划更有力量。",
+        "answers": [
+          "A sustainable small habit is more powerful than a perfect plan.",
+          "Small habits you can sustain are more powerful than perfect plans."
+        ],
+        "hint": "使用 sustainable 或 can sustain 表达“可持续的”。"
+      },
+      "vocabulary": [
+        { "term": "moderate", "ipa": "/ˈmɑːdərət/", "part": "adj.", "meaning": "适度的，中等强度的" },
+        { "term": "chronic", "ipa": "/ˈkrɑːnɪk/", "part": "adj.", "meaning": "慢性的，长期的" },
+        { "term": "consistency", "ipa": "/kənˈsɪstənsi/", "part": "n.", "meaning": "持续性，一贯性" }
+      ],
+      "source": {
+        "publisher": "Centers for Disease Control and Prevention",
+        "title": "Health Benefits of Physical Activity for Adults",
+        "url": "https://www.cdc.gov/physical-activity-basics/health-benefits/adults.html",
+        "publishedAt": "2026-03-10",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "U.S. federal government source; third-party material, if any, is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 19,
+        "learningValue": 19,
+        "topicValue": 14,
+        "factualAccuracy": 15,
+        "durability": 10,
+        "total": 97
+      }
+    },
+    {
+      "id": "lesson-epa-food-waste",
+      "slug": "waste-less-food-one-shelf-at-a-time",
+      "title": "Waste Less Food, One Shelf at a Time",
+      "titleZh": "从一层冰箱开始减少食物浪费",
+      "topic": "生活与环境",
+      "difficulty": {
+        "level": "L1",
+        "label": "基础",
+        "cefr": "A2–B1",
+        "reason": "生活场景具体，动作词丰富，信息结构清晰。"
+      },
+      "estimatedMinutes": 19,
+      "body": "Food waste often begins with good intentions. We buy fresh vegetables for several meals, forget what is already in the refrigerator, and then discover spoiled food at the end of the week. A simple system can prevent much of this waste. Before shopping, look through the refrigerator, freezer, and pantry. Plan a few meals around food that needs to be used soon, then write a list with realistic quantities. At home, place older food where you can see it and label leftovers with a date. The freezer is also useful for bread, fruit, and cooked meals that you will not eat in time. These habits save more than food. They also save the water, land, energy, and work used to produce and transport it. The goal is not a perfectly organized kitchen. It is a kitchen that gives you clear signals about what to eat next. One visible shelf and one weekly list are enough to begin.",
+      "guideZh": "这篇文章讨论一个很日常的系统设计问题：怎样让厨房主动提醒我们先吃什么。听的时候留意购物前、储存时和吃不完时的三个动作。",
+      "keyIdeaZh": "减少浪费不是追求完美收纳，而是建立清晰、可见的使用顺序。",
+      "translation": {
+        "prompt": "Plan a few meals around food that needs to be used soon.",
+        "referenceZh": "围绕那些需要尽快用掉的食物，提前安排几顿饭。",
+        "gradingNotes": ["plan ... around 表示“围绕……来安排”", "needs to be used 是被动表达"]
+      },
+      "speakingPrompt": "What food do you often forget at home, and what system could help you use it?",
+      "writing": {
+        "promptZh": "先查看冰箱，再写一份符合实际的购物清单。",
+        "answers": [
+          "Check the refrigerator first, and then write a realistic shopping list.",
+          "Look through the fridge before writing a realistic shopping list."
+        ],
+        "hint": "“查看”可用 check 或 look through；注意 before 后接动名词。"
+      },
+      "vocabulary": [
+        { "term": "pantry", "ipa": "/ˈpæntri/", "part": "n.", "meaning": "食品储藏室，食品柜" },
+        { "term": "spoiled", "ipa": "/spɔɪld/", "part": "adj.", "meaning": "变质的" },
+        { "term": "quantity", "ipa": "/ˈkwɑːntəti/", "part": "n.", "meaning": "数量" }
+      ],
+      "source": {
+        "publisher": "U.S. Environmental Protection Agency",
+        "title": "Preventing Wasted Food At Home",
+        "url": "https://www.epa.gov/recycle/preventing-wasted-food-home",
+        "publishedAt": "2026-06-22",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "U.S. federal government source; linked third-party material is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 19,
+        "learningValue": 20,
+        "topicValue": 15,
+        "factualAccuracy": 15,
+        "durability": 10,
+        "total": 99
+      }
+    },
+    {
+      "id": "lesson-noaa-coral-partnership",
+      "slug": "coral-an-animal-with-a-plant-partner",
+      "title": "Coral: An Animal with a Plant Partner",
+      "titleZh": "珊瑚：与植物伙伴共生的动物",
+      "topic": "海洋与科学",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含生物学概念、关系从句和过程描述。"
+      },
+      "estimatedMinutes": 22,
+      "body": "Coral may look like a colorful underwater plant, but it is an animal. A coral colony is built by hundreds or thousands of tiny creatures called polyps. Each polyp attaches to a surface and uses small tentacles to collect food from the water. Many reef-building corals also live in partnership with microscopic algae inside their tissues. The algae use sunlight to make food. In return for protection and access to the coral's waste products, they provide oxygen and nutrients that help the coral grow. This partnership is called symbiosis. When water becomes too warm or other conditions create stress, coral may push the algae out. Without its colorful partner, the coral turns white, a process known as bleaching. A bleached coral is not necessarily dead, but it has lost an important source of energy and is more vulnerable. Understanding this relationship explains both the remarkable strength of a reef and its sensitivity to environmental change.",
+      "guideZh": "先别急着判断珊瑚是植物还是石头。文章会从珊瑚虫、藻类和白化三个层次解释它为什么既强大又脆弱。",
+      "keyIdeaZh": "珊瑚礁的生命力来自共生关系，而这种依赖也使它容易受到环境变化影响。",
+      "translation": {
+        "prompt": "A bleached coral is not necessarily dead, but it has lost an important source of energy.",
+        "referenceZh": "白化的珊瑚不一定已经死亡，但它失去了一项重要的能量来源。",
+        "gradingNotes": ["not necessarily 表示“不一定”", "has lost 强调失去后的当前状态"]
+      },
+      "speakingPrompt": "Explain symbiosis using coral and algae as an example.",
+      "writing": {
+        "promptZh": "这种伙伴关系解释了珊瑚礁为何既强大又敏感。",
+        "answers": [
+          "This partnership explains why coral reefs are both strong and sensitive.",
+          "The partnership explains both the strength and the sensitivity of coral reefs."
+        ],
+        "hint": "用 why 引导宾语从句，或使用 both ... and ... 结构。"
+      },
+      "vocabulary": [
+        { "term": "polyp", "ipa": "/ˈpɑːlɪp/", "part": "n.", "meaning": "珊瑚虫；息肉" },
+        { "term": "symbiosis", "ipa": "/ˌsɪmbaɪˈoʊsɪs/", "part": "n.", "meaning": "共生关系" },
+        { "term": "vulnerable", "ipa": "/ˈvʌlnərəbl/", "part": "adj.", "meaning": "脆弱的，易受伤害的" }
+      ],
+      "source": {
+        "publisher": "NOAA National Ocean Service",
+        "title": "Are corals animals or plants?",
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "publishedAt": "2024-06-16",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "NOAA states National Ocean Service content is public domain unless otherwise noted."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 19,
+        "learningValue": 20,
+        "topicValue": 15,
+        "factualAccuracy": 15,
+        "durability": 10,
+        "total": 99
+      }
+    },
+    {
+      "id": "lesson-nasa-moon-before-mars",
+      "slug": "why-the-moon-comes-before-mars",
+      "title": "Why the Moon Comes Before Mars",
+      "titleZh": "为什么先去月球，再去火星",
+      "topic": "太空与探索",
+      "difficulty": {
+        "level": "L2",
+        "label": "进阶",
+        "cefr": "B1–B2",
+        "reason": "包含目的表达、技术词汇和多层因果关系。"
+      },
+      "estimatedMinutes": 23,
+      "body": "Mars is a long-term goal for human exploration, but the Moon offers a more practical place to prepare. A crew can reach the Moon in days, while a round trip to Mars could take years. That difference matters when engineers test life-support systems, landing technology, and ways to use local resources. If equipment fails near the Moon, teams can study the problem and bring lessons home much faster. The lunar surface also keeps a record of events that shaped the early solar system. Studying its rocks may help scientists understand the history of both the Moon and Earth. NASA's Artemis program combines these scientific questions with a larger engineering challenge: learning how people and robots can work together far from Earth for longer periods. The Moon is therefore not simply a final destination. It is a nearby laboratory where explorers can test ideas under real conditions. Each successful test reduces uncertainty before crews attempt the much longer and more demanding journey to Mars.",
+      "guideZh": "今天的问题不是“月球还是火星”，而是为什么探索需要分阶段。听文章时抓住距离、风险、科学价值三个理由。",
+      "keyIdeaZh": "月球是一座近距离的真实实验室，可以在前往火星之前降低技术与生存风险。",
+      "translation": {
+        "prompt": "Each successful test reduces uncertainty before crews attempt the much longer journey to Mars.",
+        "referenceZh": "每一次成功的测试，都会在宇航员尝试更漫长的火星旅程之前降低不确定性。",
+        "gradingNotes": ["reduce uncertainty 表示“降低不确定性”", "attempt 在这里是“尝试进行”"]
+      },
+      "speakingPrompt": "Do you think the Moon is a useful step toward Mars? Give two reasons.",
+      "writing": {
+        "promptZh": "月球不仅是目的地，也是一座真实的实验室。",
+        "answers": [
+          "The Moon is not only a destination but also a real laboratory.",
+          "The Moon is more than a destination; it is also a real laboratory."
+        ],
+        "hint": "尝试 not only ... but also ... 结构。"
+      },
+      "vocabulary": [
+        { "term": "life-support", "ipa": "/ˈlaɪf səˌpɔːrt/", "part": "adj.", "meaning": "维持生命的" },
+        { "term": "lunar", "ipa": "/ˈluːnər/", "part": "adj.", "meaning": "月球的" },
+        { "term": "uncertainty", "ipa": "/ʌnˈsɜːrtnti/", "part": "n.", "meaning": "不确定性" }
+      ],
+      "source": {
+        "publisher": "NASA",
+        "title": "What is Artemis?",
+        "url": "https://www.nasa.gov/general/what-is-artemis/",
+        "publishedAt": "2019-07-25",
+        "updatedAt": "2025-03-19",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "U.S. federal government source; NASA names, logos, and third-party media are not reused."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 20,
+        "learningValue": 20,
+        "topicValue": 15,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 99
+      }
+    },
+    {
+      "id": "lesson-nist-four-verbs",
+      "slug": "four-verbs-for-trustworthy-ai",
+      "title": "Four Verbs for More Trustworthy AI",
+      "titleZh": "可信 AI 的四个行动词",
+      "topic": "科技与社会",
+      "difficulty": {
+        "level": "L3",
+        "label": "高阶",
+        "cefr": "B2–C1",
+        "reason": "抽象概念密集，包含框架语言、权衡与组织治理表达。"
+      },
+      "estimatedMinutes": 26,
+      "body": "Artificial intelligence can create value, but it can also affect people in ways that are difficult to predict. A useful risk process must therefore continue throughout an AI system's life, rather than appear as a final checklist. The NIST AI Risk Management Framework organizes this work around four verbs: govern, map, measure, and manage. To govern is to define responsibility, policies, and a culture that takes risk seriously. To map is to understand the system's purpose, users, context, and possible impacts. To measure is to test performance and examine evidence about qualities such as safety, privacy, fairness, and reliability. To manage is to prioritize the risks that have been found, choose responses, and monitor what happens after deployment. These actions influence one another. Better context improves measurement, while new evidence may change management decisions or governance rules. The framework does not promise that every trade-off will disappear. Instead, it gives teams a shared language for asking better questions, documenting choices, and revisiting them as technology and real-world conditions change.",
+      "guideZh": "把这篇文章看成一份框架导读。四个动词不是线性的清单，而是一套持续循环的风险管理语言。",
+      "keyIdeaZh": "可信 AI 不是一次验收的结果，而是贯穿系统生命周期的持续治理过程。",
+      "translation": {
+        "prompt": "The framework does not promise that every trade-off will disappear.",
+        "referenceZh": "这套框架并不承诺每一种权衡都会消失。",
+        "gradingNotes": ["trade-off 指目标之间不得不做的取舍", "promise that 后接完整宾语从句"]
+      },
+      "speakingPrompt": "Which of the four actions is easiest to neglect, and why?",
+      "writing": {
+        "promptZh": "新的证据可能改变管理决策或治理规则。",
+        "answers": [
+          "New evidence may change management decisions or governance rules.",
+          "New evidence can alter management decisions or governance rules."
+        ],
+        "hint": "“治理规则”使用 governance rules；注意 evidence 是不可数名词。"
+      },
+      "vocabulary": [
+        { "term": "governance", "ipa": "/ˈɡʌvərnəns/", "part": "n.", "meaning": "治理，管理机制" },
+        { "term": "deployment", "ipa": "/dɪˈplɔɪmənt/", "part": "n.", "meaning": "部署，投入使用" },
+        { "term": "trade-off", "ipa": "/ˈtreɪd ɔːf/", "part": "n.", "meaning": "权衡，取舍" }
+      ],
+      "source": {
+        "publisher": "National Institute of Standards and Technology",
+        "title": "AI Risk Management Framework",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "publishedAt": "2023-01-26",
+        "accessedAt": "2026-08-19",
+        "adaptation": "Original learning text written from verified source facts; not a copied excerpt.",
+        "rightsNote": "U.S. federal government source; linked third-party material is excluded."
+      },
+      "quality": {
+        "sourceReliability": 20,
+        "languageAuthenticity": 20,
+        "learningValue": 20,
+        "topicValue": 15,
+        "factualAccuracy": 15,
+        "durability": 9,
+        "total": 99
+      }
+    }
+  ]
+}
