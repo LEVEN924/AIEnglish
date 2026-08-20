@@ -9,6 +9,8 @@ const reportPath = join(root, 'content', 'ingestion-report.json')
 const shouldFetch = process.argv.includes('--fetch')
 const quiet = process.argv.includes('--quiet')
 const catalog = JSON.parse(await readFile(catalogPath, 'utf8'))
+let previousReport = null
+try { previousReport = JSON.parse(await readFile(reportPath, 'utf8')) } catch { /* The first validation has no prior report. */ }
 
 function wordCount(text) {
   return text.match(/[A-Za-z]+(?:[-'][A-Za-z]+)*/gu)?.length ?? 0
@@ -40,7 +42,9 @@ function validateLesson(lesson, seenUrls, seenFingerprints) {
   if (!lesson.source?.url?.startsWith('https://')) errors.push('source URL must use HTTPS')
   if (seenUrls.has(lesson.source?.url)) errors.push('source URL is duplicated')
   if (seenFingerprints.has(hash)) errors.push('content fingerprint is duplicated')
-  if ((lesson.vocabulary?.length ?? 0) < 3) errors.push('at least three vocabulary items are required')
+  if ((lesson.vocabulary?.length ?? 0) < 5 || lesson.vocabulary.length > 10) errors.push('five to ten vocabulary items are required')
+  if (lesson.translation?.prompt !== lesson.body) errors.push('translation prompt must use the complete article body')
+  if (lesson.speakingPrompt !== lesson.body) errors.push('speaking reference must use the complete article body')
   if (!lesson.translation?.prompt || !lesson.translation?.referenceZh) errors.push('translation task is incomplete')
   if (!lesson.writing?.promptZh || (lesson.writing?.answers?.length ?? 0) < 1) errors.push('writing task is incomplete')
 
@@ -62,7 +66,7 @@ const report = {
   passed: errors.length === 0,
   lessons,
   errors,
-  sourceChecks: [],
+  sourceChecks: shouldFetch ? [] : (previousReport?.sourceChecks ?? []),
 }
 
 if (shouldFetch) {
@@ -101,9 +105,7 @@ if (shouldFetch) {
   }
 }
 
-if (shouldFetch) {
-  await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8')
-}
+await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8')
 
 console.log(`Validated ${report.currentSize}/${report.targetSize} lessons.`)
 if (!quiet) for (const lesson of lessons) console.log(`${lesson.errors.length ? 'FAIL' : 'PASS'} ${lesson.id} (${lesson.words} words)`)

@@ -6,7 +6,14 @@ import { fileURLToPath } from 'node:url'
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto'
 import { openAppDatabase } from './database.mjs'
 import { gradeSubmission, gradingCapabilities } from './grading.mjs'
-import { audioCapabilities, synthesizeSpeech, transcribeAudio } from './audio.mjs'
+import {
+  assessPronunciation,
+  audioCapabilities,
+  createSpeechManifest,
+  resolveSpeechRequest,
+  synthesizeSpeech,
+  transcribeAudio,
+} from './audio.mjs'
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const isDev = process.argv.includes('--dev')
@@ -54,6 +61,39 @@ function sendJson(response, status, body, headers = {}) {
     ...headers,
   })
   response.end(JSON.stringify(body))
+}
+
+function sendAudio(request, response, audio) {
+  const total = audio.buffer.length
+  const range = String(request.headers.range ?? '').match(/^bytes=(\d*)-(\d*)$/u)
+  const commonHeaders = {
+    'Accept-Ranges': 'bytes',
+    'Cache-Control': 'private, max-age=31536000, immutable',
+    'Content-Type': audio.contentType,
+    'X-Audio-Model': audio.model,
+    'X-Audio-Provider': audio.provider,
+    'X-Audio-Voice': audio.voice,
+  }
+  if (!range) {
+    response.writeHead(200, { ...commonHeaders, 'Content-Length': total })
+    response.end(audio.buffer)
+    return
+  }
+  const suffixLength = !range[1] && range[2] ? Number(range[2]) : null
+  const start = suffixLength === null ? Math.min(Number(range[1] || 0), total - 1) : Math.max(0, total - suffixLength)
+  const end = suffixLength === null && range[2] ? Math.min(Number(range[2]), total - 1) : total - 1
+  if (!Number.isFinite(start) || !Number.isFinite(end) || start > end) {
+    response.writeHead(416, { 'Content-Range': `bytes */${total}` })
+    response.end()
+    return
+  }
+  const chunk = audio.buffer.subarray(start, end + 1)
+  response.writeHead(206, {
+    ...commonHeaders,
+    'Content-Length': chunk.length,
+    'Content-Range': `bytes ${start}-${end}/${total}`,
+  })
+  response.end(chunk)
 }
 
 function parseCookies(request) {
@@ -201,7 +241,38 @@ async function handleApi(request, response) {
     const session = requireSession(request, response)
     if (!session) return true
     const grading = gradingCapabilities()
-    sendJson(response, 200, { ...audioCapabilities(), aiGrading: grading.enabled, gradingProvider: grading.provider, gradingModel: grading.model })
+    sendJson(response, 200, { ...audioCapabilities(), aiGrading: false, gradingProvider: grading.provider, gradingModel: grading.model })
+    return true
+  }
+
+  if (request.method === 'GET' && url.pathname === '/api/audio/manifest') {
+    const session = requireSession(request, response)
+    if (!session) return true
+    const lesson = appDatabase.getLessons().find((candidate) => candidate.id === url.searchParams.get('lessonId'))
+    if (!lesson) {
+      sendJson(response, 404, { error: '未找到对应学习内容' })
+      return true
+    }
+    sendJson(response, 200, createSpeechManifest(lesson, url.searchParams.get('rate')))
+    return true
+  }
+
+  if (request.method === 'GET' && url.pathname === '/api/audio/speech') {
+    const session = requireSession(request, response)
+    if (!session) return true
+    try {
+      const lesson = appDatabase.getLessons().find((candidate) => candidate.id === url.searchParams.get('lessonId'))
+      if (!lesson) throw new Error('未找到对应学习内容')
+      const speechRequest = resolveSpeechRequest(lesson, {
+        kind: url.searchParams.get('kind'),
+        part: url.searchParams.get('part'),
+        term: url.searchParams.get('term'),
+        rate: url.searchParams.get('rate'),
+      })
+      sendAudio(request, response, await synthesizeSpeech(speechRequest))
+    } catch (error) {
+      sendJson(response, error.statusCode ?? 400, { error: error.message || '腾讯云语音合成失败' })
+    }
     return true
   }
 
@@ -222,17 +293,41 @@ async function handleApi(request, response) {
     if (!session) return true
     try {
       const body = await readJsonBody(request)
-      const audio = await synthesizeSpeech(body)
-      response.writeHead(200, {
-        'Cache-Control': 'private, max-age=86400',
-        'Content-Type': audio.contentType,
-        'Content-Length': audio.buffer.length,
-        'X-Audio-Model': audio.model,
-        'X-Audio-Voice': audio.voice,
-      })
-      response.end(audio.buffer)
+      sendAudio(request, response, await synthesizeSpeech(body))
     } catch (error) {
       sendJson(response, error.statusCode ?? 400, { error: error.message || '语音合成失败' })
+    }
+    return true
+  }
+
+  if (request.method === 'POST' && url.pathname === '/api/audio/assess') {
+    const session = requireSession(request, response)
+    if (!session) return true
+    try {
+      const body = await readJsonBody(request, 18 * 1024 * 1024)
+      const lesson = appDatabase.getLessons().find((candidate) => candidate.id === body.lessonId)
+      if (!lesson) {
+        sendJson(response, 404, { error: '未找到对应学习内容' })
+        return true
+      }
+      const result = await assessPronunciation({ dataUrl: body.dataUrl, referenceText: lesson.body })
+      const saved = appDatabase.recordGrading(
+        session.userId,
+        lesson.id,
+        'speaking',
+        result.transcript || '[腾讯智聆真实录音]',
+        result,
+        {
+          durationSeconds: result.audioDurationSeconds,
+          audioCaptured: true,
+          transcriptionProvider: 'tencent-soe',
+          acousticAssessment: true,
+          audioHash: result.audioHash,
+        },
+      )
+      sendJson(response, 200, saved)
+    } catch (error) {
+      sendJson(response, error.statusCode ?? 400, { error: error.message || '腾讯智聆口语评测失败' })
     }
     return true
   }

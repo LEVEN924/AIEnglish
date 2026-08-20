@@ -1,4 +1,4 @@
-import type { AppCapabilities, BootstrapData, GradingFeedback, LearningProfile, LearningState, SavedVocabulary, Session, WeeklyReport } from '../types'
+import type { AppCapabilities, AudioManifest, BootstrapData, GradingFeedback, LearningProfile, LearningState, SavedVocabulary, Session, WeeklyReport } from '../types'
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
@@ -47,7 +47,7 @@ export function saveLearningProfile(profile: LearningProfile): Promise<LearningP
 }
 
 export function gradeAnswer(
-  type: 'translation' | 'speaking' | 'writing',
+  type: 'translation' | 'writing',
   lessonId: string,
   answer: string,
   audioMetadata?: Record<string, unknown>,
@@ -55,6 +55,21 @@ export function gradeAnswer(
   return request(`/api/grade/${type}`, {
     method: 'POST',
     body: JSON.stringify({ lessonId, answer, audioMetadata }),
+  })
+}
+
+export function getAudioManifest(lessonId: string, rate: number): Promise<AudioManifest> {
+  return request<AudioManifest>(`/api/audio/manifest?lessonId=${encodeURIComponent(lessonId)}&rate=${encodeURIComponent(rate)}`)
+}
+
+export function assessRecording(
+  lessonId: string,
+  dataUrl: string,
+  durationSeconds: number,
+): Promise<GradingFeedback & { score: number; correct: boolean }> {
+  return request('/api/audio/assess', {
+    method: 'POST',
+    body: JSON.stringify({ lessonId, dataUrl, durationSeconds }),
   })
 }
 

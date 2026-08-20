@@ -8,6 +8,7 @@ export interface VocabularyItem {
   ipa: string
   part: string
   meaning: string
+  example?: string | null
 }
 
 export interface Lesson {
@@ -91,10 +92,28 @@ export interface GradingFeedback {
   improvements: string[]
   dimensions: Array<{ label: string; score: number; weight: number }>
   reference?: string
-  graderType?: 'local' | 'openai' | 'deepseek'
+  graderType?: 'local' | 'tencent-tmt-rubric' | 'tencent-soe'
   submissionVersion?: number
   acousticAssessment?: boolean
   wordsPerMinute?: number
+  transcript?: string
+  words?: Array<{
+    segment: number
+    word: string
+    referenceWord: string
+    accuracy: number
+    fluency: number
+    matchTag: number
+    phones?: Array<{ phone: string; referencePhone: string; accuracy: number }>
+  }>
+  providerScores?: {
+    suggested: number
+    accuracy: number
+    fluency: number
+    completion: number
+  }
+  referenceSegments?: number
+  audioDurationSeconds?: number
 }
 
 export interface LearningProfile {
@@ -145,14 +164,26 @@ export interface WeeklyReport {
 }
 
 export interface AppCapabilities {
+  provider: string
   cloudTranscription: boolean
   cloudSpeech: boolean
+  oralAssessment: boolean
+  cloudTranslation: boolean
   aiGrading: boolean
   gradingProvider: string
   gradingModel: string
   transcriptionModel: string
   speechModel: string
   speechVoice: string
+  assessmentModel: string
+  assessmentStrictness: number
+}
+
+export interface AudioManifest {
+  provider: string
+  rate: number
+  article: Array<{ index: number; text: string; url: string }>
+  vocabulary: Array<{ term: string; url: string }>
 }
 
 export interface BootstrapData {

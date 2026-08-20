@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
 import { randomBytes, scryptSync } from 'node:crypto'
 import { once } from 'node:events'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { mkdir, rm } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
@@ -13,6 +13,7 @@ import { chromium } from 'playwright-core'
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const serverEntry = join(root, 'server', 'app.mjs')
+const lesson = JSON.parse(readFileSync(join(root, 'content', 'lessons.json'), 'utf8')).entries[0]
 const browserCandidates = [
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
   'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
@@ -83,10 +84,9 @@ test('desktop and mobile learning surfaces render and respond', { timeout: 30_00
       APP_PASSWORD_HASH: scryptSync(password, salt, 64).toString('hex'),
       COOKIE_SECURE: 'false',
       HTTPS_ENABLED: 'false',
-      AI_PROVIDER: 'deepseek',
-      DEEPSEEK_API_KEY: '',
-      OPENAI_API_KEY: '',
-      OPENAI_MODEL: '',
+      TENCENTCLOUD_APP_ID: '',
+      TENCENTCLOUD_SECRET_ID: '',
+      TENCENTCLOUD_SECRET_KEY: '',
       AI_ENGLISH_DB_PATH: databasePath,
     },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -114,8 +114,23 @@ test('desktop and mobile learning surfaces render and respond', { timeout: 30_00
   assert.equal(await desktop.title(), 'Ink & Air · AI English')
   await login(desktop, username, password)
   assert.equal(await desktop.locator('.step-ticket-rail li').count(), 6)
+  assert.equal(await desktop.getByRole('button', { name: /^播放读音 /u }).count(), 5)
   assert.equal(await desktop.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), 0)
   assert.equal(await desktop.locator('vite-error-overlay, nextjs-portal').count(), 0)
+  await desktop.getByRole('button', { name: '开始今天的听力' }).click()
+  await desktop.getByRole('button', { name: '展开原文' }).click()
+  assert.equal(await desktop.locator('#step-listening .article-text p').count(), 1)
+  assert.equal((await desktop.locator('#step-listening .article-text p').textContent())?.trim(), lesson.body)
+  await desktop.getByPlaceholder('用中文写下文章的主要意思…').fill('文章说明了一个可以落实到日常生活中的核心观点。')
+  await desktop.getByRole('button', { name: '保存理解并进入翻译' }).click()
+  assert.equal((await desktop.locator('#step-translation blockquote').textContent())?.trim(), lesson.body)
+  assert.equal(await desktop.locator('#step-translation blockquote p').count(), 0)
+  await desktop.getByPlaceholder('写下整段中文翻译…').fill(lesson.translation.referenceZh)
+  await desktop.getByRole('button', { name: '提交翻译' }).click()
+  await desktop.locator('#step-speaking').waitFor()
+  assert.equal(await desktop.locator('#step-speaking textarea').count(), 0)
+  assert.equal(await desktop.getByRole('button', { name: '开始录音' }).isVisible(), true)
+  assert.equal((await desktop.locator('#step-speaking blockquote').textContent())?.trim(), lesson.body)
   await desktop.screenshot({ path: join(screenshotDir, 'desktop.png'), fullPage: false })
 
   await desktop.locator('.app-sidebar nav button').filter({ hasText: '对话' }).click()
@@ -133,6 +148,9 @@ test('desktop and mobile learning surfaces render and respond', { timeout: 30_00
   await login(mobile, username, password)
   assert.equal(await mobile.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), 0)
   assert.equal(await mobile.locator('.mobile-bottom-nav').isVisible(), true)
+  assert.equal(await mobile.locator('#step-speaking textarea').count(), 0)
+  assert.equal(await mobile.getByRole('button', { name: '开始录音' }).isVisible(), true)
+  assert.equal(await mobile.getByRole('button', { name: /^播放读音 /u }).count(), 5)
   await mobile.locator('.mobile-bottom-nav button').filter({ hasText: '对话' }).click()
   assert.equal(await mobile.getByRole('heading', { name: '对话档案' }).isVisible(), true)
   await mobile.screenshot({ path: join(screenshotDir, 'mobile.png'), fullPage: false })

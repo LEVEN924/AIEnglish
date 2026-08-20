@@ -133,6 +133,66 @@ function migrateToVersion3(database) {
   `).run(new Date().toISOString())
 }
 
+function scaleLegacySpeakingFeedback(value) {
+  if (!value) return value
+  try {
+    const feedback = JSON.parse(value)
+    if (Number(feedback.score) <= 10) feedback.score = Math.round(Number(feedback.score) * 10)
+    if (Array.isArray(feedback.dimensions)) {
+      feedback.dimensions = feedback.dimensions.map((dimension) => ({
+        ...dimension,
+        score: Number(dimension.score) <= 10 ? Math.round(Number(dimension.score) * 10) : dimension.score,
+      }))
+    }
+    feedback.legacyTranscriptAssessment = true
+    return JSON.stringify(feedback)
+  } catch {
+    return value
+  }
+}
+
+function migrateToVersion4(database) {
+  const progressRows = database.prepare(`
+    SELECT user_id AS userId, lesson_id AS lessonId, speaking_score AS speakingScore,
+      speaking_feedback_json AS speakingFeedback
+    FROM lesson_progress WHERE speaking_score IS NOT NULL AND speaking_score <= 10
+  `).all()
+  const updateProgress = database.prepare(`
+    UPDATE lesson_progress SET speaking_score = ?, speaking_feedback_json = ?
+    WHERE user_id = ? AND lesson_id = ?
+  `)
+  for (const row of progressRows) {
+    updateProgress.run(Number(row.speakingScore) * 10, scaleLegacySpeakingFeedback(row.speakingFeedback), row.userId, row.lessonId)
+  }
+
+  const gradingRows = database.prepare(`
+    SELECT grading_results.id, grading_results.total_score AS totalScore,
+      grading_results.dimensions_json AS dimensions, grading_results.feedback_json AS feedback
+    FROM grading_results JOIN submissions ON submissions.id = grading_results.submission_id
+    WHERE submissions.step_type = 'speaking' AND grading_results.total_score <= 10
+  `).all()
+  const updateGrading = database.prepare(`
+    UPDATE grading_results SET total_score = ?, dimensions_json = ?, feedback_json = ?, rubric_version = 'legacy-scaled-3'
+    WHERE id = ?
+  `)
+  for (const row of gradingRows) {
+    const dimensions = JSON.parse(row.dimensions || '[]').map((dimension) => ({
+      ...dimension,
+      score: Number(dimension.score) <= 10 ? Math.round(Number(dimension.score) * 10) : dimension.score,
+    }))
+    updateGrading.run(Number(row.totalScore) * 10, JSON.stringify(dimensions), scaleLegacySpeakingFeedback(row.feedback), row.id)
+  }
+
+  database.prepare(`
+    UPDATE pronunciation_assessments SET score = score * 10
+    WHERE score <= 10
+  `).run()
+  database.prepare(`
+    INSERT OR IGNORE INTO schema_migrations(version, name, applied_at)
+    VALUES(4, 'normalize speaking scores to 100 point scale', ?)
+  `).run(new Date().toISOString())
+}
+
 export function runMigrations(database) {
   let version = getSchemaVersion(database)
   database.exec('BEGIN IMMEDIATE')
@@ -145,6 +205,11 @@ export function runMigrations(database) {
     if (version < 3) {
       migrateToVersion3(database)
       version = 3
+      setSchemaVersion(database, version)
+    }
+    if (version < 4) {
+      migrateToVersion4(database)
+      version = 4
       setSchemaVersion(database, version)
     }
     database.exec('COMMIT')

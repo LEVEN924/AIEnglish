@@ -12,7 +12,18 @@
 @layer feature-completion {
   .vocabulary-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .vocabulary-heading button { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); background: transparent; color: var(--wine); }
+  .vocabulary-actions { position: relative; z-index: 1; display: flex; gap: 5px; }
   .transcription-status { margin: 0; padding: 9px 11px; border-left: 2px solid var(--gold); background: rgb(184 137 58 / 8%); color: var(--muted); font-family: var(--sans); font-size: 11px; line-height: 1.55; }
+  .cloud-audio-element { width: calc(100% - 30px); height: 38px; margin: 10px 15px; }
+  .audio-provider-note { margin: 0 15px 10px; color: var(--muted); font-family: var(--sans); font-size: 9px; letter-spacing: .04em; }
+  .paragraph-text p, .paragraph-prompt { white-space: normal; text-wrap: pretty; }
+  .paragraph-prompt { max-height: 310px; overflow-y: auto; font-style: normal !important; }
+  .assessment-contract { display: flex; flex-wrap: wrap; gap: 7px; }
+  .assessment-contract span { display: flex; align-items: center; gap: 5px; padding: 6px 9px; border: 1px solid var(--line); background: rgb(250 247 239 / 55%); color: var(--muted); font-family: var(--sans); font-size: 9px; }
+  .word-assessment-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+  .word-assessment-list > span { display: grid; gap: 2px; padding: 7px 9px; border: 1px solid rgb(135 42 45 / 28%); background: rgb(255 253 247 / 55%); }
+  .word-assessment-list strong { font-size: 12px; }
+  .word-assessment-list small { color: var(--wine); font-family: var(--sans); font-size: 8px; }
   .review-tabs { display: flex; gap: 8px; margin-bottom: 22px; border-bottom: 1px solid var(--line-dark); }
   .review-tabs button { padding: 11px 15px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); font-family: var(--sans); font-size: 12px; }
   .review-tabs button.active { border-bottom-color: var(--wine); color: var(--ink); }
@@ -789,6 +800,9 @@
     .audio-controls { gap: 5px; padding-inline: 8px; }
     .audio-controls > span { font-size: 0; }
     .audio-controls > span svg { width: 15px; }
+    .cloud-audio-element { width: calc(100% - 16px); margin-inline: 8px; }
+    .paragraph-prompt { max-height: 250px; font-size: 14px; line-height: 1.65; }
+    .assessment-contract { display: grid; grid-template-columns: 1fr; }
     .translation-prompt { padding: 12px 13px; font-size: 15px; }
     .grading-note { grid-template-columns: 70px 1fr; gap: 13px; padding: 14px; }
     .score-seal { width: 63px; }

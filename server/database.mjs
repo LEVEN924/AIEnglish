@@ -626,7 +626,7 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
         const completed = completedSteps.includes('summary')
         const status = record.skipped ? 'skipped' : completed ? 'completed' : 'active'
         const translationScore = Math.round(Number(record.translationScore) || 0)
-        const speakingScore = Math.round((Number(record.speakingScore) || 0) * 10)
+        const speakingScore = Math.round(Number(record.speakingScore) || 0)
         const writingScore = Math.round(Number(record.writingFeedback?.score) || (record.writingCorrect ? 92 : 0))
         const totalScore = completed ? Math.round(translationScore * 0.4 + speakingScore * 0.35 + writingScore * 0.25) : null
         const title = completed ? `${totalScore}分｜${lesson.title}` : lesson.title
@@ -814,7 +814,7 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
         INSERT INTO grading_results(
           submission_id, total_score, dimensions_json, feedback_json,
           grader_type, model_version, rubric_version, created_at
-        ) VALUES(?, ?, ?, ?, ?, ?, '2', ?)
+        ) VALUES(?, ?, ?, ?, ?, ?, '3', ?)
       `).run(
         submission.lastInsertRowid,
         result.score,
@@ -832,9 +832,15 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
         `).run(
           submission.lastInsertRowid,
           String(answer),
-          audioMetadata?.transcriptionProvider ?? 'transcript-rubric',
+          result.graderType ?? audioMetadata?.transcriptionProvider ?? 'unknown',
           result.score,
-          JSON.stringify({ acousticAssessment: false, ...audioMetadata, dimensions: result.dimensions }),
+          JSON.stringify({
+            ...audioMetadata,
+            acousticAssessment: Boolean(result.acousticAssessment),
+            dimensions: result.dimensions,
+            providerScores: result.providerScores ?? null,
+            words: result.words ?? [],
+          }),
           now,
         )
       }
@@ -845,7 +851,7 @@ export function openAppDatabase({ databasePath, catalog, configuredUser, configu
           ? lesson.translation.prompt
           : stepType === 'writing'
             ? lesson.writing.promptZh
-            : lesson.speakingPrompt
+            : lesson.body
         const error = database.prepare(`
           INSERT INTO error_items(
             user_id, lesson_id, submission_id, error_type, prompt, user_answer,

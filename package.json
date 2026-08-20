@@ -13,12 +13,13 @@
     "db:verify": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs verify",
     "db:backup": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs backup",
     "db:restore": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs restore",
-    "ai:verify": "node scripts/verify-deepseek.mjs",
+    "tencent:verify": "node scripts/verify-tencent.mjs",
     "https:setup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local-https.ps1",
     "content:generate": "node scripts/crawl-vital-content.mjs",
     "content:generate:seed": "node scripts/expand-content.mjs",
     "content:validate": "node scripts/content-pipeline.mjs --quiet",
-    "content:refresh": "node scripts/content-pipeline.mjs --fetch --quiet"
+    "content:refresh": "node scripts/content-pipeline.mjs --fetch --quiet",
+    "content:normalize": "node scripts/normalize-learning-content.mjs"
   },
   "engines": {
     "node": ">=22.13.0"

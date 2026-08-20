@@ -81,10 +81,9 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
       APP_PASSWORD_HASH: passwordHash.toString('hex'),
       COOKIE_SECURE: 'false',
       HTTPS_ENABLED: 'false',
-      AI_PROVIDER: 'deepseek',
-      DEEPSEEK_API_KEY: '',
-      OPENAI_API_KEY: '',
-      OPENAI_MODEL: '',
+      TENCENTCLOUD_APP_ID: '',
+      TENCENTCLOUD_SECRET_ID: '',
+      TENCENTCLOUD_SECRET_KEY: '',
       AI_ENGLISH_DB_PATH: join(root, '.runtime', `api-test-${port}.sqlite`),
     },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -99,7 +98,7 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
 
   const healthResponse = await fetch(`${baseUrl}/api/health`)
   assert.equal(healthResponse.status, 200)
-  assert.deepEqual(await healthResponse.json(), { ok: true, mode: 'production', schemaVersion: 3 })
+  assert.deepEqual(await healthResponse.json(), { ok: true, mode: 'production', schemaVersion: 4 })
 
   const anonymousSession = await fetch(`${baseUrl}/api/session`)
   assert.equal(anonymousSession.status, 200)
@@ -159,8 +158,20 @@ test('database-backed learning and grading APIs work together', { timeout: 20_00
 
   const capabilitiesResponse = await fetch(`${baseUrl}/api/capabilities`, { headers: { Cookie: cookie } })
   const capabilities = await capabilitiesResponse.json()
+  assert.equal(capabilities.provider, 'tencent')
+  assert.equal(capabilities.cloudSpeech, false)
   assert.equal(capabilities.cloudTranscription, false)
+  assert.equal(capabilities.oralAssessment, false)
   assert.equal(capabilities.aiGrading, false)
+
+  const manifestResponse = await fetch(`${baseUrl}/api/audio/manifest?lessonId=${encodeURIComponent(lesson.id)}&rate=1`, { headers: { Cookie: cookie } })
+  assert.equal(manifestResponse.status, 200)
+  const manifest = await manifestResponse.json()
+  assert.equal(manifest.provider, 'tencent')
+  assert.ok(manifest.article.length >= 1)
+  assert.equal(manifest.article.map((part) => part.text).join(' '), lesson.body)
+  assert.ok(manifest.vocabulary.length >= 5)
+  assert.ok(manifest.vocabulary.every((item) => item.url.includes('/api/audio/speech')))
 
   const unavailableTranscription = await fetch(`${baseUrl}/api/audio/transcribe`, {
     method: 'POST',

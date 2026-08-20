@@ -35,6 +35,7 @@ outputs/
 .runtime/
 data/*.sqlite
 data/*.sqlite-*
+data/audio-cache/
 backups/
 tmp/
 temp/
