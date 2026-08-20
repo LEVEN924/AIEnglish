@@ -136,8 +136,12 @@ export async function gradeSubmission(type, lesson, answer) {
   let reference = lesson.translation.referenceZh
   let referenceProvider = 'catalog'
   if (tencentCapabilities().cloudTranslation) {
-    reference = await translateTencentText(lesson.body)
-    referenceProvider = 'tencent-tmt'
+    try {
+      reference = await translateTencentText(lesson.body)
+      referenceProvider = 'tencent-tmt'
+    } catch {
+      referenceProvider = 'catalog'
+    }
   }
   return gradeTranslation(lesson, value, reference, referenceProvider)
 }

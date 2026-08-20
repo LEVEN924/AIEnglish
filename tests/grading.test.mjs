@@ -108,11 +108,12 @@ test('writing uses the local level-aware rubric without a language-model provide
 
 test('full-paragraph translation uses Tencent TMT reference and a deterministic rubric', async (context) => {
   const originalFetch = globalThis.fetch
-  preserveEnvironment(context, ['TENCENTCLOUD_SECRET_ID', 'TENCENTCLOUD_SECRET_KEY', 'TENCENTCLOUD_REGION'])
+  preserveEnvironment(context, ['TENCENTCLOUD_SECRET_ID', 'TENCENTCLOUD_SECRET_KEY', 'TENCENTCLOUD_REGION', 'TENCENT_TMT_ENABLED'])
   context.after(() => { globalThis.fetch = originalFetch })
   process.env.TENCENTCLOUD_SECRET_ID = 'test-secret-id'
   process.env.TENCENTCLOUD_SECRET_KEY = 'test-secret-key-never-sent'
   process.env.TENCENTCLOUD_REGION = 'ap-guangzhou'
+  process.env.TENCENT_TMT_ENABLED = 'true'
   let capturedUrl = ''
   let capturedBody
   globalThis.fetch = async (url, init) => {

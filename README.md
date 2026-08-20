@@ -50,6 +50,6 @@ npm run tencent:verify
 npm run https:setup
 ```
 
-腾讯云只需在 `.env.local` 填写 `TENCENTCLOUD_APP_ID`、`TENCENTCLOUD_SECRET_ID` 和 `TENCENTCLOUD_SECRET_KEY`，并在控制台开通语音合成、语音识别、智聆口语评测新版和机器翻译。默认采用英文男声 `101050`、英语 `16k_en` 和成人严格系数 `4.0`。密钥仅由服务端读取，不会发送到浏览器或进入 Git。
+腾讯云只需在 `.env.local` 填写 `TENCENTCLOUD_APP_ID`、`TENCENTCLOUD_SECRET_ID` 和 `TENCENTCLOUD_SECRET_KEY`，并在控制台开通语音合成、语音识别和智聆口语评测新版。默认采用英文男声 `101050`、英语 `16k_en` 和成人严格系数 `4.0`。机器翻译 TMT 是可选能力，开通后把 `TENCENT_TMT_ENABLED` 改为 `true`；未开通或调用失败时自动使用规则量表，不影响学习流程。密钥仅由服务端读取，不会发送到浏览器或进入 Git。
 
 完整状态、存储位置、验收结果和外部依赖见[交付文档](docs/AI_ENGLISH_MVP_DELIVERY_STATUS.md)。

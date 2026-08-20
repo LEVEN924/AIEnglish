@@ -100,12 +100,13 @@ export function tencentCapabilities() {
   const credentials = configuredCredentials()
   const apiConfigured = Boolean(credentials.secretId && credentials.secretKey)
   const oralConfigured = Boolean(apiConfigured && credentials.appId)
+  const translationConfigured = apiConfigured && String(process.env.TENCENT_TMT_ENABLED ?? 'false').toLowerCase() === 'true'
   return {
     provider: 'tencent',
     cloudSpeech: apiConfigured,
     cloudTranscription: apiConfigured,
     oralAssessment: oralConfigured,
-    cloudTranslation: apiConfigured,
+    cloudTranslation: translationConfigured,
     speechModel: 'tencent-text-to-voice',
     speechVoice: String(process.env.TENCENT_TTS_VOICE_TYPE ?? '101050'),
     transcriptionModel: String(process.env.TENCENT_ASR_ENGINE ?? '16k_en'),
