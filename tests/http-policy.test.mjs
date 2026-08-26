@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { acceptedEncoding, canonicalOrigin, secureRequest, redirectToSecure, serveStatic } from '../server/http-policy.mjs'
+import { acceptedEncoding, canonicalOrigin, secureRequest, redirectToSecure, serveStatic, validateRequestOrigin } from '../server/http-policy.mjs'
 import { mkdtemp, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -46,4 +46,26 @@ test('static delivery compresses, revalidates, handles HEAD and rejects missing 
   const head = await fetch(base + '/assets/app-12345678.js', { method: 'HEAD' }); assert.equal((await head.arrayBuffer()).byteLength, 0)
   assert.equal((await fetch(base + '/assets/missing.js')).status, 404)
   assert.equal((await fetch(base + '/learning')).status, 200)
+})
+
+test('trusted proxy accepts the configured public port without weakening cross-origin protection', () => {
+  const oldOrigin = process.env.PUBLIC_ORIGIN, oldTrust = process.env.TRUST_PROXY
+  try {
+    process.env.PUBLIC_ORIGIN = 'https://learn.example.com:8443'; process.env.TRUST_PROXY = 'true'
+    const request = { method: 'POST', socket: { remoteAddress: '127.0.0.1' }, headers: { host: 'learn.example.com', origin: 'https://learn.example.com:8443', 'x-forwarded-proto': 'https' } }
+    assert.equal(validateRequestOrigin(request), true)
+    for (const origin of ['https://attacker.example', 'http://learn.example.com:8443', 'https://learn.example.com', 'null']) {
+      assert.equal(validateRequestOrigin({ ...request, headers: { ...request.headers, origin } }), false)
+    }
+    assert.equal(validateRequestOrigin({ ...request, socket: { remoteAddress: '192.0.2.1' } }), false)
+    process.env.TRUST_PROXY = 'false'
+    assert.equal(validateRequestOrigin(request), false)
+    assert.equal(validateRequestOrigin({ ...request, socket: { encrypted: true } }), true)
+    delete process.env.PUBLIC_ORIGIN
+    assert.equal(validateRequestOrigin({ ...request, headers: { host: 'localhost:4173', origin: 'http://localhost:4173' } }), true)
+    assert.equal(validateRequestOrigin({ ...request, headers: { host: 'localhost:4173', origin: 'http://attacker.example' } }), false)
+  } finally {
+    if (oldOrigin === undefined) delete process.env.PUBLIC_ORIGIN; else process.env.PUBLIC_ORIGIN = oldOrigin
+    if (oldTrust === undefined) delete process.env.TRUST_PROXY; else process.env.TRUST_PROXY = oldTrust
+  }
 })

@@ -63,6 +63,8 @@ sudo docker start e10-kb-assistant-v1-3-1
 
 推荐在 Nginx 的该 HTTPS 站点加入 `client_max_body_size 16m;`，保留 `X-Forwarded-Proto $scheme`、`Host $host`，并给音频生成留足至少 120 秒响应时间。改配置需要主机管理员权限，Docker 管理权限不等于已经获得 Nginx 的免密码管理权限。默认 1 MiB 请求体可能拒绝较长录音。
 
+仓库提供 `deploy/configure-nginx.sh` 与对应站点配置。管理员可运行 `sudo bash <发布目录>/deploy/configure-nginx.sh`：自动备份、验证、reload，失败恢复旧配置；同时保留公开端口及证书，允许 16 MiB 请求、保留 Host 端口、将 www 入口规范化。应用已按可信代理及 `PUBLIC_ORIGIN` 校验来源，避免旧 Nginx `$host` 丢失端口导致注册/收藏被误拒绝。
+
 域名公网 443/8443 的路由、DNS 和证书应从外部网络复测。页面必须无证书警告，麦克风必须是安全上下文；不要忽略 TLS 错误后宣称录音验收通过。
 
 腾讯说明：[TENCENT_CLOUD_CONFIGURATION.md](./TENCENT_CLOUD_CONFIGURATION.md)。移动端真人录音与公网网络限制不因容器健康而自动消失。

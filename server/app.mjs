@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { createHash, randomBytes, scrypt, timingSafeEqual } from 'node:crypto'
 import { promisify } from 'node:util'
 import { gzipSync } from 'node:zlib'
-import { serveStatic, secureRequest, canonicalOrigin, redirectToSecure, securityHeaders } from './http-policy.mjs'
+import { serveStatic, secureRequest, canonicalOrigin, redirectToSecure, securityHeaders, validateRequestOrigin } from './http-policy.mjs'
 import { openAppDatabase } from './database.mjs'
 import { gradeSubmission, gradingCapabilities } from './grading.mjs'
 import {
@@ -161,17 +161,6 @@ function recordLoginFailure(request, username) {
   }
   const key = loginAttemptKey(request, username)
   loginFailures.set(key, [...(loginFailures.get(key) ?? []), Date.now()])
-}
-
-function validateRequestOrigin(request) {
-  if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method ?? 'GET')) return true
-  const origin = request.headers.origin
-  if (!origin) return true
-  try {
-    return new URL(origin).host === request.headers.host
-  } catch {
-    return false
-  }
 }
 
 async function verifyCredentials(username, password) {

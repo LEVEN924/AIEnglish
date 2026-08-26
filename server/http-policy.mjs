@@ -21,6 +21,21 @@ export function canonicalOrigin() {
 export function secureRequest(request) {
   return Boolean(request.socket.encrypted || (process.env.TRUST_PROXY === 'true' && loopback(request.socket.remoteAddress) && request.headers['x-forwarded-proto'] === 'https'))
 }
+export function validateRequestOrigin(request) {
+  if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method ?? 'GET')) return true
+  const origin = request.headers.origin
+  if (!origin) return true
+  try {
+    const supplied = new URL(origin)
+    const configured = canonicalOrigin()
+    // Nginx $host omits a non-default public port. Compare with the configured
+    // public origin, but only for TLS or our explicitly trusted loopback proxy.
+    if (configured) return secureRequest(request) && supplied.origin === configured
+    return supplied.host === request.headers.host
+  } catch {
+    return false
+  }
+}
 export function redirectToSecure(request, response, localTls, httpsPort) {
   if (secureRequest(request) || request.url === '/api/health') return false
   const origin = canonicalOrigin()
