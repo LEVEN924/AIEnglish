@@ -69,3 +69,22 @@ test('trusted proxy accepts the configured public port without weakening cross-o
     if (oldTrust === undefined) delete process.env.TRUST_PROXY; else process.env.TRUST_PROXY = oldTrust
   }
 })
+
+test('NAT public port may differ from the internal TLS port without accepting the internal origin', () => {
+  const oldOrigin = process.env.PUBLIC_ORIGIN, oldTrust = process.env.TRUST_PROXY
+  try {
+    process.env.PUBLIC_ORIGIN = 'https://learn.example.com:20057'
+    process.env.TRUST_PROXY = 'true'
+    const request = { method: 'POST', socket: { remoteAddress: '127.0.0.1' }, headers: { host: 'learn.example.com:8443', origin: 'https://learn.example.com:20057', 'x-forwarded-proto': 'https' } }
+    assert.equal(validateRequestOrigin(request), true)
+    assert.equal(validateRequestOrigin({ ...request, headers: { ...request.headers, origin: 'https://learn.example.com:8443' } }), false)
+    assert.equal(validateRequestOrigin({ ...request, headers: { ...request.headers, origin: 'https://learn.example.com' } }), false)
+    let status, headers
+    redirectToSecure({ ...request, url: '/?next=words', headers: { host: 'learn.example.com' } }, { writeHead: (s, h) => { status = s; headers = h }, end() {} }, false, 8443)
+    assert.equal(status, 308)
+    assert.equal(headers.Location, 'https://learn.example.com:20057/?next=words')
+  } finally {
+    if (oldOrigin === undefined) delete process.env.PUBLIC_ORIGIN; else process.env.PUBLIC_ORIGIN = oldOrigin
+    if (oldTrust === undefined) delete process.env.TRUST_PROXY; else process.env.TRUST_PROXY = oldTrust
+  }
+})

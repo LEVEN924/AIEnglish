@@ -102,7 +102,8 @@ export function assessRecording(
   return request('/api/audio/assess', {
     method: 'POST',
     body: JSON.stringify({ lessonId, dataUrl, durationSeconds }),
-  }, { timeout: 240_000 })
+  // SOE-N streams audio in real time (up to 5 minutes). Allow upload and final scoring too.
+  }, { timeout: 420_000 })
 }
 
 export function getCapabilities(): Promise<AppCapabilities> {
