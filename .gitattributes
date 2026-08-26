@@ -1,0 +1,5 @@
+# Deployment archives built on Windows must remain executable on Linux.
+*.sh text eol=lf
+deploy/*.conf text eol=lf
+deploy/Dockerfile text eol=lf
+deploy/*.yaml text eol=lf
