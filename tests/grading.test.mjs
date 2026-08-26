@@ -52,6 +52,7 @@ test('Tencent TC3 and SOE-N signatures contain the required provider fields', (c
   const soeUrl = new URL(createSoeWebSocketUrl('This is a speaking test.', 'voice-test-id'))
   assert.equal(soeUrl.host, 'soe.cloud.tencent.com')
   assert.equal(soeUrl.searchParams.get('eval_mode'), '2')
+  assert.equal(soeUrl.searchParams.get('rec_mode'), '1')
   assert.equal(soeUrl.searchParams.get('score_coeff'), '4')
   assert.equal(soeUrl.searchParams.get('voice_id'), 'voice-test-id')
   assert.ok(soeUrl.searchParams.get('signature'))

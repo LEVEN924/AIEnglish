@@ -7,7 +7,7 @@
     "dev": "node --disable-warning=ExperimentalWarning server/app.mjs --dev",
     "build": "tsc --noEmit && vite build",
     "start": "node --disable-warning=ExperimentalWarning server/app.mjs",
-    "test": "node --test tests/api.test.mjs tests/grading.test.mjs tests/multi-user.test.mjs tests/http-policy.test.mjs tests/concurrency.test.mjs",
+    "test": "node --test tests/api.test.mjs tests/grading.test.mjs tests/multi-user.test.mjs tests/http-policy.test.mjs tests/concurrency.test.mjs tests/request.test.mjs tests/soe-recording.test.mjs",
     "test:release": "npm run build && node --test tests/release.test.mjs",
     "test:api": "node --test tests/api.test.mjs",
     "test:ui": "node --test tests/ui.test.mjs",

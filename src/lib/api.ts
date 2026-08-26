@@ -102,7 +102,7 @@ export function assessRecording(
   return request('/api/audio/assess', {
     method: 'POST',
     body: JSON.stringify({ lessonId, dataUrl, durationSeconds }),
-  // SOE-N streams audio in real time (up to 5 minutes). Allow upload and final scoring too.
+  // Normal recordings use fast SOE-N file mode; retain headroom for slow uploads/fallback.
   }, { timeout: 420_000 })
 }
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ink-air-shell-v5'
+const CACHE_NAME = 'ink-air-shell-v6'
 const AUDIO_CACHE_NAME = 'ink-air-public-speech-v2'
 const APP_SHELL = ['/', '/manifest.webmanifest', '/icon.svg']
 const PUBLIC_SPEECH = new Set(['/api/audio/article', '/api/audio/speech', '/api/audio/word'])

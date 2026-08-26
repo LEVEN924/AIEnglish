@@ -9,6 +9,7 @@ const audioCacheDirectory = join(root, 'data', 'audio-cache')
 const contentType = 'application/json; charset=utf-8'
 const speechJobs = new Map()
 let ttsLimiter
+let soeLimiter
 const providerHealth = new Map()
 
 function delay(milliseconds) {
@@ -19,6 +20,12 @@ function runWithTtsLimit(task) {
   const configured = Number(process.env.TENCENT_TTS_CONCURRENCY ?? 2)
   ttsLimiter ??= createLimiter({ concurrency: Number.isFinite(configured) ? Math.min(4, Math.max(1, Math.floor(configured))) : 2 })
   return ttsLimiter(task)
+}
+
+function runWithSoeLimit(task) {
+  const configured = Number(process.env.TENCENT_SOE_CONCURRENCY ?? 4)
+  soeLimiter ??= createLimiter({ concurrency: Number.isFinite(configured) ? Math.min(8, Math.max(1, Math.floor(configured))) : 4 })
+  return soeLimiter(task)
 }
 
 function configuredCredentials() {
@@ -194,10 +201,7 @@ export function splitAssessmentReference(text, maximumWords = 118) {
   const totalWords = englishWords(text).length
   if (totalWords <= maximumWords) return [String(text).replace(/\s+/gu, ' ').trim()].filter(Boolean)
   if (totalWords > maximumWords * 2) {
-    const words = String(text).replace(/\s+/gu, ' ').trim().split(' ')
-    const chunkCount = Math.ceil(totalWords / maximumWords)
-    const chunkSize = Math.ceil(words.length / chunkCount)
-    return Array.from({ length: chunkCount }, (_, index) => words.slice(index * chunkSize, (index + 1) * chunkSize).join(' ')).filter(Boolean)
+    return splitReferenceByWordCount(text, maximumWords)
   }
   const minimumFirstWords = totalWords - maximumWords
   const target = totalWords / 2
@@ -216,9 +220,18 @@ export function splitAssessmentReference(text, maximumWords = 118) {
       .map((chunk) => chunk.replace(/\s+/gu, ' ').trim())
       .filter(Boolean)
   }
-  const words = String(text).replace(/\s+/gu, ' ').trim().split(' ')
-  const boundary = Math.ceil(words.length / 2)
-  return [words.slice(0, boundary).join(' '), words.slice(boundary).join(' ')]
+  return splitReferenceByWordCount(text, maximumWords)
+}
+
+function splitReferenceByWordCount(text, maximumWords) {
+  const value = String(text).replace(/\s+/gu, ' ').trim()
+  const words = Array.from(value.matchAll(/[A-Za-z]+(?:[-'][A-Za-z]+)*/gu))
+  const chunkSize = Math.ceil(words.length / Math.ceil(words.length / maximumWords))
+  const chunks = []
+  for (let index = 0; index < words.length; index += chunkSize) {
+    chunks.push(value.slice(index === 0 ? 0 : words[index].index, words[index + chunkSize]?.index ?? value.length).trim())
+  }
+  return chunks
 }
 
 function speedToTencent(rate) {
@@ -366,14 +379,14 @@ function extractPcmFromWav(buffer) {
   return pcm.length % 2 ? pcm.subarray(0, pcm.length - 1) : pcm
 }
 
-function buildSoeParameters(referenceText, voiceId) {
+function buildSoeParameters(referenceText, voiceId, recordingMode = true) {
   const { appId, secretId, secretKey } = requireCredentials({ requireAppId: true })
   const timestamp = Math.floor(Date.now() / 1_000)
   const parameters = {
     eval_mode: 2,
     expired: timestamp + 3_600,
     nonce: Math.floor(100_000_000 + Math.random() * 899_999_999),
-    rec_mode: 0,
+    rec_mode: recordingMode ? 1 : 0,
     ref_text: referenceText,
     score_coeff: Math.min(4, Math.max(1, Number(process.env.TENCENT_SOE_SCORE_COEFF ?? 4))),
     secretid: secretId,
@@ -401,11 +414,11 @@ function normalizeSoeResult(result) {
   try { return JSON.parse(result) } catch { return null }
 }
 
-function streamAssessment(pcm, referenceText, segmentIndex) {
+function streamAssessment(pcm, referenceText, segmentIndex, recordingMode) {
   const voiceId = `${randomUUID()}-${segmentIndex}`
-  const url = buildSoeParameters(referenceText, voiceId)
+  const url = buildSoeParameters(referenceText, voiceId, recordingMode)
   const durationMs = pcm.length / 32
-  const timeoutMs = Math.max(45_000, durationMs + 45_000)
+  const timeoutMs = recordingMode ? 45_000 : durationMs + 45_000
   return new Promise((resolveAssessment, rejectAssessment) => {
     const socket = new WebSocket(url)
     let timer = null
@@ -427,7 +440,7 @@ function streamAssessment(pcm, referenceText, segmentIndex) {
     timer = setTimeout(() => finish(new Error('腾讯智聆口语评测超时，请检查网络后重试')), timeoutMs)
     socket.addEventListener('error', () => finish(new Error('无法连接腾讯智聆口语评测服务')))
     socket.addEventListener('close', () => {
-      if (!settled && !lastResult) finish(new Error('腾讯智聆口语评测连接提前关闭'))
+      if (!settled) finish(new Error('腾讯智聆口语评测连接提前关闭，请重新提交'))
     })
     socket.addEventListener('message', (event) => {
       let message
@@ -440,20 +453,32 @@ function streamAssessment(pcm, referenceText, segmentIndex) {
       if (normalized) lastResult = normalized
       if (!started && message.message === 'success') {
         started = true
-        let offset = 0
-        const chunkBytes = 1_280
-        sendTimer = setInterval(() => {
-          if (socket.readyState !== WebSocket.OPEN) return
-          if (offset >= pcm.length) {
-            clearInterval(sendTimer)
-            sendTimer = null
+        if (recordingMode) {
+          // Tencent recording mode accepts exactly one complete audio packet (<=60s).
+          // Replaying an already finished recording at real-time speed adds needless delay.
+          try {
+            socket.send(pcm)
             socket.send(JSON.stringify({ type: 'end' }))
-            return
-          }
-          const end = Math.min(offset + chunkBytes, pcm.length)
-          socket.send(pcm.subarray(offset, end))
-          offset = end
-        }, 40)
+          } catch { finish(new Error('腾讯智聆录音发送失败，请重新提交')) }
+        } else {
+          // Retain the documented real-time pacing for an indivisible >60s segment.
+          let offset = 0
+          const chunkBytes = 1_280
+          sendTimer = setInterval(() => {
+            if (socket.readyState !== WebSocket.OPEN) return
+            try {
+              if (offset >= pcm.length) {
+                clearInterval(sendTimer)
+                sendTimer = null
+                socket.send(JSON.stringify({ type: 'end' }))
+                return
+              }
+              const end = Math.min(offset + chunkBytes, pcm.length)
+              socket.send(pcm.subarray(offset, end))
+              offset = end
+            } catch { finish(new Error('腾讯智聆录音发送失败，请重新提交')) }
+          }, 40)
+        }
       }
       if (Number(message.final) === 1) {
         if (!lastResult) finish(new Error('腾讯智聆没有返回可用的评测结果'))
@@ -536,16 +561,31 @@ function splitPcmForReferences(pcm, references) {
   return references.map((_, index) => pcm.subarray(boundaries[index - 1] ?? 0, boundaries[index] ?? pcm.length))
 }
 
+export function planAssessmentSegments(pcm, referenceText) {
+  const totalWords = englishWords(referenceText).length
+  if (!totalWords) throw new Error('口语评测原文不能为空，且需包含英文单词')
+  let references = splitAssessmentReference(referenceText)
+  let audio = splitPcmForReferences(pcm, references)
+  let maximumWords = 118
+  const durationSeconds = pcm.length / 32_000
+  while (audio.some((segment) => segment.length > 60 * 32_000) && maximumWords > 1) {
+    // Aim for 50s, leaving room for quiet-boundary alignment on both ends.
+    maximumWords = Math.max(1, Math.min(Math.floor(maximumWords * 0.8), Math.floor(totalWords * 50 / durationSeconds)))
+    references = splitAssessmentReference(referenceText, maximumWords)
+    audio = splitPcmForReferences(pcm, references)
+  }
+  return references.map((reference, index) => ({ reference, pcm: audio[index], recordingMode: audio[index].length <= 60 * 32_000 }))
+}
+
 export async function assessTencentPronunciation({ dataUrl, referenceText }) {
   const { buffer } = decodeAudioDataUrl(dataUrl)
   const pcm = extractPcmFromWav(buffer)
   const audioDurationSeconds = pcm.length / 32_000
   if (audioDurationSeconds < 8) throw new Error('录音过短，请完整复述原文后再提交。')
   if (audioDurationSeconds > 300) throw new Error('单次口语录音不能超过5分钟')
-  const references = splitAssessmentReference(referenceText)
-  if (!references.length) throw new Error('口语评测原文不能为空')
-  const pcmSegments = splitPcmForReferences(pcm, references)
-  const results = await Promise.all(references.map((reference, index) => streamAssessment(pcmSegments[index], reference, index)))
+  const segments = planAssessmentSegments(pcm, referenceText)
+  const references = segments.map((segment) => segment.reference)
+  const results = await Promise.all(segments.map((segment, index) => runWithSoeLimit(() => streamAssessment(segment.pcm, segment.reference, index, segment.recordingMode))))
   const weights = references.map((reference) => englishWords(reference).length)
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0) || 1
   const weighted = (field) => results.reduce((sum, result, index) => sum + percent(result[field]) * weights[index], 0) / totalWeight

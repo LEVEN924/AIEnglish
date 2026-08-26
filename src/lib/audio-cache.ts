@@ -1,6 +1,7 @@
-import { request, sessionFetch } from './request'
+import { request, sessionRequest } from './request'
 import { sessionScope } from './client-session'
 import { stopAllAudio } from './audio-session'
+import { throwIfAborted } from './request-signal'
 
 const resolvedAudio = new Map<string, { objectUrl: string; bytes: number }>()
 const pendingAudio = new Map<string, Promise<string>>()
@@ -44,19 +45,20 @@ export function warmAudio(url: string, priority = 0): Promise<string> {
   if (pendingAudio.size >= 64) return Promise.reject(new Error('音频正在排队，请稍后重试'))
   const { signal } = sessionScope()
   const job = schedule(priority, async () => {
-    signal.throwIfAborted()
+    throwIfAborted(signal)
     if (!availability || Date.now() - availability.at > 30_000) {
       availability = { at: Date.now(), result: request<{ cloudSpeech: boolean }>('/api/capabilities').then((data) => data.cloudSpeech).catch((error) => { availability = null; throw error }) }
     }
     if (!await availability.result) throw new Error('腾讯云语音暂不可用，请联系管理员检查配置')
-    signal.throwIfAborted()
-    const response = await sessionFetch(url, { signal }, { timeout: 90_000 })
-    if (!response.ok) {
-      const details = await response.json().catch(() => ({}))
-      throw new Error(details.error || '腾讯云音频加载失败，请点击重试')
-    }
-    const blob = await response.blob()
-    signal.throwIfAborted()
+    throwIfAborted(signal)
+    const blob = await sessionRequest(url, { signal }, { timeout: 90_000 }, async (response) => {
+      if (!response.ok) {
+        const details = await response.json().catch(() => ({}))
+        throw new Error(details.error || '腾讯云音频加载失败，请点击重试')
+      }
+      return response.blob()
+    })
+    throwIfAborted(signal)
     if (blob.size > 8 * 1024 * 1024) throw new Error('音频文件过大，请联系管理员检查语音服务')
     const objectUrl = URL.createObjectURL(blob)
     resolvedAudio.set(url, { objectUrl, bytes: blob.size })
