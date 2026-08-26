@@ -1,0 +1,96 @@
+{
+  "generatedAt": "2026-08-20T08:47:39.831Z",
+  "database": "C:\\Users\\张作明\\Documents\\AiEnglish\\data\\ai-english.sqlite",
+  "minimumRequired": 20000,
+  "sourceReports": [
+    {
+      "id": "cet6-yu-2021-disordered",
+      "file": "六级词汇词根+联想记忆法 乱序版 (俞敏洪) (z-library.sk, 1lib.sk, z-lib.sk).epub",
+      "parsed": 2412
+    },
+    {
+      "id": "toefl-yu-2012-disordered",
+      "file": "托福词汇词根+联想记忆法(乱序版)▪ 新东方绿宝书系列 (俞敏洪) (z-library.sk, 1lib.sk, z-lib.sk).azw",
+      "parsed": 4119
+    },
+    {
+      "id": "ielts-yu-disordered",
+      "file": "雅思词汇词根 联想记忆法：乱序版 (俞敏洪) (z-library.sk, 1lib.sk, z-lib.sk).epub",
+      "parsed": 3503
+    },
+    {
+      "id": "oxford-3000-5000",
+      "file": "oxford-3000-5000.html",
+      "parsed": 4952
+    },
+    {
+      "id": "oxford-phrase-list",
+      "file": "oxford-phrase-list.html",
+      "parsed": 734
+    },
+    {
+      "id": "cambridge-a2-2025",
+      "file": "cambridge-a2-2025.txt",
+      "parsed": 806
+    },
+    {
+      "id": "cambridge-b1-2025",
+      "file": "cambridge-b1-2025.txt",
+      "parsed": 1398
+    },
+    {
+      "id": "open-english-wordnet-2025",
+      "file": "english-wordnet-2025.zip",
+      "parsed": 29581
+    }
+  ],
+  "ecdictEnriched": 29137,
+  "entries": 30573,
+  "phrases": 10760,
+  "withChinese": 29055,
+  "withIpa": 19679,
+  "withExamples": 12471,
+  "lists": [
+    {
+      "id": "toefl-yu-2012-disordered",
+      "name": "TOEFL词汇词根+联想记忆法·乱序版",
+      "entryCount": 4119
+    },
+    {
+      "id": "ielts-yu-disordered",
+      "name": "雅思词汇词根+联想记忆法·乱序版",
+      "entryCount": 3503
+    },
+    {
+      "id": "cet6-yu-2021-disordered",
+      "name": "六级词汇词根+联想记忆法·乱序版",
+      "entryCount": 2412
+    },
+    {
+      "id": "oxford-3000-5000",
+      "name": "Oxford 3000 & 5000",
+      "entryCount": 4952
+    },
+    {
+      "id": "oxford-phrase-list",
+      "name": "Oxford Phrase List",
+      "entryCount": 734
+    },
+    {
+      "id": "cambridge-a2-2025",
+      "name": "Cambridge A2 Key Vocabulary List",
+      "entryCount": 806
+    },
+    {
+      "id": "cambridge-b1-2025",
+      "name": "Cambridge B1 Preliminary Vocabulary List",
+      "entryCount": 1398
+    },
+    {
+      "id": "open-english-wordnet-2025",
+      "name": "Open English WordNet 2025",
+      "entryCount": 29581
+    }
+  ],
+  "fingerprint": "4fdd680cd78d405daeda519329228e79407582563ccfe0b094cbcfa02f77c160"
+}

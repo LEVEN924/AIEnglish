@@ -2,10 +2,24 @@ import { createHash, createHmac, randomUUID } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { createLimiter } from './concurrency.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const audioCacheDirectory = join(root, 'data', 'audio-cache')
 const contentType = 'application/json; charset=utf-8'
+const speechJobs = new Map()
+let ttsLimiter
+const providerHealth = new Map()
+
+function delay(milliseconds) {
+  return new Promise((resolveDelay) => setTimeout(resolveDelay, milliseconds))
+}
+
+function runWithTtsLimit(task) {
+  const configured = Number(process.env.TENCENT_TTS_CONCURRENCY ?? 2)
+  ttsLimiter ??= createLimiter({ concurrency: Number.isFinite(configured) ? Math.min(4, Math.max(1, Math.floor(configured))) : 2 })
+  return ttsLimiter(task)
+}
 
 function configuredCredentials() {
   return {
@@ -78,22 +92,47 @@ export function createTc3Headers({ service, host, action, version, payload, regi
 async function callTencentApi({ service, host, action, version, body, region = '' }) {
   const { secretId, secretKey } = requireCredentials()
   const payload = JSON.stringify(body)
-  const headers = createTc3Headers({ service, host, action, version, payload, region, secretId, secretKey })
-  const response = await fetch(`https://${host}`, {
-    method: 'POST',
-    headers,
-    body: payload,
-    signal: AbortSignal.timeout(60_000),
-  })
-  if (!response.ok) throw new Error(`腾讯云 ${service.toUpperCase()} 返回 HTTP ${response.status}`)
-  const data = await response.json()
-  const result = data.Response ?? data
-  if (result.Error) {
-    const error = new Error(`腾讯云 ${result.Error.Code}：${result.Error.Message}`)
-    error.providerCode = result.Error.Code
-    throw error
+  const maximumAttempts = Math.min(5, Math.max(1, Number(process.env.TENCENT_API_ATTEMPTS ?? 3)))
+  let lastError = null
+  for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
+    try {
+      const headers = createTc3Headers({ service, host, action, version, payload, region, secretId, secretKey })
+      const response = await fetch(`https://${host}`, {
+        method: 'POST',
+        headers,
+        body: payload,
+        signal: AbortSignal.timeout(Math.min(60_000, Math.max(5_000, Number(process.env.TENCENT_API_TIMEOUT_MS ?? 20_000)))),
+      })
+      if (!response.ok) {
+        const error = new Error(`腾讯云 ${service.toUpperCase()} 返回 HTTP ${response.status}`)
+        error.statusCode = response.status === 429 ? 429 : response.status >= 500 ? 503 : 400
+        error.retryable = response.status === 429 || response.status >= 500
+        throw error
+      }
+      const data = await response.json()
+      const result = data.Response ?? data
+      if (result.Error) {
+        const error = new Error(`腾讯云 ${result.Error.Code}：${result.Error.Message}`)
+        error.providerCode = result.Error.Code
+        error.statusCode = /Limit|Throttl|Internal|Unavailable|Timeout/iu.test(result.Error.Code) ? 503 : 400
+        error.retryable = error.statusCode === 503
+        throw error
+      }
+      providerHealth.set(service, { ok: true, checkedAt: new Date().toISOString(), error: '' })
+      return result
+    } catch (error) {
+      lastError = error
+      const retryable = error?.retryable === true
+        || error?.name === 'AbortError'
+        || error?.name === 'TimeoutError'
+        || /fetch failed|network|socket|timed? ?out|ECONN|ENOTFOUND|EAI_AGAIN/iu.test(String(error?.message ?? error))
+      if (!retryable || attempt >= maximumAttempts) break
+      await delay(250 * (2 ** (attempt - 1)) + Math.floor(Math.random() * 120))
+    }
   }
-  return result
+  providerHealth.set(service, { ok: false, checkedAt: new Date().toISOString(), error: String(lastError?.message ?? lastError) })
+  if (lastError && !lastError.statusCode) lastError.statusCode = 503
+  throw lastError
 }
 
 export function tencentCapabilities() {
@@ -112,6 +151,8 @@ export function tencentCapabilities() {
     transcriptionModel: String(process.env.TENCENT_ASR_ENGINE ?? '16k_en'),
     assessmentModel: 'tencent-soe-new-16k-en',
     assessmentStrictness: Number(process.env.TENCENT_SOE_SCORE_COEFF ?? 4),
+    speechHealthy: providerHealth.get('tts')?.ok ?? null,
+    speechCheckedAt: providerHealth.get('tts')?.checkedAt ?? null,
   }
 }
 
@@ -200,29 +241,35 @@ export async function synthesizeTencentSpeech(text, { rate = 1, voiceType } = {}
   } catch {
     // Generate and persist the immutable asset below.
   }
-  const result = await callTencentApi({
-    service: 'tts',
-    host: 'tts.tencentcloudapi.com',
-    action: 'TextToVoice',
-    version: '2019-08-23',
-    body: {
-      Text: value,
-      SessionId: randomUUID(),
-      Volume: 0,
-      Speed: speed,
-      ModelType: Number(process.env.TENCENT_TTS_MODEL_TYPE ?? 1),
-      VoiceType: voice,
-      PrimaryLanguage: 2,
-      SampleRate: 16000,
-      Codec: 'mp3',
-      EnableSubtitle: false,
-    },
-  })
-  const buffer = Buffer.from(result.Audio ?? '', 'base64')
-  if (!buffer.length) throw new Error('腾讯云语音合成未返回音频')
-  await mkdir(audioCacheDirectory, { recursive: true })
-  await writeFile(cachePath, buffer)
-  return { buffer, contentType: 'audio/mpeg', provider: 'tencent', model: 'TextToVoice', voice: String(voice), cacheHit: false }
+  if (!speechJobs.has(cacheKey)) {
+    const job = (async () => {
+      const result = await runWithTtsLimit(() => callTencentApi({
+        service: 'tts',
+        host: 'tts.tencentcloudapi.com',
+        action: 'TextToVoice',
+        version: '2019-08-23',
+        body: {
+          Text: value,
+          SessionId: randomUUID(),
+          Volume: 0,
+          Speed: speed,
+          ModelType: Number(process.env.TENCENT_TTS_MODEL_TYPE ?? 1),
+          VoiceType: voice,
+          PrimaryLanguage: 2,
+          SampleRate: 16000,
+          Codec: 'mp3',
+          EnableSubtitle: false,
+        },
+      }))
+      const buffer = Buffer.from(result.Audio ?? '', 'base64')
+      if (!buffer.length) throw new Error('腾讯云语音合成未返回音频')
+      await mkdir(audioCacheDirectory, { recursive: true })
+      await writeFile(cachePath, buffer)
+      return { buffer, contentType: 'audio/mpeg', provider: 'tencent', model: 'TextToVoice', voice: String(voice), cacheHit: false }
+    })().finally(() => speechJobs.delete(cacheKey))
+    speechJobs.set(cacheKey, job)
+  }
+  return speechJobs.get(cacheKey)
 }
 
 function decodeAudioDataUrl(dataUrl) {

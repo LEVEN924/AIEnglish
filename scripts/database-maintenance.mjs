@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
 import { copyFile, mkdir, readFile, readdir, rm, stat } from 'node:fs/promises'
-import { basename, dirname, join, resolve } from 'node:path'
+import { basename, dirname, join, resolve, extname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { backup, DatabaseSync } from 'node:sqlite'
 
@@ -34,7 +34,7 @@ async function pruneBackups(directory, keep = 14) {
   if (!existsSync(directory)) return
   const files = await readdir(directory)
   const backups = []
-  for (const file of files.filter((value) => value.endsWith('.sqlite'))) {
+  for (const file of files.filter((value) => /^ai-english_\d{4}-\d{2}-\d{2}_[\d-]+\.sqlite$/u.test(value))) {
     const path = join(directory, file)
     backups.push({ path, modified: (await stat(path)).mtimeMs })
   }
@@ -48,7 +48,8 @@ if (command === 'verify') {
   console.log(JSON.stringify({ database: databasePath, ...verifyDatabase(databasePath) }, null, 2))
 } else if (command === 'backup') {
   const backupDirectory = resolve(root, argument('--directory', 'backups'))
-  const outputPath = argument('--output', join(backupDirectory, `ai-english_${timestamp()}.sqlite`))
+  const outputPath = resolve(argument('--output', join(backupDirectory, `ai-english_${timestamp()}.sqlite`)))
+  if (outputPath.toLowerCase() === databasePath.toLowerCase() || existsSync(outputPath)) throw new Error('Backup output must be a new file, distinct from the source database')
   await mkdir(dirname(outputPath), { recursive: true })
   const source = new DatabaseSync(databasePath, { readOnly: true })
   try {
@@ -57,11 +58,16 @@ if (command === 'verify') {
     source.close()
   }
   const result = verifyDatabase(outputPath)
-  await pruneBackups(backupDirectory)
+  // Retention deletion is explicit; ordinary startup backups never remove files.
+  if (process.argv.includes('--prune')) await pruneBackups(backupDirectory)
   console.log(JSON.stringify({ backup: outputPath, ...result }, null, 2))
 } else if (command === 'restore') {
-  const sourcePath = resolve(argument('--from', ''))
-  if (!sourcePath || !existsSync(sourcePath)) throw new Error('Provide an existing backup with --from <path>')
+  const sourceArg = argument('--from', '')
+  if (!sourceArg) throw new Error('Provide an existing backup with --from <path>')
+  const sourcePath = resolve(sourceArg)
+  if (!existsSync(sourcePath) || sourcePath.toLowerCase() === databasePath.toLowerCase() || extname(databasePath) !== '.sqlite') throw new Error('Restore requires distinct source and target .sqlite paths')
+  if (existsSync(databasePath) && !process.argv.includes('--replace')) throw new Error('Target exists. Stop its server, then use --replace to create a safety backup and replace it.')
+  if (existsSync(`${databasePath}-wal`) || existsSync(`${databasePath}-shm`)) throw new Error('Target has WAL/SHM files. Close all database connections cleanly before restoring; no files were removed.')
   const runtimePidPath = join(root, '.runtime', 'ai-english.pid')
   if (databasePath === resolve(root, 'data/ai-english.sqlite') && existsSync(runtimePidPath)) {
     const processId = Number((await readFile(runtimePidPath, 'utf8')).trim())
@@ -69,12 +75,16 @@ if (command === 'verify') {
       process.kill(processId, 0)
       throw new Error('Stop AIEnglish before restoring the live database')
     } catch (error) {
-      if (error.message === 'Stop AIEnglish before restoring the live database') throw error
+      if (error.code !== 'ESRCH') throw error
     }
   }
   verifyDatabase(sourcePath)
   await mkdir(dirname(databasePath), { recursive: true })
-  for (const suffix of ['-wal', '-shm']) await rm(`${databasePath}${suffix}`, { force: true })
+  if (existsSync(databasePath)) {
+    const safetyPath = `${databasePath}.before-restore-${timestamp()}`
+    await copyFile(databasePath, safetyPath)
+    console.log(JSON.stringify({ safetyBackup: safetyPath }))
+  }
   await copyFile(sourcePath, databasePath)
   console.log(JSON.stringify({ restoredFrom: basename(sourcePath), database: databasePath, ...verifyDatabase(databasePath) }, null, 2))
 } else {

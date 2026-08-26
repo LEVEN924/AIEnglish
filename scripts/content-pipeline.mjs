@@ -5,7 +5,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const catalogPath = join(root, 'content', 'lessons.json')
-const reportPath = join(root, 'content', 'ingestion-report.json')
+const reportArgument = process.argv.find((argument) => argument.startsWith('--report='))?.slice('--report='.length)
+const reportPath = reportArgument ? resolve(reportArgument) : join(root, 'content', 'ingestion-report.json')
 const shouldFetch = process.argv.includes('--fetch')
 const quiet = process.argv.includes('--quiet')
 const catalog = JSON.parse(await readFile(catalogPath, 'utf8'))
@@ -14,6 +15,14 @@ try { previousReport = JSON.parse(await readFile(reportPath, 'utf8')) } catch { 
 
 function wordCount(text) {
   return text.match(/[A-Za-z]+(?:[-'][A-Za-z]+)*/gu)?.length ?? 0
+}
+
+function writingSimilarity(left, right) {
+  const leftTokens = new Set((left.toLowerCase().match(/[a-z]+(?:[-'][a-z]+)*/gu) ?? []))
+  const rightTokens = new Set((right.toLowerCase().match(/[a-z]+(?:[-'][a-z]+)*/gu) ?? []))
+  const intersection = [...leftTokens].filter((token) => rightTokens.has(token)).length
+  const union = new Set([...leftTokens, ...rightTokens]).size
+  return union ? intersection / union : 0
 }
 
 function fingerprint(text) {
@@ -47,6 +56,24 @@ function validateLesson(lesson, seenUrls, seenFingerprints) {
   if (lesson.speakingPrompt !== lesson.body) errors.push('speaking reference must use the complete article body')
   if (!lesson.translation?.prompt || !lesson.translation?.referenceZh) errors.push('translation task is incomplete')
   if (!lesson.writing?.promptZh || (lesson.writing?.answers?.length ?? 0) < 1) errors.push('writing task is incomplete')
+  if (!lesson.writing?.secondaryPromptZh || (lesson.writing?.secondaryAnswers?.length ?? 0) < 1) errors.push('secondary writing task is incomplete')
+  if (lesson.id.startsWith('lesson-wiki-') && !lesson.writing.promptZh.includes(lesson.titleZh || lesson.title)) errors.push('extension writing task must reference the current article title')
+  if (lesson.difficulty?.level === 'L1') {
+    for (const answer of [...(lesson.writing?.answers ?? []), ...(lesson.writing?.secondaryAnswers ?? [])]) {
+      const answerWords = wordCount(answer)
+      if (answerWords < 5 || answerWords > 9) errors.push(`L1 writing answer must contain 5–9 words; found ${answerWords}`)
+      if (/\b(?:although|because|which|while|unless|whereas)\b/iu.test(answer)) errors.push('L1 writing answer must not contain a subordinate clause')
+    }
+  }
+  const primaryWritingWords = Math.max(...(lesson.writing?.answers ?? []).map(wordCount), 0)
+  const shortestSecondaryWords = Math.min(...(lesson.writing?.secondaryAnswers ?? []).map(wordCount))
+  if (Number.isFinite(shortestSecondaryWords) && shortestSecondaryWords > primaryWritingWords + 3) {
+    errors.push(`secondary writing answer is harder than the primary task; found ${shortestSecondaryWords} vs ${primaryWritingWords} words`)
+  }
+  const writingOverlap = Math.max(...(lesson.writing?.answers ?? []).flatMap((primary) => (
+    (lesson.writing?.secondaryAnswers ?? []).map((secondary) => writingSimilarity(primary, secondary))
+  )), 0)
+  if (writingOverlap >= 0.5) errors.push(`primary and secondary writing tasks are too similar; overlap ${writingOverlap.toFixed(2)}`)
 
   seenUrls.add(lesson.source?.url)
   seenFingerprints.add(hash)

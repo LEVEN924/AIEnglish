@@ -7,17 +7,20 @@
     "dev": "node --disable-warning=ExperimentalWarning server/app.mjs --dev",
     "build": "tsc --noEmit && vite build",
     "start": "node --disable-warning=ExperimentalWarning server/app.mjs",
-    "test": "node --test tests/api.test.mjs tests/grading.test.mjs",
+    "test": "node --test tests/api.test.mjs tests/grading.test.mjs tests/multi-user.test.mjs tests/http-policy.test.mjs tests/concurrency.test.mjs",
+    "test:release": "npm run build && node --test tests/release.test.mjs",
     "test:api": "node --test tests/api.test.mjs",
     "test:ui": "node --test tests/ui.test.mjs",
     "db:verify": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs verify",
     "db:backup": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs backup",
     "db:restore": "node --disable-warning=ExperimentalWarning scripts/database-maintenance.mjs restore",
+    "word-library:import": "node --disable-warning=ExperimentalWarning scripts/import-word-library.mjs",
     "tencent:verify": "node scripts/verify-tencent.mjs",
     "https:setup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local-https.ps1",
     "content:generate": "node scripts/crawl-vital-content.mjs",
     "content:generate:seed": "node scripts/expand-content.mjs",
     "content:validate": "node scripts/content-pipeline.mjs --quiet",
+    "content:audit-words": "node --disable-warning=ExperimentalWarning scripts/audit-word-content.mjs",
     "content:refresh": "node scripts/content-pipeline.mjs --fetch --quiet",
     "content:normalize": "node scripts/normalize-learning-content.mjs"
   },
@@ -25,6 +28,7 @@
     "node": ">=22.13.0"
   },
   "dependencies": {
+    "ffmpeg-static": "^5.3.0",
     "lucide-react": "^1.32.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

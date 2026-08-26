@@ -42,6 +42,12 @@ if ($process.ProcessName -ne 'node') {
     Write-Error "PID $processId is not a Node.js process. No process was stopped."
 }
 
+$managedProcess = Get-CimInstance Win32_Process -Filter "ProcessId = $processId"
+$expectedEntry = Join-Path $projectRoot 'server\app.mjs'
+if ($null -eq $managedProcess -or -not $managedProcess.CommandLine.Contains($expectedEntry)) {
+    throw 'The PID does not belong to this AIEnglish workspace. No process was stopped.'
+}
+
 Stop-Process -Id $processId
 Wait-Process -Id $processId -Timeout 8 -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $pidFile -Force -ErrorAction SilentlyContinue

@@ -1,3 +1,5 @@
+param([switch]$CheckOnly, [switch]$InstallTrust)
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
@@ -28,6 +30,33 @@ $addresses = @(
         ForEach-Object { $_.IPAddressToString } |
         Sort-Object -Unique
 )
+
+$certificateValid = Test-Path -LiteralPath $serverCert -PathType Leaf
+if ($certificateValid) {
+    & $openssl.Source x509 -in $serverCert -noout -checkend 2592000 | Out-Null
+    $certificateValid = $LASTEXITCODE -eq 0
+    foreach ($address in @('127.0.0.1') + $addresses) {
+        $matchResult = & $openssl.Source x509 -in $serverCert -noout -checkip $address
+        if ($LASTEXITCODE -ne 0 -or $matchResult -notmatch 'does match certificate') { $certificateValid = $false }
+    }
+    $hostMatch = & $openssl.Source x509 -in $serverCert -noout -checkhost localhost
+    if ($LASTEXITCODE -ne 0 -or $hostMatch -notmatch 'does match certificate') { $certificateValid = $false }
+}
+if ($CheckOnly) {
+    if ($certificateValid) { Write-Host 'HTTPS certificate covers current addresses and is not near expiry.'; exit 0 }
+    Write-Warning 'HTTPS certificate is missing, near expiry, or does not cover the current IP address.'
+    exit 2
+}
+if ($InstallTrust) {
+    if (-not $certificateValid) { throw 'Run https:setup first to renew the certificate before trusting it.' }
+    Import-Certificate -FilePath $rootCert -CertStoreLocation 'Cert:\CurrentUser\Root' | Select-Object Subject, Thumbprint
+    Write-Host 'Trusted AIEnglish local CA for the current Windows user only. Other devices require separate trust.'
+    exit 0
+}
+if ($certificateValid) { Write-Host 'Existing certificate is valid; no replacement required.'; exit 0 }
+foreach ($existing in @($serverKey, $serverCert)) {
+    if (Test-Path -LiteralPath $existing -PathType Leaf) { Copy-Item -LiteralPath $existing -Destination ($existing + '.previous-' + (Get-Date -Format 'yyyyMMddHHmmss')) }
+}
 
 $altNames = @('DNS.1 = localhost', 'IP.1 = 127.0.0.1')
 for ($index = 0; $index -lt $addresses.Count; $index++) {

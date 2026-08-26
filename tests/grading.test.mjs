@@ -94,15 +94,32 @@ test('SOE-N rejects an acoustically valid but too-short WAV before provider subm
   )
 })
 
-test('writing uses the local level-aware rubric without a language-model provider', async (context) => {
+test('writing uses strict article-related translation matching without a language-model provider', async (context) => {
   preserveEnvironment(context, ['TENCENTCLOUD_SECRET_ID', 'TENCENTCLOUD_SECRET_KEY'])
   delete process.env.TENCENTCLOUD_SECRET_ID
   delete process.env.TENCENTCLOUD_SECRET_KEY
   const result = await gradeSubmission('writing', lesson, lesson.writing.answers[0])
   assert.equal(result.correct, true)
   assert.equal(result.graderType, 'local')
-  assert.equal(result.modelVersion, 'level-aware-writing-rubric-3')
+  assert.equal(result.modelVersion, 'strict-article-translation-rubric-1')
   assert.equal(result.dimensions.reduce((total, dimension) => total + dimension.weight, 0), 100)
+
+  const misspelled = await gradeSubmission('writing', lesson, 'i can walk for ten mini every day.')
+  assert.equal(misspelled.correct, false)
+  assert.ok(misspelled.score <= 74)
+  assert.match(misspelled.improvements.join(' '), /“i” → “I”/u)
+  assert.match(misspelled.improvements.join(' '), /“mini” → “minutes”/u)
+
+  const secondTranslation = await gradeSubmission(
+    'writing',
+    lesson,
+    lesson.writing.secondaryAnswers[0],
+    { promptIndex: 1 },
+  )
+  assert.equal(secondTranslation.correct, true)
+  assert.equal(secondTranslation.prompt, lesson.writing.secondaryPromptZh)
+  assert.equal(secondTranslation.prompt, '我可以走楼梯。')
+  assert.notEqual(secondTranslation.prompt, lesson.translation.referenceZh)
   assert.deepEqual(gradingCapabilities(), { provider: 'tencent-and-rules', enabled: true, model: 'rules-only' })
 })
 

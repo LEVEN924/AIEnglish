@@ -2,10 +2,16 @@
 
 AIEnglish（Ink & Air）是一款个人每日英语学习应用。它以档案馆编辑风格把每篇内容组织成导读、听力、翻译、口语、写作和总结六步连续学习流程。
 
-当前交付包含 1000 篇已入 SQLite 的 L1/L2/L3 内容（350/400/250）、可追溯来源、跳过本篇、跨设备进度、版本化批改、自动错题、1/3/7 天间隔复习、生词本、七日周报、PWA、一键启停、启动前备份以及可选局域网 HTTPS。语音统一接入腾讯云：TTS 负责文章和重点词朗读，ASR 保留为可替换转写适配层，智聆口语评测新版（SOE-N）直接对真实录音做成人严格声学评分；系统不接入 DeepSeek，也不使用本地口语评分。
+当前交付包含 1000 篇已入 SQLite 的 L1/L2/L3 内容（350/400/250），其中 50 篇作为精选主课程、950 篇明确标记为拓展阅读；所有写作任务都引用当前文章主题。系统支持登录与注册、自适应等级/主题推荐、逐句翻译反馈、原文朗读口语、文章相关写作、微型错题复盘、行动型周报和临时离线进度恢复。内容库采用分页渲染，六步流程会自动收起已完成步骤，手机端步骤条、底部安全区和页面滚动已做专项优化。
+
+词库包含 30,000+ 条单词/词组，并导入用户提供的托福、雅思、六级三本词书，由 Oxford、Cambridge、Open English WordNet 与 ECDICT 补充；支持查词、腾讯云发音预载、词义分项、选词书、键盘快捷复习、四档间隔复习、跳过、掌握与移除。语音统一接入腾讯云：每篇文章只缓存一份自然语速完整音频，播放器实时完成 0.75×/1×/1.25× 调速；开始口语录音会强制暂停听力、词典发音与录音回放，并在结束后释放麦克风。智聆口语评测新版（SOE-N）直接对可回听、可重录的真实录音做成人严格声学评分。系统不接入 DeepSeek，也不使用本地口语评分。
 
 ## 文档
 
+- [Linux 服务器部署与回滚](docs/SERVER_DEPLOYMENT.md)
+- [腾讯云配置、验证与排错](docs/TENCENT_CLOUD_CONFIGURATION.md)
+- [2026-08-26 优化实施与复验](docs/RELEASE_OPTIMIZATION_2026-08-26.md)
+- [部署门禁、可信 HTTPS 与备份恢复](docs/DEPLOYMENT_AND_RECOVERY.md)
 - [产品、内容与 UI 方案](docs/AI_ENGLISH_APP_PRODUCT_UI_PLAN.md)
 - [MVP 交付与当前状态](docs/AI_ENGLISH_MVP_DELIVERY_STATUS.md)
 
@@ -33,6 +39,7 @@ npm start
 npm run content:generate
 npm run content:validate
 npm run content:refresh
+npm run word-library:import
 npm test
 npm run test:ui
 npm run build
@@ -45,7 +52,7 @@ npm run build
 ```powershell
 npm run db:verify
 npm run db:backup
-npm run db:restore -- backups\<backup-file>.sqlite
+npm run db:restore -- --from backups/<backup-file>.sqlite --database data/restore-verified.sqlite
 npm run tencent:verify
 npm run https:setup
 ```

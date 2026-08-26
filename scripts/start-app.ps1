@@ -17,6 +17,11 @@ $httpsCertificate = Join-Path $runtimeDir 'https\server-cert.pem'
 $vitePackage = Join-Path $projectRoot 'node_modules\vite\package.json'
 $appUrl = 'http://127.0.0.1:4173/'
 $healthUrl = 'http://127.0.0.1:4173/api/health'
+$rootCertificate = Join-Path $runtimeDir 'https\local-root-ca.crt'
+if (Test-Path -LiteralPath $rootCertificate -PathType Leaf) {
+    $localCertificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($rootCertificate)
+    if (Test-Path -LiteralPath ('Cert:\CurrentUser\Root\' + $localCertificate.Thumbprint)) { $appUrl = 'https://127.0.0.1:4174/' }
+}
 
 function Test-AIEnglishHealth {
     try {
@@ -90,7 +95,7 @@ function Write-AccessUrls {
     }
 
     foreach ($lanUrl in $lanUrls) {
-        Write-Host "Mobile: $lanUrl (same Wi-Fi required)" -ForegroundColor Cyan
+        Write-Host "Mobile entry: $lanUrl (redirects to HTTPS; same Wi-Fi required)" -ForegroundColor Cyan
         if (Test-Path -LiteralPath $httpsCertificate -PathType Leaf) {
             $secureLanUrl = $lanUrl.Replace('http://', 'https://').Replace(':4173/', ':4174/')
             Write-Host "Mobile secure: $secureLanUrl (install the local root certificate first)" -ForegroundColor Cyan
@@ -114,6 +119,10 @@ if (Test-AIEnglishHealth) {
 if (-not (Test-Path -LiteralPath $serverEntry -PathType Leaf)) {
     Write-Error "Server entry not found: $serverEntry"
 }
+
+Write-Host 'Checking HTTPS certificate addresses...' -ForegroundColor DarkCyan
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'setup-local-https.ps1')
+if ($LASTEXITCODE -ne 0) { throw 'HTTPS setup failed. Resolve certificate configuration before starting.' }
 
 if (-not (Test-Path -LiteralPath $vitePackage -PathType Leaf)) {
     Write-Error 'Dependencies are missing. Run npm install in the project directory.'

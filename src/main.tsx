@@ -11,6 +11,6 @@ createRoot(document.getElementById('root')!).render(
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
-    void navigator.serviceWorker.register('/sw.js')
+    void navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(() => { /* Online learning also works when service workers are blocked. */ })
   })
 }

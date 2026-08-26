@@ -15,6 +15,10 @@ export function createLessonRecord(): LessonRecord {
     translationDraft: '',
     writingDraft: '',
     writingAttempts: 0,
+    writingTasks: [
+      { draft: '', attempts: 0 },
+      { draft: '', attempts: 0 },
+    ],
   }
 }
 

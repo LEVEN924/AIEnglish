@@ -1,0 +1,37 @@
+# Linux deployment. Host networking preserves the loopback-only proxy trust boundary.
+# Keep this file next to the private runtime.env and deployment.env files.
+name: ai-english
+services:
+  app:
+    image: ${AI_ENGLISH_IMAGE:?Set the tested release image}
+    container_name: ai-english
+    network_mode: host
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 1g
+    pids_limit: 128
+    environment:
+      PORT: ${PORT:-4173}
+      BIND_HOST: ${BIND_HOST:-127.0.0.1}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      HTTPS_ENABLED: ${HTTPS_ENABLED:-false}
+      HTTPS_PORT: ${HTTPS_PORT:-4174}
+      HTTPS_CERT_PATH: /app/certs/server-cert.pem
+      HTTPS_KEY_PATH: /app/certs/server-key.pem
+    volumes:
+      - ./runtime.env:/app/.env.local:ro
+      - ./data:/app/data
+      - ./backups:/app/backups
+      - ./certs:/app/certs:ro
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"

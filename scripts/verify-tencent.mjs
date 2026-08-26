@@ -29,15 +29,31 @@ if (process.argv.includes('--config-only')) {
   process.exit(0)
 }
 
-const speech = await synthesizeTencentSpeech('AI English Tencent Cloud voice check.')
+const requestedText = process.argv.find((argument) => argument.startsWith('--text='))?.slice('--text='.length)
+const requestedRuns = Number(process.argv.find((argument) => argument.startsWith('--runs='))?.slice('--runs='.length) ?? 1)
+const runs = Math.min(10, Math.max(1, Number.isFinite(requestedRuns) ? Math.floor(requestedRuns) : 1))
+const results = []
+for (let index = 0; index < runs; index += 1) {
+  const marker = `${Date.now()}-${index + 1}`
+  const text = `${(requestedText || 'AI English Tencent Cloud voice stability check.').slice(0, 420)} Test ${marker}.`
+  const startedAt = performance.now()
+  const speech = await synthesizeTencentSpeech(text)
+  if (speech.provider !== 'tencent' || speech.buffer.length < 500) throw new Error(`第 ${index + 1} 次腾讯云语音返回无效`)
+  results.push({
+    run: index + 1,
+    provider: speech.provider,
+    model: speech.model,
+    voice: speech.voice,
+    bytes: speech.buffer.length,
+    cacheHit: speech.cacheHit,
+    durationMs: Math.round(performance.now() - startedAt),
+  })
+}
 console.log(JSON.stringify({
   ok: true,
-  mode: 'live-tts',
-  provider: speech.provider,
-  model: speech.model,
-  voice: speech.voice,
-  bytes: speech.buffer.length,
-  cacheHit: speech.cacheHit,
+  mode: 'live-tts-stability',
+  runs,
+  results,
   oralAssessmentConfigured: capabilities.oralAssessment,
   soeSignature: 'generated',
 }, null, 2))

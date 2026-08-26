@@ -29,6 +29,9 @@ venv/
 .env.*
 !.env.example
 !.env.*.example
+deploy/runtime.env
+deploy/deployment.env
+deploy/certs/
 
 # Generated artifacts and temporary files
 outputs/
